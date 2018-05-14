@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains service_club_event.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function service_club_event_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the service_club_event module.
+    case 'help.page.service_club_event':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This module handles the creation, storage and detetion of events. Anything related to events will be managed in this module.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function service_club_event_theme() {
+  return [
+    'service_club_event' => [
+      'render element' => 'children',
+    ],
+  ];
+}

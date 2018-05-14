@@ -1,0 +1,14 @@
+{
+  "name": "drupal/service_club_event",
+  "type": "drupal-module",
+  "description": "This module handles the creation, storage and detetion of events. Anything related to events will be managed in this module.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/service_club_event",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/service_club_event",
+    "source": "http://cgit.drupalcode.org/service_club_event"
+  },
+  "require": { }
+}
