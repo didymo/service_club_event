@@ -1,0 +1,27 @@
+# Event info entity routing definition
+event_info_entity.settings_tab:
+  route_name: event_info_entity.settings
+  title: 'Settings'
+  base_route: event_info_entity.settings
+
+entity.event_info_entity.canonical:
+  route_name: entity.event_info_entity.canonical
+  base_route: entity.event_info_entity.canonical
+  title: 'View'
+
+entity.event_info_entity.edit_form:
+  route_name: entity.event_info_entity.edit_form
+  base_route: entity.event_info_entity.canonical
+  title: 'Edit'
+
+entity.event_info_entity.version_history:
+  route_name: entity.event_info_entity.version_history
+  base_route: entity.event_info_entity.canonical
+  title: 'Revisions'
+
+entity.event_info_entity.delete_form:
+  route_name:  entity.event_info_entity.delete_form
+  base_route:  entity.event_info_entity.canonical
+  title: Delete
+  weight: 10
+

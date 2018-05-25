@@ -1,0 +1,14 @@
+
+# Event info entity menu items definition
+entity.event_info_entity.collection:
+  title: 'Event info entity list'
+  route_name: entity.event_info_entity.collection
+  description: 'List Event info entity entities'
+  parent: system.admin_structure
+  weight: 100
+
+event_info_entity.admin.structure.settings:
+  title: 'Event info entity settings'
+  description: 'Configure Event info entity entities'
+  route_name: event_info_entity.settings
+  parent: system.admin_structure
