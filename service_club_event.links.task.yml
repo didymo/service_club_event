@@ -25,3 +25,30 @@ entity.event_info_entity.delete_form:
   title: Delete
   weight: 10
 
+# Event registration routing definition
+event_registration.settings_tab:
+  route_name: event_registration.settings
+  title: 'Settings'
+  base_route: event_registration.settings
+
+entity.event_registration.canonical:
+  route_name: entity.event_registration.canonical
+  base_route: entity.event_registration.canonical
+  title: 'View'
+
+entity.event_registration.edit_form:
+  route_name: entity.event_registration.edit_form
+  base_route: entity.event_registration.canonical
+  title: 'Edit'
+
+entity.event_registration.version_history:
+  route_name: entity.event_registration.version_history
+  base_route: entity.event_registration.canonical
+  title: 'Revisions'
+
+entity.event_registration.delete_form:
+  route_name:  entity.event_registration.delete_form
+  base_route:  entity.event_registration.canonical
+  title: Delete
+  weight: 10
+

@@ -28,3 +28,33 @@ revert all event info entity revisions:
 delete all event info entity revisions:
   title: 'Delete all revisions'
   description: 'Role requires permission to <em>view Event info entity revisions</em> and <em>delete rights</em> for event info entity entities in question or <em>administer event info entity entities</em>.'
+add event registration entities:
+  title: 'Create new Event registration entities'
+
+administer event registration entities:
+  title: 'Administer Event registration entities'
+  description: 'Allow to access the administration form to configure Event registration entities.'
+  restrict access: true
+
+delete event registration entities:
+  title: 'Delete Event registration entities'
+
+edit event registration entities:
+  title: 'Edit Event registration entities'
+
+view published event registration entities:
+  title: 'View published Event registration entities'
+
+view unpublished event registration entities:
+  title: 'View unpublished Event registration entities'
+
+view all event registration revisions:
+  title: 'View all Event registration revisions'
+
+revert all event registration revisions:
+  title: 'Revert all Event registration revisions'
+  description: 'Role requires permission <em>view Event registration revisions</em> and <em>edit rights</em> for event registration entities in question or <em>administer event registration entities</em>.'
+
+delete all event registration revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Event registration revisions</em> and <em>delete rights</em> for event registration entities in question or <em>administer event registration entities</em>.'

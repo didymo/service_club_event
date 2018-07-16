@@ -3,3 +3,8 @@ entity.event_info_entity.add_form:
   title: 'Add Event info entity'
   appears_on:
     - entity.event_info_entity.collection
+entity.event_registration.add_form:
+  route_name: entity.event_registration.add_form
+  title: 'Add Event registration'
+  appears_on:
+    - entity.event_registration.collection

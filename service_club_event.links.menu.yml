@@ -12,3 +12,17 @@ event_info_entity.admin.structure.settings:
   description: 'Configure Event info entity entities'
   route_name: event_info_entity.settings
   parent: system.admin_structure
+
+# Event registration menu items definition
+entity.event_registration.collection:
+  title: 'Event registration list'
+  route_name: entity.event_registration.collection
+  description: 'List Event registration entities'
+  parent: system.admin_structure
+  weight: 100
+
+event_registration.admin.structure.settings:
+  title: 'Event registration settings'
+  description: 'Configure Event registration entities'
+  route_name: event_registration.settings
+  parent: system.admin_structure
