@@ -1,5 +1,5 @@
 {
-  "name": "drupal/service_club_event",
+  "name": "didymo/service_club_event",
   "type": "drupal-module",
   "description": "This module handles the creation, storage and detetion of events. Anything related to events will be managed in this module.",
   "keywords": ["Drupal"],
