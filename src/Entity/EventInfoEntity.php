@@ -223,10 +223,10 @@ class EventInfoEntity extends RevisionableContentEntityBase implements EventInfo
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-
+    // Setting the name of the event.
     $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Event info entity entity.'))
+      ->setLabel(t('Event Name'))
+      ->setDescription(t('The name of the Event'))
       ->setRevisionable(TRUE)
       ->setSettings([
         'max_length' => 50,
@@ -236,11 +236,134 @@ class EventInfoEntity extends RevisionableContentEntityBase implements EventInfo
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'string',
-        'weight' => -4,
+        'weight' => 1,
       ])
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
-        'weight' => -4,
+        'weight' => 1,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+    // Setting the location of the event.
+    $fields['location'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Event Location'))
+      ->setDescription(t('The address of the event'))
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'max_length' => 50,
+        'text_processing' => 0,
+      ])
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 2,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 2,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+
+    // Event Date (Array(Date-Time))
+    $fields['event_date_start'] = BaseFieldDefinition::create('datetime')
+      ->setLabel(t('Date and Time of the Event Start'))
+      ->setDescription(t('The Date and Time the Event will Start'))
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'datetime_type' => 'date' ,
+      ])
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'datetime_default',
+        'settings' => [
+          'format_type' => 'medium',
+        ],
+        'weight' => 3,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'datetime_default',
+        'weight' => 3,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+
+    // Event Date End(Array(Date-Time))
+    $fields['event_date_finish'] = BaseFieldDefinition::create('datetime')
+      ->setLabel(t('Date and Time of the Event Finish'))
+      ->setDescription(t('The Date and Time the Event will finish'))
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'datetime_type' => 'date' ,
+      ])
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'datetime_default',
+        'settings' => [
+          'format_type' => 'medium',
+        ],
+        'weight' => 4,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'datetime_default',
+        'weight' => 4,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+    // Images (Array(Images))
+    // Event Information (text(formatted, long))
+    // Parking and other entrances for volunteers (Array(String))
+    $fields['volParking'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Volunteers Parking Location and Entrance'))
+      ->setDescription(t('Where all volunteers should park their car and enter the event'))
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'max_length' => 50,
+        'text_processing' => 0,
+      ])
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 6,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 6,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+    // Available Shifts (Array(Date-Time))
+    // List of assets (Array(entity ref))
+    // List of members attending (Array(entity ref)
+    // List of anonymous users (Array(string(name)))
+    // Add asset link (button)
+    // Standard parking and entry (string)
+    $fields['pubParking'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Public Parking Location'))
+      ->setDescription(t('Where all members of the public can park their car'))
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'max_length' => 50,
+        'text_processing' => 0,
+      ])
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 12,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 12,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -255,7 +378,6 @@ class EventInfoEntity extends RevisionableContentEntityBase implements EventInfo
         'type' => 'boolean_checkbox',
         'weight' => -3,
       ]);
-
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));
