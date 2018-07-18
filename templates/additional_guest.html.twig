@@ -1,0 +1,22 @@
+{#
+/**
+ * @file additional_guest.html.twig
+ * Default theme implementation to present Additional guest data.
+ *
+ * This template is used when viewing Additional guest pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_additional_guest()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('additional_guest') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

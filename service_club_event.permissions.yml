@@ -58,3 +58,33 @@ revert all event registration revisions:
 delete all event registration revisions:
   title: 'Delete all revisions'
   description: 'Role requires permission to <em>view Event registration revisions</em> and <em>delete rights</em> for event registration entities in question or <em>administer event registration entities</em>.'
+add additional guest entities:
+  title: 'Create new Additional guest entities'
+
+administer additional guest entities:
+  title: 'Administer Additional guest entities'
+  description: 'Allow to access the administration form to configure Additional guest entities.'
+  restrict access: true
+
+delete additional guest entities:
+  title: 'Delete Additional guest entities'
+
+edit additional guest entities:
+  title: 'Edit Additional guest entities'
+
+view published additional guest entities:
+  title: 'View published Additional guest entities'
+
+view unpublished additional guest entities:
+  title: 'View unpublished Additional guest entities'
+
+view all additional guest revisions:
+  title: 'View all Additional guest revisions'
+
+revert all additional guest revisions:
+  title: 'Revert all Additional guest revisions'
+  description: 'Role requires permission <em>view Additional guest revisions</em> and <em>edit rights</em> for additional guest entities in question or <em>administer additional guest entities</em>.'
+
+delete all additional guest revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Additional guest revisions</em> and <em>delete rights</em> for additional guest entities in question or <em>administer additional guest entities</em>.'

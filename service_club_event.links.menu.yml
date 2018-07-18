@@ -26,3 +26,17 @@ event_registration.admin.structure.settings:
   description: 'Configure Event registration entities'
   route_name: event_registration.settings
   parent: system.admin_structure
+
+# Additional guest menu items definition
+entity.additional_guest.collection:
+  title: 'Additional guest list'
+  route_name: entity.additional_guest.collection
+  description: 'List Additional guest entities'
+  parent: system.admin_structure
+  weight: 100
+
+additional_guest.admin.structure.settings:
+  title: 'Additional guest settings'
+  description: 'Configure Additional guest entities'
+  route_name: additional_guest.settings
+  parent: system.admin_structure

@@ -8,3 +8,8 @@ entity.event_registration.add_form:
   title: 'Add Event registration'
   appears_on:
     - entity.event_registration.collection
+entity.additional_guest.add_form:
+  route_name: entity.additional_guest.add_form
+  title: 'Add Additional guest'
+  appears_on:
+    - entity.additional_guest.collection

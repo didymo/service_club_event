@@ -52,3 +52,30 @@ entity.event_registration.delete_form:
   title: Delete
   weight: 10
 
+# Additional guest routing definition
+additional_guest.settings_tab:
+  route_name: additional_guest.settings
+  title: 'Settings'
+  base_route: additional_guest.settings
+
+entity.additional_guest.canonical:
+  route_name: entity.additional_guest.canonical
+  base_route: entity.additional_guest.canonical
+  title: 'View'
+
+entity.additional_guest.edit_form:
+  route_name: entity.additional_guest.edit_form
+  base_route: entity.additional_guest.canonical
+  title: 'Edit'
+
+entity.additional_guest.version_history:
+  route_name: entity.additional_guest.version_history
+  base_route: entity.additional_guest.canonical
+  title: 'Revisions'
+
+entity.additional_guest.delete_form:
+  route_name:  entity.additional_guest.delete_form
+  base_route:  entity.additional_guest.canonical
+  title: Delete
+  weight: 10
+
