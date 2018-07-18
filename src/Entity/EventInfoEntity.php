@@ -8,6 +8,7 @@ use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\user\UserInterface;
 
 /**
@@ -198,31 +199,6 @@ class EventInfoEntity extends RevisionableContentEntityBase implements EventInfo
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
-
-    $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the Event info entity entity.'))
-      ->setRevisionable(TRUE)
-      ->setSetting('target_type', 'user')
-      ->setSetting('handler', 'default')
-      ->setTranslatable(TRUE)
-      ->setDisplayOptions('view', [
-        'label' => 'hidden',
-        'type' => 'author',
-        'weight' => 0,
-      ])
-      ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
-        'weight' => 5,
-        'settings' => [
-          'match_operator' => 'CONTAINS',
-          'size' => '60',
-          'autocomplete_type' => 'tags',
-          'placeholder' => '',
-        ],
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
     // Setting the name of the event.
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Event Name'))
@@ -318,7 +294,49 @@ class EventInfoEntity extends RevisionableContentEntityBase implements EventInfo
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
     // Images (Array(Images))
+    $fields['image'] = BaseFieldDefinition::create('image')
+      ->setLabel(t('Event Image'))
+      ->setDescription(t('Add image/s for the event'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings([
+        'file_directory' => 'image_folder',
+        'alt_field_reindentquired' => FALSE,
+        'file_extensions' => 'png jpg jpeg',
+      ])
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'default',
+        'weight' => 8,
+      ])
+      ->setDisplayOptions('form', [
+        'label' => 'hidden',
+        'type' => 'image_image',
+        'weight' => 8,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
     // Event Information (text(formatted, long))
+    $fields['description'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Event Description'))
+      ->setDescription(t('A brief description of the event'))
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'max_length' => 50,
+        'text_processing' => 0,
+      ])
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 7,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 7,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
     // Parking and other entrances for volunteers (Array(String))
     $fields['volParking'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Volunteers Parking Location and Entrance'))
@@ -342,6 +360,30 @@ class EventInfoEntity extends RevisionableContentEntityBase implements EventInfo
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
     // Available Shifts (Array(Date-Time))
+    $fields['shifts'] = BaseFieldDefinition::create('datetime')
+      ->setLabel(t('Select time for a 4 hour shift to start'))
+      ->setDescription(t('The Date and Time the 4 hour shift will start'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'datetime_type' => 'date_time' ,
+      ])
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'datetime_default',
+        'settings' => [
+          'format_type' => 'long',
+        ],
+        'weight' => 5,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'datetime_default',
+        'weight' => 5,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
     // List of assets (Array(entity ref))
     // List of members attending (Array(entity ref)
     // List of anonymous users (Array(string(name)))
@@ -369,15 +411,6 @@ class EventInfoEntity extends RevisionableContentEntityBase implements EventInfo
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
-    $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Event info entity is published.'))
-      ->setRevisionable(TRUE)
-      ->setDefaultValue(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
-        'weight' => -3,
-      ]);
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));
