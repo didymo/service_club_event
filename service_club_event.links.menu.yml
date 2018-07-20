@@ -1,16 +1,16 @@
 
-# Event info entity menu items definition
-entity.event_info_entity.collection:
-  title: 'Event info entity list'
-  route_name: entity.event_info_entity.collection
-  description: 'List Event info entity entities'
+# Event information menu items definition
+entity.event_information.collection:
+  title: 'Event information list'
+  route_name: entity.event_information.collection
+  description: 'List Event information entities'
   parent: system.admin_structure
   weight: 100
 
-event_info_entity.admin.structure.settings:
-  title: 'Event info entity settings'
-  description: 'Configure Event info entity entities'
-  route_name: event_info_entity.settings
+event_information.admin.structure.settings:
+  title: 'Event information settings'
+  description: 'Configure Event information entities'
+  route_name: event_information.settings
   parent: system.admin_structure
 
 # Event registration menu items definition
@@ -27,16 +27,16 @@ event_registration.admin.structure.settings:
   route_name: event_registration.settings
   parent: system.admin_structure
 
-# Additional guest menu items definition
-entity.additional_guest.collection:
-  title: 'Additional guest list'
-  route_name: entity.additional_guest.collection
-  description: 'List Additional guest entities'
+# Additional guests menu items definition
+entity.additional_guests.collection:
+  title: 'Additional guests list'
+  route_name: entity.additional_guests.collection
+  description: 'List Additional guests entities'
   parent: system.admin_structure
   weight: 100
 
-additional_guest.admin.structure.settings:
-  title: 'Additional guest settings'
-  description: 'Configure Additional guest entities'
-  route_name: additional_guest.settings
+additional_guests.admin.structure.settings:
+  title: 'Additional guests settings'
+  description: 'Configure Additional guests entities'
+  route_name: additional_guests.settings
   parent: system.admin_structure

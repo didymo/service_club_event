@@ -1,27 +1,27 @@
-# Event info entity routing definition
-event_info_entity.settings_tab:
-  route_name: event_info_entity.settings
+# Event information routing definition
+event_information.settings_tab:
+  route_name: event_information.settings
   title: 'Settings'
-  base_route: event_info_entity.settings
+  base_route: event_information.settings
 
-entity.event_info_entity.canonical:
-  route_name: entity.event_info_entity.canonical
-  base_route: entity.event_info_entity.canonical
+entity.event_information.canonical:
+  route_name: entity.event_information.canonical
+  base_route: entity.event_information.canonical
   title: 'View'
 
-entity.event_info_entity.edit_form:
-  route_name: entity.event_info_entity.edit_form
-  base_route: entity.event_info_entity.canonical
+entity.event_information.edit_form:
+  route_name: entity.event_information.edit_form
+  base_route: entity.event_information.canonical
   title: 'Edit'
 
-entity.event_info_entity.version_history:
-  route_name: entity.event_info_entity.version_history
-  base_route: entity.event_info_entity.canonical
+entity.event_information.version_history:
+  route_name: entity.event_information.version_history
+  base_route: entity.event_information.canonical
   title: 'Revisions'
 
-entity.event_info_entity.delete_form:
-  route_name:  entity.event_info_entity.delete_form
-  base_route:  entity.event_info_entity.canonical
+entity.event_information.delete_form:
+  route_name:  entity.event_information.delete_form
+  base_route:  entity.event_information.canonical
   title: Delete
   weight: 10
 
@@ -52,30 +52,30 @@ entity.event_registration.delete_form:
   title: Delete
   weight: 10
 
-# Additional guest routing definition
-additional_guest.settings_tab:
-  route_name: additional_guest.settings
+# Additional guests routing definition
+additional_guests.settings_tab:
+  route_name: additional_guests.settings
   title: 'Settings'
-  base_route: additional_guest.settings
+  base_route: additional_guests.settings
 
-entity.additional_guest.canonical:
-  route_name: entity.additional_guest.canonical
-  base_route: entity.additional_guest.canonical
+entity.additional_guests.canonical:
+  route_name: entity.additional_guests.canonical
+  base_route: entity.additional_guests.canonical
   title: 'View'
 
-entity.additional_guest.edit_form:
-  route_name: entity.additional_guest.edit_form
-  base_route: entity.additional_guest.canonical
+entity.additional_guests.edit_form:
+  route_name: entity.additional_guests.edit_form
+  base_route: entity.additional_guests.canonical
   title: 'Edit'
 
-entity.additional_guest.version_history:
-  route_name: entity.additional_guest.version_history
-  base_route: entity.additional_guest.canonical
+entity.additional_guests.version_history:
+  route_name: entity.additional_guests.version_history
+  base_route: entity.additional_guests.canonical
   title: 'Revisions'
 
-entity.additional_guest.delete_form:
-  route_name:  entity.additional_guest.delete_form
-  base_route:  entity.additional_guest.canonical
+entity.additional_guests.delete_form:
+  route_name:  entity.additional_guests.delete_form
+  base_route:  entity.additional_guests.canonical
   title: Delete
   weight: 10
 
