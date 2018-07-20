@@ -11,37 +11,37 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
 
 /**
- * Defines the Event registration entity.
+ * Defines the Additional guests entity.
  *
  * @ingroup service_club_event
  *
  * @ContentEntityType(
- *   id = "event_registration",
- *   label = @Translation("Event registration"),
+ *   id = "additional_guests",
+ *   label = @Translation("Additional guests"),
  *   handlers = {
- *     "storage" = "Drupal\service_club_event\EventRegistrationStorage",
+ *     "storage" = "Drupal\service_club_event\AdditionalGuestsStorage",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\service_club_event\EventRegistrationListBuilder",
- *     "views_data" = "Drupal\service_club_event\Entity\EventRegistrationViewsData",
- *     "translation" = "Drupal\service_club_event\EventRegistrationTranslationHandler",
+ *     "list_builder" = "Drupal\service_club_event\AdditionalGuestsListBuilder",
+ *     "views_data" = "Drupal\service_club_event\Entity\AdditionalGuestsViewsData",
+ *     "translation" = "Drupal\service_club_event\AdditionalGuestsTranslationHandler",
  *
  *     "form" = {
- *       "default" = "Drupal\service_club_event\Form\EventRegistrationForm",
- *       "add" = "Drupal\service_club_event\Form\EventRegistrationForm",
- *       "edit" = "Drupal\service_club_event\Form\EventRegistrationForm",
- *       "delete" = "Drupal\service_club_event\Form\EventRegistrationDeleteForm",
+ *       "default" = "Drupal\service_club_event\Form\AdditionalGuestsForm",
+ *       "add" = "Drupal\service_club_event\Form\AdditionalGuestsForm",
+ *       "edit" = "Drupal\service_club_event\Form\AdditionalGuestsForm",
+ *       "delete" = "Drupal\service_club_event\Form\AdditionalGuestsDeleteForm",
  *     },
- *     "access" = "Drupal\service_club_event\EventRegistrationAccessControlHandler",
+ *     "access" = "Drupal\service_club_event\AdditionalGuestsAccessControlHandler",
  *     "route_provider" = {
- *       "html" = "Drupal\service_club_event\EventRegistrationHtmlRouteProvider",
+ *       "html" = "Drupal\service_club_event\AdditionalGuestsHtmlRouteProvider",
  *     },
  *   },
- *   base_table = "event_registration",
- *   data_table = "event_registration_field_data",
- *   revision_table = "event_registration_revision",
- *   revision_data_table = "event_registration_field_revision",
+ *   base_table = "additional_guests",
+ *   data_table = "additional_guests_field_data",
+ *   revision_table = "additional_guests_revision",
+ *   revision_data_table = "additional_guests_field_revision",
  *   translatable = TRUE,
- *   admin_permission = "administer event registration entities",
+ *   admin_permission = "administer additional guests entities",
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "vid",
@@ -52,21 +52,21 @@ use Drupal\user\UserInterface;
  *     "status" = "status",
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/event_registration/{event_registration}",
- *     "add-form" = "/admin/structure/event_registration/add",
- *     "edit-form" = "/admin/structure/event_registration/{event_registration}/edit",
- *     "delete-form" = "/admin/structure/event_registration/{event_registration}/delete",
- *     "version-history" = "/admin/structure/event_registration/{event_registration}/revisions",
- *     "revision" = "/admin/structure/event_registration/{event_registration}/revisions/{event_registration_revision}/view",
- *     "revision_revert" = "/admin/structure/event_registration/{event_registration}/revisions/{event_registration_revision}/revert",
- *     "revision_delete" = "/admin/structure/event_registration/{event_registration}/revisions/{event_registration_revision}/delete",
- *     "translation_revert" = "/admin/structure/event_registration/{event_registration}/revisions/{event_registration_revision}/revert/{langcode}",
- *     "collection" = "/admin/structure/event_registration",
+ *     "canonical" = "/admin/structure/additional_guests/{additional_guests}",
+ *     "add-form" = "/admin/structure/additional_guests/add",
+ *     "edit-form" = "/admin/structure/additional_guests/{additional_guests}/edit",
+ *     "delete-form" = "/admin/structure/additional_guests/{additional_guests}/delete",
+ *     "version-history" = "/admin/structure/additional_guests/{additional_guests}/revisions",
+ *     "revision" = "/admin/structure/additional_guests/{additional_guests}/revisions/{additional_guests_revision}/view",
+ *     "revision_revert" = "/admin/structure/additional_guests/{additional_guests}/revisions/{additional_guests_revision}/revert",
+ *     "revision_delete" = "/admin/structure/additional_guests/{additional_guests}/revisions/{additional_guests_revision}/delete",
+ *     "translation_revert" = "/admin/structure/additional_guests/{additional_guests}/revisions/{additional_guests_revision}/revert/{langcode}",
+ *     "collection" = "/admin/structure/additional_guests",
  *   },
- *   field_ui_base_route = "event_registration.settings"
+ *   field_ui_base_route = "additional_guests.settings"
  * )
  */
-class EventRegistration extends RevisionableContentEntityBase implements EventRegistrationInterface {
+class AdditionalGuests extends RevisionableContentEntityBase implements AdditionalGuestsInterface {
 
   use EntityChangedTrait;
 
@@ -111,7 +111,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       }
     }
 
-    // If no revision author has been set explicitly, make the event_registration owner the
+    // If no revision author has been set explicitly, make the additional_guests owner the
     // revision author.
     if (!$this->getRevisionUser()) {
       $this->setRevisionUserId($this->getOwnerId());
@@ -201,7 +201,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the Event registration entity.'))
+      ->setDescription(t('The user ID of author of the Additional guests entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
@@ -226,7 +226,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Event registration entity.'))
+      ->setDescription(t('The name of the Additional guests entity.'))
       ->setRevisionable(TRUE)
       ->setSettings([
         'max_length' => 50,
@@ -248,7 +248,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
 
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Event registration is published.'))
+      ->setDescription(t('A boolean indicating whether the Additional guests is published.'))
       ->setRevisionable(TRUE)
       ->setDefaultValue(TRUE)
       ->setDisplayOptions('form', [
@@ -271,7 +271,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE);
 
-    $fields['fname'] = BaseFieldDefinition::create('string')
+  $fields['fname'] = BaseFieldDefinition::create('string')
       ->setLabel(t('First Name'))
       ->setDescription(t('Please input your first name'))
       ->setRevisionable(TRUE)
@@ -293,7 +293,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
-    $fields['lname'] = BaseFieldDefinition::create('string')
+  $fields['lname'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Last Name'))
       ->setDescription(t('Please input your last name'))
       ->setRevisionable(TRUE)
@@ -315,29 +315,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
-    $fields['pNum'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Phone Number'))
-      ->setDescription(t('Please input your phone number'))
-      ->setRevisionable(TRUE)
-      ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
-      ])
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 3,
-      ])
-      ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 3,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
-
-    $fields['date_of_birth'] = BaseFieldDefinition::create('datetime')
+  $fields['date_of_birth'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('Date of Birth'))
       ->setDescription(t('Select your Date of Birth'))
       ->setRevisionable(TRUE)
@@ -351,47 +329,15 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
           'settings' => [
               'format_type' => 'medium',
           ],
-          'weight' => 4,
+          'weight' => 2,
       ])
       ->setDisplayOptions('form', [
           'type' => 'datetime_default',
-          'weight' => 4,
+          'weight' => 2,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
-
-    $fields['email'] = BaseFieldDefinition::create('email')
-      ->setLabel(t('Email Address'))
-      ->setDescription(t('Please enter your contactable email address.'))
-      ->setRevisionable(TRUE)
-      ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
-      ])
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 1,
-      ])
-      ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 1,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
-
-    $fields['emailPermissions'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Permission to receive emails'))
-      ->setDescription(t('Do you agree to receive emails regarding information about the event?'))
-      ->setRevisionable(TRUE)
-      ->setDefaultValue(FALSE)
-      ->setDisplayOptions('form', [
-          'type' => 'boolean_checkbox',
-          'weight' => 7,
-      ]);
 
     return $fields;
   }

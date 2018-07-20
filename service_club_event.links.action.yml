@@ -1,15 +1,15 @@
-entity.event_info_entity.add_form:
-  route_name: entity.event_info_entity.add_form
-  title: 'Add Event info entity'
+entity.event_information.add_form:
+  route_name: entity.event_information.add_form
+  title: 'Add Event information'
   appears_on:
-    - entity.event_info_entity.collection
+    - entity.event_information.collection
 entity.event_registration.add_form:
   route_name: entity.event_registration.add_form
   title: 'Add Event registration'
   appears_on:
     - entity.event_registration.collection
-entity.additional_guest.add_form:
-  route_name: entity.additional_guest.add_form
-  title: 'Add Additional guest'
+entity.additional_guests.add_form:
+  route_name: entity.additional_guests.add_form
+  title: 'Add Additional guests'
   appears_on:
-    - entity.additional_guest.collection
+    - entity.additional_guests.collection

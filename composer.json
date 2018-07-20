@@ -1,7 +1,7 @@
 {
-  "name": "didymo/service_club_event",
+  "name": "drupal/service_club_event",
   "type": "drupal-module",
-  "description": "This module handles the creation, storage and detetion of events. Anything related to events will be managed in this module.",
+  "description": "This module will handle to event creation and attendance",
   "keywords": ["Drupal"],
   "license": "GPL-2.0+",
   "homepage": "https://www.drupal.org/project/service_club_event",
