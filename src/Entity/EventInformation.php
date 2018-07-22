@@ -210,11 +210,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDisplayOptions('view', [
         'label' => 'hidden',
         'type' => 'author',
-        'weight' => 0,
+        'weight' => 10,
       ])
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
-        'weight' => 5,
+        'weight' => 10,
         'settings' => [
           'match_operator' => 'CONTAINS',
           'size' => '60',
@@ -237,11 +237,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'string',
-        'weight' => -4,
+        'weight' => 0,
       ])
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
-        'weight' => -4,
+        'weight' => 0,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -254,7 +254,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDefaultValue(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
-        'weight' => -3,
+        'weight' => 11,
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
@@ -285,11 +285,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDisplayOptions('view', [
           'label' => 'above',
           'type' => 'string',
-          'weight' => 2,
+          'weight' => 1,
       ])
       ->setDisplayOptions('form', [
           'type' => 'string_textfield',
-          'weight' => 2,
+          'weight' => 1,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -310,11 +310,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
           'settings' => [
               'format_type' => 'medium',
           ],
-          'weight' => 3,
+          'weight' => 2,
       ])
       ->setDisplayOptions('form', [
           'type' => 'datetime_default',
-          'weight' => 3,
+          'weight' => 2,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -335,11 +335,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
           'settings' => [
               'format_type' => 'medium',
           ],
-          'weight' => 4,
+          'weight' => 3,
       ])
       ->setDisplayOptions('form', [
           'type' => 'datetime_default',
-          'weight' => 4,
+          'weight' => 3,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -358,12 +358,12 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDisplayOptions('view', [
           'label' => 'hidden',
           'type' => 'default',
-          'weight' => 8,
+          'weight' => 5,
       ])
       ->setDisplayOptions('form', [
           'label' => 'hidden',
           'type' => 'image_image',
-          'weight' => 8,
+          'weight' => 5,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
@@ -381,11 +381,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDisplayOptions('view', [
           'label' => 'above',
           'type' => 'string',
-          'weight' => 7,
+          'weight' => 4,
       ])
       ->setDisplayOptions('form', [
           'type' => 'string_textfield',
-          'weight' => 7,
+          'weight' => 4,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -404,11 +404,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDisplayOptions('view', [
           'label' => 'above',
           'type' => 'string',
-          'weight' => 6,
+          'weight' => 7,
       ])
       ->setDisplayOptions('form', [
           'type' => 'string_textfield',
-          'weight' => 6,
+          'weight' => 7,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -430,11 +430,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
           'settings' => [
               'format_type' => 'long',
           ],
-          'weight' => 5,
+          'weight' => 8,
       ])
       ->setDisplayOptions('form', [
           'type' => 'datetime_default',
-          'weight' => 5,
+          'weight' => 8,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -453,11 +453,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDisplayOptions('view', [
           'label' => 'above',
           'type' => 'string',
-          'weight' => 12,
+          'weight' => 6,
       ])
       ->setDisplayOptions('form', [
           'type' => 'string_textfield',
-          'weight' => 12,
+          'weight' => 6,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
