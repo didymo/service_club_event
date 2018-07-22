@@ -2,4 +2,4 @@ name: 'Service Club Event'
 type: module
 description: 'This module will handle to event creation and attendance'
 core: 8.x
-package: 'Custom'
+package: 'Service Club'
