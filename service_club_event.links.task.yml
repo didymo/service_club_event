@@ -79,3 +79,30 @@ entity.additional_guests.delete_form:
   title: Delete
   weight: 10
 
+# Manage shifts routing definition
+manage_shifts.settings_tab:
+  route_name: manage_shifts.settings
+  title: 'Settings'
+  base_route: manage_shifts.settings
+
+entity.manage_shifts.canonical:
+  route_name: entity.manage_shifts.canonical
+  base_route: entity.manage_shifts.canonical
+  title: 'View'
+
+entity.manage_shifts.edit_form:
+  route_name: entity.manage_shifts.edit_form
+  base_route: entity.manage_shifts.canonical
+  title: 'Edit'
+
+entity.manage_shifts.version_history:
+  route_name: entity.manage_shifts.version_history
+  base_route: entity.manage_shifts.canonical
+  title: 'Revisions'
+
+entity.manage_shifts.delete_form:
+  route_name:  entity.manage_shifts.delete_form
+  base_route:  entity.manage_shifts.canonical
+  title: Delete
+  weight: 10
+

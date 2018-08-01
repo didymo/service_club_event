@@ -40,3 +40,17 @@ additional_guests.admin.structure.settings:
   description: 'Configure Additional guests entities'
   route_name: additional_guests.settings
   parent: system.admin_structure
+
+# Manage shifts menu items definition
+entity.manage_shifts.collection:
+  title: 'Manage shifts list'
+  route_name: entity.manage_shifts.collection
+  description: 'List Manage shifts entities'
+  parent: system.admin_structure
+  weight: 100
+
+manage_shifts.admin.structure.settings:
+  title: 'Manage shifts settings'
+  description: 'Configure Manage shifts entities'
+  route_name: manage_shifts.settings
+  parent: system.admin_structure

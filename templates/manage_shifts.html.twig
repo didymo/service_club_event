@@ -1,0 +1,22 @@
+{#
+/**
+ * @file manage_shifts.html.twig
+ * Default theme implementation to present Manage shifts data.
+ *
+ * This template is used when viewing Manage shifts pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_manage_shifts()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('manage_shifts') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>
