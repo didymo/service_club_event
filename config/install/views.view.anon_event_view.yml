@@ -10,10 +10,12 @@ dependencies:
     - service_club_event
     - text
     - user
+_core:
+  default_config_hash: pwSmgD9_CfW5v0sHCOmx2qpJwwxMOV2dyA6dkOLmTp0
 id: anon_event_view
 label: Anon_Event_View
 module: views
-description: 'THe view for anonmous users with their limited information'
+description: 'The view for anonmous users to limit the available information.'
 tag: ''
 base_table: event_information_field_data
 base_field: id
