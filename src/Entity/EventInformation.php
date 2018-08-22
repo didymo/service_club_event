@@ -63,6 +63,7 @@ use Drupal\user\UserInterface;
  *     "revision_delete" = "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/delete",
  *     "translation_revert" = "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/revert/{langcode}",
  *     "collection" = "/admin/structure/event_information",
+ *     "asset-list" = "/admin/structure/event_information/{event_information}/asset_list",
  *   },
  *   field_ui_base_route = "event_information.settings"
  * )
