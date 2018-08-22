@@ -4,6 +4,7 @@ namespace Drupal\service_club_event\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\service_club_asset\Entity\AssetEntity;
 
 /**
  * Class AssetListForm.
@@ -26,6 +27,31 @@ class AssetListForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Submit'),
     ];
+
+    $assets = AssetEntity::loadMultiple();
+    $names = 'hi';
+
+    $counter = 0;
+
+    foreach ($assets as $asset) {
+        //print_r($asset->getName());
+
+        $form['available_assets'][$counter] = [
+            //'#type' => 'textarea',
+            '#markup' => $asset->getName() . "\r\n\n",
+        ];
+        $counter++;
+    }
+/*
+      $form['available_assets'][0] = [
+          //'#type' => 'textarea',
+          '#markup' => 'hi',
+      ];
+
+      $form['available_assets'][1] = [
+          //'#type' => 'textarea',
+          '#markup' => 'test',
+      ];*/
 
     return $form;
   }
