@@ -3,3 +3,6 @@ type: module
 description: 'This module will handle to event creation and attendance'
 core: 8.x
 package: 'Service Club'
+dependencies:
+    - views
+    - service_club_asset
