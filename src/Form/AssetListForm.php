@@ -128,11 +128,43 @@ class AssetListForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $new_assigned_assets = [];
+
+    // Counter is used as array position and needs to increment over both checkbox responses.
+    $counter = 0;
+
     // Display result.
     foreach ($form_state->getValues() as $key => $value) {
       drupal_set_message($key . ': ' . $value);
+
+      // Get the available_assets checkbox response.
+      if ($key == 'available_assets') {
+        foreach ($value as $asset_id) {
+          // If the asset was ticked then save it's id.
+          if ($asset_id != 0) {
+            $new_assigned_assets += [$counter++ => ['target_id' => $asset_id]];
+          }
+        }
+      }
+
+      // Get the assigned_assets checkbox response.
+      if ($key == 'assigned_assets') {
+        foreach ($value as $asset_id) {
+          // If the asset was ticked then save it's id.
+          if ($asset_id != 0) {
+            $new_assigned_assets += [$counter++ => ['target_id' => $asset_id]];
+          }
+        }
+      }
+
     }
 
+    // Load the event to save the new assigned asset list.
+    $current_event_id = $this->getRouteMatch()->getParameter('event_information');
+    $current_event = EventInformation::load($current_event_id);
+
+    $current_event->setEventAssets($new_assigned_assets);
+    $current_event->save();
   }
 
 }
