@@ -6,3 +6,4 @@ package: 'Service Club'
 dependencies:
     - views
     - service_club_asset
+    - inline_entity_form
