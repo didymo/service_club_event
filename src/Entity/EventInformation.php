@@ -22,19 +22,25 @@ use Drupal\user\UserInterface;
  *   handlers = {
  *     "storage" = "Drupal\service_club_event\EventInformationStorage",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\service_club_event\EventInformationListBuilder",
- *     "views_data" = "Drupal\service_club_event\Entity\EventInformationViewsData",
- *     "translation" = "Drupal\service_club_event\EventInformationTranslationHandler",
+ *     "list_builder" =
+ *   "Drupal\service_club_event\EventInformationListBuilder",
+ *     "views_data" =
+ *   "Drupal\service_club_event\Entity\EventInformationViewsData",
+ *     "translation" =
+ *   "Drupal\service_club_event\EventInformationTranslationHandler",
  *
  *     "form" = {
  *       "default" = "Drupal\service_club_event\Form\EventInformationForm",
  *       "add" = "Drupal\service_club_event\Form\EventInformationForm",
  *       "edit" = "Drupal\service_club_event\Form\EventInformationForm",
- *       "delete" = "Drupal\service_club_event\Form\EventInformationDeleteForm",
+ *       "delete" =
+ *   "Drupal\service_club_event\Form\EventInformationDeleteForm",
  *     },
- *     "access" = "Drupal\service_club_event\EventInformationAccessControlHandler",
+ *     "access" =
+ *   "Drupal\service_club_event\EventInformationAccessControlHandler",
  *     "route_provider" = {
- *       "html" = "Drupal\service_club_event\EventInformationHtmlRouteProvider",
+ *       "html" =
+ *   "Drupal\service_club_event\EventInformationHtmlRouteProvider",
  *     },
  *   },
  *   base_table = "event_information",
@@ -55,14 +61,23 @@ use Drupal\user\UserInterface;
  *   links = {
  *     "canonical" = "/admin/structure/event_information/{event_information}",
  *     "add-form" = "/admin/structure/event_information/add",
- *     "edit-form" = "/admin/structure/event_information/{event_information}/edit",
- *     "delete-form" = "/admin/structure/event_information/{event_information}/delete",
- *     "version-history" = "/admin/structure/event_information/{event_information}/revisions",
- *     "revision" = "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/view",
- *     "revision_revert" = "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/revert",
- *     "revision_delete" = "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/delete",
- *     "translation_revert" = "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/revert/{langcode}",
+ *     "edit-form" =
+ *   "/admin/structure/event_information/{event_information}/edit",
+ *     "delete-form" =
+ *   "/admin/structure/event_information/{event_information}/delete",
+ *     "version-history" =
+ *   "/admin/structure/event_information/{event_information}/revisions",
+ *     "revision" =
+ *   "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/view",
+ *     "revision_revert" =
+ *   "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/revert",
+ *     "revision_delete" =
+ *   "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/delete",
+ *     "translation_revert" =
+ *   "/admin/structure/event_information/{event_information}/revisions/{event_information_revision}/revert/{langcode}",
  *     "collection" = "/admin/structure/event_information",
+ *     "asset-list" =
+ *   "/admin/structure/event_information/{event_information}/asset_list",
  *   },
  *   field_ui_base_route = "event_information.settings"
  * )
@@ -197,6 +212,21 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
   /**
    * {@inheritdoc}
    */
+  public function getEventAssets() {
+    return $this->get('event_assets')->getValue();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setEventAssets($assets) {
+    $this->set('event_assets', $assets);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
@@ -278,18 +308,18 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDescription(t('The address of the event'))
       ->setRevisionable(TRUE)
       ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
+        'max_length' => 50,
+        'text_processing' => 0,
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 1,
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 1,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 1,
+        'type' => 'string_textfield',
+        'weight' => 1,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -301,20 +331,20 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDescription(t('The Date and Time the Event will Start'))
       ->setRevisionable(TRUE)
       ->setSettings([
-          'datetime_type' => 'date' ,
+        'datetime_type' => 'date',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'datetime_default',
-          'settings' => [
-              'format_type' => 'medium',
-          ],
-          'weight' => 2,
+        'label' => 'above',
+        'type' => 'datetime_default',
+        'settings' => [
+          'format_type' => 'medium',
+        ],
+        'weight' => 2,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'datetime_default',
-          'weight' => 2,
+        'type' => 'datetime_default',
+        'weight' => 2,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -326,20 +356,20 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDescription(t('The Date and Time the Event will finish'))
       ->setRevisionable(TRUE)
       ->setSettings([
-          'datetime_type' => 'date' ,
+        'datetime_type' => 'date',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'datetime_default',
-          'settings' => [
-              'format_type' => 'medium',
-          ],
-          'weight' => 3,
+        'label' => 'above',
+        'type' => 'datetime_default',
+        'settings' => [
+          'format_type' => 'medium',
+        ],
+        'weight' => 3,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'datetime_default',
-          'weight' => 3,
+        'type' => 'datetime_default',
+        'weight' => 3,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -351,19 +381,19 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDescription(t('Add image/s for the event'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings([
-          'file_directory' => 'image_folder',
-          'alt_field_reindentquired' => FALSE,
-          'file_extensions' => 'png jpg jpeg',
+        'file_directory' => 'image_folder',
+        'alt_field_reindentquired' => FALSE,
+        'file_extensions' => 'png jpg jpeg',
       ])
       ->setDisplayOptions('view', [
-          'label' => 'hidden',
-          'type' => 'default',
-          'weight' => 5,
+        'label' => 'hidden',
+        'type' => 'default',
+        'weight' => 5,
       ])
       ->setDisplayOptions('form', [
-          'label' => 'hidden',
-          'type' => 'image_image',
-          'weight' => 5,
+        'label' => 'hidden',
+        'type' => 'image_image',
+        'weight' => 5,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
@@ -374,18 +404,18 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDescription(t('A brief description of the event'))
       ->setRevisionable(TRUE)
       ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
+        'max_length' => 50,
+        'text_processing' => 0,
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 4,
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 4,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 4,
+        'type' => 'string_textfield',
+        'weight' => 4,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -397,18 +427,18 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDescription(t('Where all volunteers should park their car and enter the event'))
       ->setRevisionable(TRUE)
       ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
+        'max_length' => 50,
+        'text_processing' => 0,
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 7,
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 7,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 7,
+        'type' => 'string_textfield',
+        'weight' => 7,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -421,20 +451,20 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setSettings([
-          'datetime_type' => 'date_time' ,
+        'datetime_type' => 'date_time',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'datetime_default',
-          'settings' => [
-              'format_type' => 'long',
-          ],
-          'weight' => 8,
+        'label' => 'above',
+        'type' => 'datetime_default',
+        'settings' => [
+          'format_type' => 'long',
+        ],
+        'weight' => 8,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'datetime_default',
-          'weight' => 8,
+        'type' => 'datetime_default',
+        'weight' => 8,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -446,22 +476,37 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDescription(t('Where all members of the public can park their car'))
       ->setRevisionable(TRUE)
       ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
+        'max_length' => 50,
+        'text_processing' => 0,
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 6,
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 6,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 6,
+        'type' => 'string_textfield',
+        'weight' => 6,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
+
+    // Asset's assigned to an event.
+    $fields['event_assets'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Assets assigned to an event.'))
+      ->setDescription(t('Assets assigned to an event.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'asset_entity')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'weight' => 9,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
     return $fields;
   }
