@@ -7,17 +7,18 @@ use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Link;
 
 /**
- * Defines a class to build a listing of Event information entities.
+ * Defines a class to build a listing of Manage shifts entities.
  *
  * @ingroup service_club_event
  */
-class EventInformationListBuilder extends EntityListBuilder {
+class ManageShiftsListBuilder extends EntityListBuilder {
+
 
   /**
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('Event information ID');
+    $header['id'] = $this->t('Manage shifts ID');
     $header['name'] = $this->t('Name');
     return $header + parent::buildHeader();
   }
@@ -26,12 +27,12 @@ class EventInformationListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\service_club_event\Entity\EventInformation */
+    /* @var $entity \Drupal\service_club_event\Entity\ManageShifts */
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),
-      'entity.event_information.edit_form',
-      ['event_information' => $entity->id()]
+      'entity.manage_shifts.edit_form',
+      ['manage_shifts' => $entity->id()]
     );
     return $row + parent::buildRow($entity);
   }

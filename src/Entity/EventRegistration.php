@@ -392,8 +392,33 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
           'type' => 'boolean_checkbox',
           'weight' => 7,
       ]);
-
-    return $fields;
+/*
+    $fields['add guest'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Addition Guest'))
+      ->setDescription(t('List the additional guests that will be attending with you'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'additional_guests')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'author',
+        'weight' => 0,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'inline_entity_form_complex',
+        'weight' => 5,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => '60',
+          'autocomplete_type' => 'tags',
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+*/
+      return $fields;
   }
 
 }

@@ -13,3 +13,8 @@ entity.additional_guests.add_form:
   title: 'Add Additional guests'
   appears_on:
     - entity.additional_guests.collection
+entity.manage_shifts.add_form:
+  route_name: entity.manage_shifts.add_form
+  title: 'Add Manage shifts'
+  appears_on:
+    - entity.manage_shifts.collection
