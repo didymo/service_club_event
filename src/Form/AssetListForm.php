@@ -138,7 +138,7 @@ class AssetListForm extends FormBase {
       drupal_set_message($key . ': ' . $value);
 
       // Get the available_assets checkbox response.
-      if ($key == 'available_assets') {
+      if ($key === 'available_assets') {
         foreach ($value as $asset_id) {
           // If the asset was ticked then save it's id.
           if ($asset_id != 0) {
@@ -148,7 +148,7 @@ class AssetListForm extends FormBase {
       }
 
       // Get the assigned_assets checkbox response.
-      if ($key == 'assigned_assets') {
+      if ($key === 'assigned_assets') {
         foreach ($value as $asset_id) {
           // If the asset was ticked then save it's id.
           if ($asset_id != 0) {
