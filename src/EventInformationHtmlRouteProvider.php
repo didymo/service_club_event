@@ -42,6 +42,10 @@ class EventInformationHtmlRouteProvider extends AdminHtmlRouteProvider {
       $collection->add("{$entity_type_id}.revision_revert_translation_confirm", $translation_route);
     }
 
+    if ($asset_list_route = $this->getAssetEntityList($entity_type)) {
+        $collection->add("entity.{$entity_type_id}.asset_list", $asset_list_route);
+    }
+
     if ($settings_form_route = $this->getSettingsFormRoute($entity_type)) {
       $collection->add("$entity_type_id.settings", $settings_form_route);
     }
@@ -91,6 +95,30 @@ class EventInformationHtmlRouteProvider extends AdminHtmlRouteProvider {
           '_title_callback' => '\Drupal\service_club_event\Controller\EventInformationController::revisionPageTitle',
         ])
         ->setRequirement('_permission', 'access event information revisions')
+        ->setOption('_admin_route', TRUE);
+
+      return $route;
+    }
+  }
+
+  /**
+   * Gets the asset entity list route.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
+   *   The entity type.
+   *
+   * @return Symfony\Component\Routing\Route
+   *   The generated route, if available.
+   */
+  protected function getAssetEntityList(EntityTypeInterface $entity_type) {
+    if ($entity_type->hasLinkTemplate('asset-list')) {
+      $route = new Route($entity_type->getLinkTemplate('asset-list'));
+      $route
+        ->setDefaults([
+          '_title' => 'Display Assets',
+          '_form' => '\Drupal\service_club_event\Form\AssetListForm',
+        ])
+        ->setRequirement('_permission', 'list assets information entities')
         ->setOption('_admin_route', TRUE);
 
       return $route;
