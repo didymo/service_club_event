@@ -139,7 +139,7 @@ class AssetListForm extends FormBase {
     // Get the assigned_assets checkbox response.
     foreach ($form_state->getValue('assigned_assets') as $asset_id) {
       // If the asset was ticked then save it's id.
-      if ($asset_id != 0) {
+      if ($asset_id !== 0) {
         $new_assigned_assets += [count($new_assigned_assets) => ['target_id' => $asset_id]];
       }
     }
@@ -147,7 +147,7 @@ class AssetListForm extends FormBase {
     // Get the available_assets checkbox response.
     foreach ($form_state->getValue('available_assets') as $asset_id) {
       // If the asset was ticked then save it's id.
-      if ($asset_id != 0) {
+      if ($asset_id !== 0) {
         $new_assigned_assets += [count($new_assigned_assets) => ['target_id' => $asset_id]];
       }
     }
