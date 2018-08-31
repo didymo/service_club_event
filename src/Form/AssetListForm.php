@@ -134,30 +134,35 @@ class AssetListForm extends FormBase {
     foreach ($form_state->getValues() as $key => $value) {
       drupal_set_message($key . ': ' . $value);
 
-      // Get the available_assets checkbox response.
-      if ($key === 'available_assets') {
-        foreach ($value as $asset_id) {
-          // If the asset was ticked then save it's id.
-          if ($asset_id != 0) {
-            $new_assigned_assets += [count($new_assigned_assets) => ['target_id' => $asset_id]];
-          }
-        }
-      }
-
-      // Get the assigned_assets checkbox response.
-      if ($key === 'assigned_assets') {
-        foreach ($value as $asset_id) {
-          // If the asset was ticked then save it's id.
-          if ($asset_id != 0) {
-            $new_assigned_assets += [count($new_assigned_assets) => ['target_id' => $asset_id]];
-          }
-        }
-      }
-
     }
 
+    // Get the assigned_assets checkbox response.
+    foreach ($form_state->getValue('assigned_assets') as $asset_id) {
+      // If the asset was ticked then save it's id.
+      if ($asset_id != 0) {
+        $new_assigned_assets += [count($new_assigned_assets) => ['target_id' => $asset_id]];
+      }
+    }
+
+    // Get the available_assets checkbox response.
+    foreach ($form_state->getValue('available_assets') as $asset_id) {
+      // If the asset was ticked then save it's id.
+      if ($asset_id != 0) {
+        $new_assigned_assets += [count($new_assigned_assets) => ['target_id' => $asset_id]];
+      }
+    }
+
+    /*
+     * if the child does not exists in either available and assigned (it
+     * will have been added already if it isn't empty)
+     * (if empty())   // it is not in either
+     *     add it to $new_assigned
+     *     Check all it's children in the same way
+     */
+
     // Load the event to save the new assigned asset list.
-    $current_event_id = $this->getRouteMatch()->getParameter('event_information');
+    $current_event_id = $this->getRouteMatch()
+      ->getParameter('event_information');
     $current_event = EventInformation::load($current_event_id);
 
     $current_event->setEventAssets($new_assigned_assets);
