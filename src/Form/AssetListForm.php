@@ -122,6 +122,26 @@ class AssetListForm extends FormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
+
+    // combine assets into a single array.
+    $new_assigned_assets = [];
+    $new_assigned_assets += $form_state->getValue('assigned_assets');
+    $new_assigned_assets += $form_state->getValue('available_assets');
+
+    // Loop for each asset
+    foreach ($new_assigned_assets as $asset_id) {
+
+      // If the asset is assigned, test if its children are also assigned.
+      if ($asset_id !== 0) {
+        $all_children_assigned = $this->checkAssignedChildren($asset_id, $new_assigned_assets);
+        // If the asset was missing a child stop the form.
+        if (!$all_children_assigned) {
+          $current_asset = AssetEntity::load($asset_id);
+          $form_state->setErrorByName('Breach in Parental Hierarchy',
+            $this->t('The asset: ' . $current_asset->getName() . ' is missing one of it\'s children.'));
+        }
+      }
+    }
   }
 
   /**
@@ -152,14 +172,6 @@ class AssetListForm extends FormBase {
       }
     }
 
-    /*
-     * if the child does not exists in either available and assigned (it
-     * will have been added already if it isn't empty)
-     * (if empty())   // it is not in either
-     *     add it to $new_assigned
-     *     Check all it's children in the same way
-     */
-
     // Load the event to save the new assigned asset list.
     $current_event_id = $this->getRouteMatch()
       ->getParameter('event_information');
@@ -167,6 +179,35 @@ class AssetListForm extends FormBase {
 
     $current_event->setEventAssets($new_assigned_assets);
     $current_event->save();
+  }
+
+  /**
+   * Function enforces the parental hierarchy of assets.
+   *
+   * @param \Drupal\service_club_event\Form\int $current_asset_id
+   * @param array $new_assigned_assets
+   *
+   * @return bool
+   *  bool represents if the asset has all it's children assigned
+   *  to the event as well.
+   */
+  public function checkAssignedChildren (int $current_asset_id, array $new_assigned_assets) {
+    // Load the given asset.
+    $current_asset = AssetEntity::load($current_asset_id);
+
+    // Get a list of its children.
+    $children_list = $current_asset->getChildRelationships();
+
+    // Check if each child is in the array of assigned assets.
+    foreach ($children_list as $child_id) {
+      // If the child has not been assigned when it should stop the form.
+      if ($new_assigned_assets[$child_id['target_id']] === 0) {
+        return FALSE;
+      }
+    }
+
+    // If every child is already assigned return true.
+    return TRUE;
   }
 
 }
