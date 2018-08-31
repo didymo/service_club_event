@@ -130,9 +130,6 @@ class AssetListForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $new_assigned_assets = [];
 
-    // Counter is used as array position and needs to increment over both checkbox responses.
-    $counter = 0;
-
     // Display result.
     foreach ($form_state->getValues() as $key => $value) {
       drupal_set_message($key . ': ' . $value);
@@ -142,7 +139,7 @@ class AssetListForm extends FormBase {
         foreach ($value as $asset_id) {
           // If the asset was ticked then save it's id.
           if ($asset_id != 0) {
-            $new_assigned_assets += [$counter++ => ['target_id' => $asset_id]];
+            $new_assigned_assets += [count($new_assigned_assets) => ['target_id' => $asset_id]];
           }
         }
       }
@@ -152,7 +149,7 @@ class AssetListForm extends FormBase {
         foreach ($value as $asset_id) {
           // If the asset was ticked then save it's id.
           if ($asset_id != 0) {
-            $new_assigned_assets += [$counter++ => ['target_id' => $asset_id]];
+            $new_assigned_assets += [count($new_assigned_assets) => ['target_id' => $asset_id]];
           }
         }
       }
