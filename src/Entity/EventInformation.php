@@ -228,7 +228,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
    * {@inheritdoc}
    */
   public function getEventStartDate() {
-    return $this->get('event_date_start')->getValue();
+    return $this->get('event_date_start')->value;
   }
 
   /**
@@ -243,7 +243,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
    * {@inheritdoc}
    */
   public function getEventEndDate() {
-    return $this->get('event_date_finish')->getValue();
+    return $this->get('event_date_finish')->value;
   }
 
   /**
