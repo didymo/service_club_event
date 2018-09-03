@@ -123,7 +123,7 @@ class AssetListForm extends FormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
 
-    // combine assets into a single array.
+    // combine assets into a single array. Contains only id's.
     $new_assigned_assets = [];
     $new_assigned_assets += $form_state->getValue('assigned_assets');
     $new_assigned_assets += $form_state->getValue('available_assets');
@@ -131,6 +131,10 @@ class AssetListForm extends FormBase {
     // Loop for each asset
     foreach ($new_assigned_assets as $asset_id) {
 
+      /**
+       * @Todo Client says enforcing children be assigned to event isn't
+       * necessary and so look into removing this constraint and instead notify the user
+       */
       // If the asset is assigned, test if its children are also assigned.
       if ($asset_id !== 0) {
         $all_children_assigned = $this->checkAssignedChildren($asset_id, $new_assigned_assets);
@@ -142,6 +146,90 @@ class AssetListForm extends FormBase {
         }
       }
     }
+
+    // Check if the asset is available for this event.
+    $event_collision_id = $this->checkEventCollisions($new_assigned_assets);
+    if (!empty($event_collision_id)) {
+      $form_state->setErrorByName('Asset ACID property',
+        $this->t('Assets can only be assigned to one event at a single time. Current event assets collide with event id: ' . $event_collision_id));
+    }
+  }
+
+  /**
+   * Function checks if assets are assigned to two different events entities.
+   *
+   * @param array $new_assigned_assets
+   *   array as a map of asset id's
+   * @param \Drupal\service_club_event\Entity\EventInformation $event
+   *
+   * @return bool
+   */
+  public function checkEventAssetCollisions(array $new_assigned_assets, EventInformation $event) {
+    $event_assets = $event->getEventAssets();
+
+    // Search the "map" of asset id's to check if the asset is assigned elsewhere.
+    foreach ($event_assets as $asset) {
+      if (!empty($new_assigned_assets[$asset['target_id']])) {
+        // Found a collision with assets.
+        return TRUE;
+      }
+    }
+
+    // If no collision was found.
+    return FALSE;
+  }
+
+  /**
+   * @param array $new_assigned_assets
+   *   Map of asset id's.
+   *
+   * @return int
+   *   Represents an event id or 0 if no collisions.
+   */
+  public function checkEventCollisions(array $new_assigned_assets) {
+    // Load all the events.
+    $all_events = EventInformation::loadMultiple();
+
+    // Load the current event.
+    $current_event_id = $this->getRouteMatch()
+      ->getParameter('event_information');
+    $current_event = EventInformation::load($current_event_id);
+
+    // Save the start and end dates.
+    $current_event_start = $current_event->getEventStartDate();
+    $current_event_end = $current_event->getEventEndDate();
+
+    // 'event_date_finish''event_date_start'
+    foreach ($all_events as $event) {
+
+      // Ignore the current event.
+      if ($event->id() !== $current_event_id) {
+
+        // Guardian if to ensure that the entity is an EventInformation entity.
+        if ($event instanceof EventInformation) {
+          // Store the start and end dates of the next event in the list.
+          $start_date = $event->getEventStartDate();
+          $end_date = $event->getEventEndDate();
+
+          // If there is an overlap in event dates then check the assets for collisions.
+          if (($current_event_start <= $start_date && $start_date <= $current_event_end)
+            || ($current_event_start <= $end_date && $end_date <= $current_event_end)
+            || ($start_date <= $current_event_start && $current_event_end <= $end_date)) {
+
+            // Check if an asset appears twice.
+            if ($this->checkEventAssetCollisions($new_assigned_assets, $event)) {
+              // When there is a collision.
+              return $event->id();
+            }
+          }
+        }
+
+      }
+
+    }
+
+    // No events had a collision of assets.
+    return 0;
   }
 
   /**
@@ -191,7 +279,7 @@ class AssetListForm extends FormBase {
    *  bool represents if the asset has all it's children assigned
    *  to the event as well.
    */
-  public function checkAssignedChildren (int $current_asset_id, array $new_assigned_assets) {
+  public function checkAssignedChildren(int $current_asset_id, array $new_assigned_assets) {
     // Load the given asset.
     $current_asset = AssetEntity::load($current_asset_id);
 
