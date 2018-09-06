@@ -73,6 +73,7 @@ class AssetListForm extends FormBase {
       '#options' => $registered_assets_content['assets'],
       '#title' => 'Registered Assets',
       '#default_value' => $registered_assets_content['checked'],
+      '#filter' => TRUE,
     ];
 
     // Load assets associated with the current event.
@@ -103,6 +104,7 @@ class AssetListForm extends FormBase {
       '#type' => 'checkboxes',
       '#options' => $available_assets_content,
       '#title' => 'Available Assets',
+      '#filter' => TRUE,
     ];
 
     $form['actions'] = [
