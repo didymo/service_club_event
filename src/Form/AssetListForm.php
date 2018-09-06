@@ -128,23 +128,20 @@ class AssetListForm extends FormBase {
     $new_assigned_assets += $form_state->getValue('assigned_assets');
     $new_assigned_assets += $form_state->getValue('available_assets');
 
+    // List containing children that are not assigned.
+    $children_unassigned = [];
+
     // Loop for each asset
     foreach ($new_assigned_assets as $asset_id) {
-
-      /**
-       * @Todo Client says enforcing children be assigned to event isn't
-       * necessary and so look into removing this constraint and instead notify the user
-       */
       // If the asset is assigned, test if its children are also assigned.
       if ($asset_id !== 0) {
-        $all_children_assigned = $this->checkAssignedChildren($asset_id, $new_assigned_assets);
-        // If the asset was missing a child stop the form.
-        if (!$all_children_assigned) {
-          $current_asset = AssetEntity::load($asset_id);
-          $form_state->setErrorByName('Breach in Parental Hierarchy',
-            $this->t('The asset: ' . $current_asset->getName() . ' is missing one of it\'s children.'));
-        }
+        $children_unassigned += $this->checkAssignedChildren($asset_id, $new_assigned_assets);
       }
+    }
+
+    // Loop through $children_unassigned to find all children that are missing and notify the user in one go.
+    foreach ($children_unassigned as $asset_id => $value) {
+      drupal_set_message($this->t('Asset: ' . $asset_id . ' may be required be other assets assigned to the event.'), 'warning');
     }
 
     // Check if the asset is available for this event.
@@ -238,12 +235,6 @@ class AssetListForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $new_assigned_assets = [];
 
-    // Display result.
-    foreach ($form_state->getValues() as $key => $value) {
-      drupal_set_message($key . ': ' . $value);
-
-    }
-
     // Get the assigned_assets checkbox response.
     foreach ($form_state->getValue('assigned_assets') as $asset_id) {
       // If the asset was ticked then save it's id.
@@ -286,16 +277,18 @@ class AssetListForm extends FormBase {
     // Get a list of its children.
     $children_list = $current_asset->getChildRelationships();
 
+    $children_unassigned = [];
+
     // Check if each child is in the array of assigned assets.
     foreach ($children_list as $child_id) {
       // If the child has not been assigned when it should stop the form.
       if ($new_assigned_assets[$child_id['target_id']] === 0) {
-        return FALSE;
+        $children_unassigned += [$child_id['target_id'] => 1];
       }
     }
 
     // If every child is already assigned return true.
-    return TRUE;
+    return $children_unassigned;
   }
 
 }
