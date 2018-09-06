@@ -30,6 +30,19 @@ class EventRegistrationForm extends ContentEntityForm {
 
     $entity = $this->entity;
 
+    /**
+     * @Todo implement the checkboxes for shifts from manage_shifts when possible.
+     *
+    $options_test = ['test','hello','hi'];
+
+    $form['checkboxes'] = [
+    '#type' => 'checkboxes',
+    '#options' => $options_test,
+    '#title' => 'Registered Assets',
+    '#weight' => -20,
+    ];
+     */
+
     return $form;
   }
 

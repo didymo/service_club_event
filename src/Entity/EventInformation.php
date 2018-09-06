@@ -227,6 +227,36 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
   /**
    * {@inheritdoc}
    */
+  public function getEventStartDate() {
+    return $this->get('event_date_start')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setEventStartDate($start_date) {
+    $this->set('event_date_start', $start_date);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEventEndDate() {
+    return $this->get('event_date_finish')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setEventEndDate($end_date) {
+    $this->set('event_date_finish', $end_date);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
