@@ -4,6 +4,8 @@ namespace Drupal\service_club_event\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\service_club_event\Entity\EventInformation;
+use Drupal\service_club_event\Entity\EventInformationInterface;
 
 /**
  * Form controller for Manage shifts edit forms.
@@ -58,6 +60,9 @@ class ManageShiftsForm extends ContentEntityForm {
         drupal_set_message($this->t('Created the %label Manage shifts.', [
           '%label' => $entity->label(),
         ]));
+        $event = $this->getRouteMatch()->getParameter('event_information');
+        //$event = EventInformation::load($event_id);
+        $event->addShift($entity->id());
         break;
 
       default:

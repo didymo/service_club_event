@@ -1,0 +1,11 @@
+
+entity.manage_shifts.add_form:
+  path: '/admin/structure/event_information/{event_information}/add'
+  defaults:
+    _controller: '\Drupal\service_club_event\Controller\ShiftController::addForm'
+    _title: 'Add Shift'
+  requirements:
+    _access: 'TRUE'
+
+
+  

@@ -15,8 +15,15 @@ use Drupal\user\EntityOwnerInterface;
 interface EventInformationInterface extends ContentEntityInterface, RevisionLogInterface, EntityChangedInterface, EntityOwnerInterface {
 
   // Add get/set methods for your configuration properties here.
+    /**
+     * Gets the Event shifts.
+     *
+     * @return \Drupal\service_club_event\Entity\ManageShiftsInterface[]
+     *   Name of the Event information.
+     */
+   public function getShifts();
 
-  /**
+    /**
    * Gets the Event information name.
    *
    * @return string

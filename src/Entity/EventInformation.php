@@ -35,6 +35,7 @@ use Drupal\user\UserInterface;
  *       "edit" = "Drupal\service_club_event\Form\EventInformationForm",
  *       "delete" =
  *   "Drupal\service_club_event\Form\EventInformationDeleteForm",
+ *       "shift-list" = "Drupal\service_club_event\form\OverviewShifts",
  *     },
  *     "access" =
  *   "Drupal\service_club_event\EventInformationAccessControlHandler",
@@ -78,6 +79,7 @@ use Drupal\user\UserInterface;
  *     "collection" = "/admin/structure/event_information",
  *     "asset-list" =
  *   "/admin/structure/event_information/{event_information}/asset_list",
+ *     "shift-list" = "/admin/structure/event_information/{event_information}/shift-list",
  *   },
  *   field_ui_base_route = "event_information.settings"
  * )
@@ -222,6 +224,28 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
   public function setEventAssets($assets) {
     $this->set('event_assets', $assets);
     return $this;
+  }
+
+  /**
+  * {@inheritdoc}
+  */
+  public function getShifts(){
+      $references = $this->get('shifts')->getValue();
+      $shifts = array();
+      foreach($references as $shift_id){
+          $shifts[] = ManageShifts::load($shift_id['target_id']);
+      }
+      return $shifts;
+  }
+
+  /**
+  * {@inheritdoc}
+  */
+  public function addShift($shift_id){
+      $shifts = $this->get('shifts')->getValue();
+      $shifts += [count($shifts)=>['target_id'=> $shift_id]];
+      $this->set('shifts', $shifts);
+      $this->save();
   }
 
   /**
@@ -444,31 +468,23 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
-    // Available Shifts (Array(Date-Time))
-    $fields['shifts'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('Select time for a 4 hour shift to start'))
-      ->setDescription(t('The Date and Time the 4 hour shift will start'))
+    // Available Shifts (Array(shift entities))
+    $fields['shifts'] =  BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Shifts'))
+      ->setDescription(t('Shifts for the event'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
-      ->setSettings([
-        'datetime_type' => 'date_time',
-      ])
-      ->setDefaultValue('')
+      ->setSetting('target_type', 'user')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
       ->setDisplayOptions('view', [
         'label' => 'above',
-        'type' => 'datetime_default',
-        'settings' => [
-          'format_type' => 'long',
-        ],
+        'type' => 'string',
         'weight' => 8,
       ])
-      ->setDisplayOptions('form', [
-        'type' => 'datetime_default',
-        'weight' => 8,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('form', FALSE)
       ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
+      ->setRequired(FALSE);
 
     // Standard parking and entry (string)
     $fields['pubParking'] = BaseFieldDefinition::create('string')
