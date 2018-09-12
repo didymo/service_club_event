@@ -32,6 +32,9 @@ class EventInformationAccessControlHandler extends EntityAccessControlHandler {
       case 'asset-list':
         return AccessResult::allowedIfHasPermission($account, 'list assets information entities');
 
+      case 'shift-list':
+        return AccessResult::allowedIfHasPermission($account, 'list shift information entities');
+
       case 'delete':
         return AccessResult::allowedIfHasPermission($account, 'delete event information entities');
 

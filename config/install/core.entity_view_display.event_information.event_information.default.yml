@@ -1,0 +1,119 @@
+uuid: c821e4b8-f41d-4a47-a4eb-6775b276fd2e
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - image
+    - service_club_event
+    - simple_gmap
+    - text
+    - user
+id: event_information.event_information.default
+targetEntityType: event_information
+bundle: event_information
+mode: default
+content:
+  description:
+    label: above
+    type: text_trimmed
+    weight: 4
+    region: content
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+  event_assets:
+    type: entity_reference_label
+    weight: 9
+    region: content
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+  event_date_finish:
+    label: above
+    type: datetime_default
+    settings:
+      format_type: medium
+      timezone_override: ''
+    weight: 3
+    region: content
+    third_party_settings: {  }
+  event_date_start:
+    label: above
+    type: datetime_default
+    settings:
+      format_type: medium
+      timezone_override: ''
+    weight: 2
+    region: content
+    third_party_settings: {  }
+  image:
+    label: hidden
+    type: image_url
+    weight: 5
+    region: content
+    settings:
+      image_style: ''
+    third_party_settings: {  }
+  location:
+    label: above
+    type: simple_gmap
+    weight: 1
+    region: content
+    settings:
+      include_map: true
+      include_static_map: false
+      include_link: false
+      include_text: false
+      iframe_height: '200'
+      iframe_width: '200'
+      static_scale: 1
+      zoom_level: 14
+      link_text: 'View larger map'
+      map_type: m
+      langcode: en
+      apikey: ''
+    third_party_settings: {  }
+  name:
+    label: above
+    type: string
+    weight: 0
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  pubParking:
+    label: above
+    type: string
+    weight: 6
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  shifts:
+    label: above
+    type: datetime_default
+    settings:
+      format_type: long
+      timezone_override: ''
+    weight: 8
+    region: content
+    third_party_settings: {  }
+  user_id:
+    label: hidden
+    type: author
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  volParking:
+    label: above
+    type: string
+    weight: 7
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden: {  }
+

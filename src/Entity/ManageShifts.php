@@ -46,6 +46,7 @@ use Drupal\user\UserInterface;
  *     "id" = "id",
  *     "revision" = "vid",
  *     "label" = "name",
+ *     "weight" = "weight",
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
@@ -193,7 +194,13 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
     return $this;
   }
 
-  /**
+  protected $weight = 0;
+
+  public function getWeight(){
+      return $this->weight;
+  }
+
+    /**
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {

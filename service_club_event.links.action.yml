@@ -15,6 +15,6 @@ entity.additional_guests.add_form:
     - entity.additional_guests.collection
 entity.manage_shifts.add_form:
   route_name: entity.manage_shifts.add_form
-  title: 'Add Manage shifts'
+  title: 'Add shifts'
   appears_on:
-    - entity.manage_shifts.collection
+    - entity.event_information.shift_list
