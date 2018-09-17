@@ -68,12 +68,17 @@ class AssetListForm extends FormBase {
       '#plain_text' => 'Check the assets that should be assigned to the event. Uncheck assets that should not be assigned to the event.',
     ];
 
+    $form['filter'] = [
+      '#type' => 'checkboxes',
+      '#title' => 'Filter Assets',
+      '#filter' => TRUE,
+    ];
+
     $form['assigned_assets'] = [
       '#type' => 'checkboxes',
       '#options' => $registered_assets_content['assets'],
       '#title' => 'Registered Assets',
       '#default_value' => $registered_assets_content['checked'],
-      '#filter' => TRUE,
     ];
 
     // Load assets associated with the current event.
@@ -104,7 +109,6 @@ class AssetListForm extends FormBase {
       '#type' => 'checkboxes',
       '#options' => $available_assets_content,
       '#title' => 'Available Assets',
-      '#filter' => TRUE,
     ];
 
     $form['actions'] = [
