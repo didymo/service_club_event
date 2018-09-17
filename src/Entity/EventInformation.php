@@ -10,6 +10,7 @@ use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
+use Drupal\service_club_event\Entity\ManageShifts;
 
 /**
  * Defines the Event information entity.
@@ -235,6 +236,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       foreach($references as $shift_id){
           $shifts[] = ManageShifts::load($shift_id['target_id']);
       }
+      usort($shifts, array("Drupal\service_club_event\Entity\ManageShifts", "compare_start_time"));
       return $shifts;
   }
 
@@ -504,7 +506,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDescription(t('Shifts for the event'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
-      ->setSetting('target_type', 'user')
+      ->setSetting('target_type', 'manage_shifts')
       ->setSetting('handler', 'default')
       ->setTranslatable(TRUE)
       ->setDisplayOptions('view', [

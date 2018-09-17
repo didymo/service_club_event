@@ -102,7 +102,7 @@ class OverviewShifts extends FormBase {
           break;
       }
     $shift = $shifts[$shift_index];
-    $key = 'sid:' . $shift->id();
+    $key = str_pad($shift_index, 5, '0', STR_PAD_LEFT) . 'sid:' . $shift->id();
     $current_page[$key] = $shift;
   } while (isset ($shifts[++$shift_index]));
 
@@ -124,19 +124,16 @@ class OverviewShifts extends FormBase {
           '#header' => [
               'shift' => $this->t('Name'),
               'operations' => $this->t('Operations'),
-              'weight' => $this->t('Weight'),
           ],
       ];
       $this->renderer->addCacheableDependency($form['shifts'], $create_access);
 
       // Only allow access to changing weights if the user has update access for
       // all terms.
-      $change_weight_access = AccessResult::allowed();
       foreach ($current_page as $key => $shift) {
           $form['shifts'][$key] = [
               'shift' => [],
               'operations' => [],
-              'weight' => [],
           ];
           /** @var $term \Drupal\Core\Entity\EntityInterface */
           $shift = $this->entityManager->getTranslationFromContext($shift);
@@ -146,19 +143,6 @@ class OverviewShifts extends FormBase {
               '#title' => $shift->getName(),
               '#url' => $shift->urlInfo(),
           ];
-
-          $update_access = $shift->access('update', NULL, TRUE);
-          $change_weight_access = $change_weight_access->andIf($update_access);
-
-          if ($update_access->isAllowed()) {
-              $form['shifts'][$key]['weight'] = [
-                  '#type' => 'weight',
-                  '#title' => $this->t('Weight for added shift'),
-                  '#title_display' => 'invisible',
-                  '#default_value' => $shift->getWeight(),
-                  '#attributes' => ['class' => ['shift-weight']],
-              ];
-          }
 
           if ($operations = $this->shiftListBuilder->getOperations($shift)) {
               $form['shifts'][$key]['operations'] = [
@@ -188,7 +172,7 @@ class OverviewShifts extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state, EventInformationInterface $event_information = NULL) {
     // Display result.
     foreach ($form_state->getValues() as $key => $value) {
       drupal_set_message($key . ': ' . $value);
