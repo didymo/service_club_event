@@ -24,6 +24,7 @@ interface ManageShiftsInterface extends ContentEntityInterface, RevisionLogInter
    */
   public function getName();
 
+
   /**
    * Sets the Manage shifts name.
    *

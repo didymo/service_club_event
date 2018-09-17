@@ -46,6 +46,7 @@ use Drupal\user\UserInterface;
  *     "id" = "id",
  *     "revision" = "vid",
  *     "label" = "name",
+ *     "weight" = "weight",
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
@@ -194,6 +195,19 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
   }
 
   /**
+  * {@inheritdoc}
+  */
+  public static function compare_start_time($a, $b) {
+    $a_start = $a->get('shift_start')->getValue();
+    $b_start = $b->get('shift_start')->getValue();
+
+    if($a_start == $b_start) {
+        return 0;
+    }
+    return ($a_start > $b_start) ? +1 : -1;
+  }
+
+    /**
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {

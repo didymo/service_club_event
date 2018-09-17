@@ -19,6 +19,11 @@ entity.event_information.asset_list:
   base_route:  entity.event_information.canonical
   title: 'Display Assets'
 
+entity.event_information.shift_list:
+  route_name:  entity.event_information.shift_list
+  base_route:  entity.event_information.canonical
+  title: 'Display Shifts'
+
 entity.event_information.version_history:
   route_name: entity.event_information.version_history
   base_route: entity.event_information.canonical

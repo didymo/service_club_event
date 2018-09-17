@@ -5,6 +5,7 @@ namespace Drupal\service_club_event;
 use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\service_club_event\Entity\EventInformation;
 use Drupal\service_club_event\Entity\ManageShiftsInterface;
 
 /**
@@ -55,4 +56,12 @@ class ManageShiftsStorage extends SqlContentEntityStorage implements ManageShift
       ->execute();
   }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getShifts($eid){
+        $event = EventInformation::load($eid);
+        return $event->getShifts();
+
+    }
 }
