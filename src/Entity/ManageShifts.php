@@ -194,10 +194,17 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
     return $this;
   }
 
-  protected $weight = 0;
+  /**
+  * {@inheritdoc}
+  */
+  public static function compare_start_time($a, $b) {
+    $a_start = $a->get('shift_start')->getValue();
+    $b_start = $b->get('shift_start')->getValue();
 
-  public function getWeight(){
-      return $this->weight;
+    if($a_start == $b_start) {
+        return 0;
+    }
+    return ($a_start > $b_start) ? +1 : -1;
   }
 
     /**

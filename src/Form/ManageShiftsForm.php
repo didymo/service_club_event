@@ -40,6 +40,7 @@ class ManageShiftsForm extends ContentEntityForm {
    */
   public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
+    $event = $this->getRouteMatch()->getParameter('event_information');
 
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('new_revision') && $form_state->getValue('new_revision') != FALSE) {
@@ -60,7 +61,6 @@ class ManageShiftsForm extends ContentEntityForm {
         drupal_set_message($this->t('Created the %label Manage shifts.', [
           '%label' => $entity->label(),
         ]));
-        $event = $this->getRouteMatch()->getParameter('event_information');
         //$event = EventInformation::load($event_id);
         $event->addShift($entity->id());
         break;
@@ -70,7 +70,7 @@ class ManageShiftsForm extends ContentEntityForm {
           '%label' => $entity->label(),
         ]));
     }
-    $form_state->setRedirect('entity.manage_shifts.canonical', ['manage_shifts' => $entity->id()]);
+    $form_state->setRedirect('entity.event_information.shift_list', ['event_information' => $event->id()]);
   }
 
 }
