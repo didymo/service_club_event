@@ -46,10 +46,6 @@ class EventInformationHtmlRouteProvider extends AdminHtmlRouteProvider {
         $collection->add("entity.{$entity_type_id}.asset_list", $asset_list_route);
     }
 
-    if ($shift_list = $this->getAssetEntityList($entity_type)) {
-        $collection->add("entity.{$entity_type_id}.asset_list", $asset_list_route);
-    }
-
     if ($shift_list_route = $this->getShiftEntityList($entity_type)) {
       $collection->add("entity.{$entity_type_id}.shift_list", $shift_list_route);
     }
