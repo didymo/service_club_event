@@ -135,14 +135,12 @@ class EventInformationHtmlRouteProvider extends AdminHtmlRouteProvider {
      */
     protected function getShiftEntityList(EntityTypeInterface $entity_type) {
         if ($entity_type->hasLinkTemplate('shift-list')) {
-           // $route = new Route($entity_type->getLinkTemplate('shift-list'));
             $route = new Route('/admin/structure/event_information/{event_information}/shift-list');
             $route
                 ->setDefaults([
                     '_title_callback' => 'Drupal\service_club_event\Controller\ShiftController::eventTitle',
                     '_title' => 'Display Shifts',
                     '_form' => '\Drupal\service_club_event\Form\OverviewShifts',
-                    //'event_information' => $entity_type->id(),
                 ])
                 ->setRequirement('_permission', 'list assets information entities')
                 ->setOption('_admin_route', TRUE);
