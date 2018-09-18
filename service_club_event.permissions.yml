@@ -12,6 +12,12 @@ delete event information entities:
 edit event information entities:
   title: 'Edit Event information entities'
 
+list shift information entities:
+  title: 'Able to view Shift Lift entities'
+
+list assets information entities:
+  title: 'Able to view Asset List'
+
 view published event information entities:
   title: 'View published Event information entities'
 
