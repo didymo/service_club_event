@@ -21,19 +21,26 @@ use Drupal\user\UserInterface;
  *   handlers = {
  *     "storage" = "Drupal\service_club_event\VolunteerRegistrationStorage",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\service_club_event\VolunteerRegistrationListBuilder",
- *     "views_data" = "Drupal\service_club_event\Entity\VolunteerRegistrationViewsData",
- *     "translation" = "Drupal\service_club_event\VolunteerRegistrationTranslationHandler",
+ *     "list_builder" =
+ *   "Drupal\service_club_event\VolunteerRegistrationListBuilder",
+ *     "views_data" =
+ *   "Drupal\service_club_event\Entity\VolunteerRegistrationViewsData",
+ *     "translation" =
+ *   "Drupal\service_club_event\VolunteerRegistrationTranslationHandler",
  *
  *     "form" = {
- *       "default" = "Drupal\service_club_event\Form\VolunteerRegistrationForm",
+ *       "default" =
+ *   "Drupal\service_club_event\Form\VolunteerRegistrationForm",
  *       "add" = "Drupal\service_club_event\Form\VolunteerRegistrationForm",
  *       "edit" = "Drupal\service_club_event\Form\VolunteerRegistrationForm",
- *       "delete" = "Drupal\service_club_event\Form\VolunteerRegistrationDeleteForm",
+ *       "delete" =
+ *   "Drupal\service_club_event\Form\VolunteerRegistrationDeleteForm",
  *     },
- *     "access" = "Drupal\service_club_event\VolunteerRegistrationAccessControlHandler",
+ *     "access" =
+ *   "Drupal\service_club_event\VolunteerRegistrationAccessControlHandler",
  *     "route_provider" = {
- *       "html" = "Drupal\service_club_event\VolunteerRegistrationHtmlRouteProvider",
+ *       "html" =
+ *   "Drupal\service_club_event\VolunteerRegistrationHtmlRouteProvider",
  *     },
  *   },
  *   base_table = "volunteer_registration",
@@ -52,15 +59,23 @@ use Drupal\user\UserInterface;
  *     "status" = "status",
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/volunteer_registration/{volunteer_registration}",
+ *     "canonical" =
+ *   "/admin/structure/volunteer_registration/{volunteer_registration}",
  *     "add-form" = "/admin/structure/volunteer_registration/add",
- *     "edit-form" = "/admin/structure/volunteer_registration/{volunteer_registration}/edit",
- *     "delete-form" = "/admin/structure/volunteer_registration/{volunteer_registration}/delete",
- *     "version-history" = "/admin/structure/volunteer_registration/{volunteer_registration}/revisions",
- *     "revision" = "/admin/structure/volunteer_registration/{volunteer_registration}/revisions/{volunteer_registration_revision}/view",
- *     "revision_revert" = "/admin/structure/volunteer_registration/{volunteer_registration}/revisions/{volunteer_registration_revision}/revert",
- *     "revision_delete" = "/admin/structure/volunteer_registration/{volunteer_registration}/revisions/{volunteer_registration_revision}/delete",
- *     "translation_revert" = "/admin/structure/volunteer_registration/{volunteer_registration}/revisions/{volunteer_registration_revision}/revert/{langcode}",
+ *     "edit-form" =
+ *   "/admin/structure/volunteer_registration/{volunteer_registration}/edit",
+ *     "delete-form" =
+ *   "/admin/structure/volunteer_registration/{volunteer_registration}/delete",
+ *     "version-history" =
+ *   "/admin/structure/volunteer_registration/{volunteer_registration}/revisions",
+ *     "revision" =
+ *   "/admin/structure/volunteer_registration/{volunteer_registration}/revisions/{volunteer_registration_revision}/view",
+ *     "revision_revert" =
+ *   "/admin/structure/volunteer_registration/{volunteer_registration}/revisions/{volunteer_registration_revision}/revert",
+ *     "revision_delete" =
+ *   "/admin/structure/volunteer_registration/{volunteer_registration}/revisions/{volunteer_registration_revision}/delete",
+ *     "translation_revert" =
+ *   "/admin/structure/volunteer_registration/{volunteer_registration}/revisions/{volunteer_registration_revision}/revert/{langcode}",
  *     "collection" = "/admin/structure/volunteer_registration",
  *   },
  *   field_ui_base_route = "volunteer_registration.settings"
@@ -155,7 +170,7 @@ class VolunteerRegistration extends RevisionableContentEntityBase implements Vol
     return $this->get('user_id')->entity;
   }
 
-  /**
+  /**registered_shift
    * {@inheritdoc}
    */
   public function getOwnerId() {
@@ -168,6 +183,21 @@ class VolunteerRegistration extends RevisionableContentEntityBase implements Vol
   public function setOwnerId($uid) {
     $this->set('user_id', $uid);
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getShift() {
+    return $this->get('registered_shift')->target_id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setShift($shift_id) {
+    $this->set('registered_shift', ['target_id' => $shift_id]);
+    $this->save();
   }
 
   /**
@@ -271,13 +301,15 @@ class VolunteerRegistration extends RevisionableContentEntityBase implements Vol
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE);
 
-      $fields['registered_shift'] = BaseFieldDefinition::create('entity_reference')
-          ->setLabel(t('Registered Shift'))
-          ->setDescription(t('The shift the user is attending.'))
-          ->setRevisionable(TRUE)
-          ->setSetting('target_type', 'manage_shifts')
-          ->setSetting('handler', 'default')
-          ->setTranslatable(TRUE);
+    // Id of the shift the user has registered for.
+    $fields['registered_shift'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Registered Shift'))
+      ->setDescription(t('The shift the user is attending.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'manage_shifts')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
     return $fields;
   }
