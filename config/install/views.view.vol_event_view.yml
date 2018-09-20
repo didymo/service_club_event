@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - system.menu.main
+    - user.role.administrator
     - user.role.anonymous
     - user.role.authenticated
   module:
@@ -1243,6 +1244,7 @@ display:
         options:
           role:
             anonymous: anonymous
+            administrator: administrator
       defaults:
         access: false
     cache_metadata:
