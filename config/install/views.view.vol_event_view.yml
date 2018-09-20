@@ -1,15 +1,21 @@
+uuid: 5c1c9cf8-9e31-4ece-bbf6-8540cf21c4c0
 langcode: en
 status: true
 dependencies:
   config:
     - system.menu.main
+    - user.role.administrator
+    - user.role.anonymous
     - user.role.authenticated
   module:
     - datetime
     - image
     - service_club_event
+    - simple_gmap
     - text
     - user
+_core:
+  default_config_hash: uX3J31INwICzSS7DlbTl8wX08-30GXAZiYVtBF_Rs0Q
 id: vol_event_view
 label: 'Vol Event View'
 module: views
@@ -130,72 +136,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        event_date_finish:
-          id: event_date_finish
-          table: event_information_field_data
-          field: event_date_finish
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: 'Date and Time of the Event Finish'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: datetime_default
-          settings:
-            timezone_override: ''
-            format_type: medium
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: event_information
-          entity_field: event_date_finish
-          plugin_id: field
         event_date_start:
           id: event_date_start
           table: event_information_field_data
@@ -261,6 +201,72 @@ display:
           field_api_classes: false
           entity_type: event_information
           entity_field: event_date_start
+          plugin_id: field
+        event_date_finish:
+          id: event_date_finish
+          table: event_information_field_data
+          field: event_date_finish
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Date and Time of the Event Finish'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: datetime_default
+          settings:
+            timezone_override: ''
+            format_type: medium
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: event_date_finish
           plugin_id: field
         description__value:
           id: description__value
@@ -441,9 +447,20 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: string
+          type: simple_gmap
           settings:
-            link_to_entity: false
+            include_map: false
+            include_static_map: false
+            apikey: ''
+            iframe_width: '200'
+            iframe_height: '200'
+            static_scale: 1
+            include_link: false
+            link_text: 'View larger map'
+            zoom_level: 14
+            include_text: false
+            map_type: m
+            langcode: en
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -456,71 +473,6 @@ display:
           field_api_classes: false
           entity_type: event_information
           entity_field: location
-          plugin_id: field
-        name_1:
-          id: name_1
-          table: event_information_field_data
-          field: name
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: 'Event Name'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: event_information
-          entity_field: name
           plugin_id: field
         pubParking:
           id: pubParking
@@ -587,14 +539,166 @@ display:
           entity_type: event_information
           entity_field: pubParking
           plugin_id: field
-        shifts_value:
-          id: shifts_value
-          table: event_information__shifts
-          field: shifts_value
+        view_event_information:
+          id: view_event_information
+          table: event_information_field_revision
+          field: view_event_information
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Shifts avaliable'
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: view
+          output_url_as_text: false
+          absolute: false
+          entity_type: event_information
+          plugin_id: entity_link
+      filters: {  }
+      sorts: {  }
+      title: 'View Events'
+      header: {  }
+      footer: {  }
+      empty: {  }
+      relationships: {  }
+      arguments: {  }
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - user.roles
+      tags: {  }
+  page_1:
+    display_plugin: page
+    id: page_1
+    display_title: 'Vol User Event View'
+    position: 1
+    display_options:
+      display_extenders: {  }
+      path: vol-event-view
+      menu:
+        type: normal
+        title: 'View Events'
+        description: ''
+        expanded: false
+        parent: ''
+        weight: 0
+        context: '0'
+        menu_name: main
+      display_description: ''
+      fields:
+        name:
+          table: event_information_field_data
+          field: name
+          id: name
+          entity_type: null
+          entity_field: name
+          plugin_id: field
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        event_date_start:
+          id: event_date_start
+          table: event_information_field_data
+          field: event_date_start
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Date and Time of the Event Start'
           exclude: false
           alter:
             alter_text: false
@@ -651,7 +755,279 @@ display:
           separator: ', '
           field_api_classes: false
           entity_type: event_information
-          entity_field: shifts
+          entity_field: event_date_start
+          plugin_id: field
+        event_date_finish:
+          id: event_date_finish
+          table: event_information_field_data
+          field: event_date_finish
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Date and Time of the Event Finish'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: datetime_default
+          settings:
+            timezone_override: ''
+            format_type: medium
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: event_date_finish
+          plugin_id: field
+        description__value:
+          id: description__value
+          table: event_information_field_data
+          field: description__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Event Description'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: description
+          plugin_id: field
+        image_target_id:
+          id: image_target_id
+          table: event_information__image
+          field: image_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: image
+          settings:
+            image_style: ''
+            image_link: ''
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: image
+          plugin_id: field
+        location:
+          id: location
+          table: event_information_field_data
+          field: location
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Event Location'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: simple_gmap
+          settings:
+            include_map: false
+            include_static_map: false
+            apikey: ''
+            iframe_width: '200'
+            iframe_height: '200'
+            static_scale: 1
+            include_link: false
+            link_text: 'View larger map'
+            zoom_level: 14
+            include_text: false
+            map_type: m
+            langcode: en
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: location
           plugin_id: field
         volParking:
           id: volParking
@@ -718,15 +1094,126 @@ display:
           entity_type: event_information
           entity_field: volParking
           plugin_id: field
-      filters: {  }
-      sorts: {  }
-      title: 'View Events'
-      header: {  }
-      footer: {  }
-      empty: {  }
-      relationships: {  }
-      arguments: {  }
-      display_extenders: {  }
+        pubParking:
+          id: pubParking
+          table: event_information_field_data
+          field: pubParking
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Public Parking Location'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: pubParking
+          plugin_id: field
+        view_event_information:
+          id: view_event_information
+          table: event_information_field_revision
+          field: view_event_information
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: view
+          output_url_as_text: false
+          absolute: false
+          entity_type: event_information
+          plugin_id: entity_link
+      defaults:
+        fields: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -734,14 +1221,15 @@ display:
         - 'languages:language_interface'
         - user.roles
       tags: {  }
-  page_1:
+  page_2:
     display_plugin: page
-    id: page_1
-    display_title: Page
-    position: 1
+    id: page_2
+    display_title: 'Anon User Event View'
+    position: 2
     display_options:
       display_extenders: {  }
-      path: vol-event-view
+      display_description: 'The view of events for anon users'
+      path: anon-event-view
       menu:
         type: normal
         title: 'View Events'
@@ -751,6 +1239,14 @@ display:
         weight: 0
         context: '0'
         menu_name: main
+      access:
+        type: role
+        options:
+          role:
+            anonymous: anonymous
+            administrator: administrator
+      defaults:
+        access: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -758,3 +1254,4 @@ display:
         - 'languages:language_interface'
         - user.roles
       tags: {  }
+

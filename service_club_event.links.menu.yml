@@ -54,3 +54,21 @@ manage_shifts.admin.structure.settings:
   description: 'Configure Manage shifts entities'
   route_name: manage_shifts.settings
   parent: system.admin_structure
+
+main.event_admin_view:
+  title: 'Admin Event View'
+  route_name: entity.event_information.collection
+  menu_name: main
+# Volunteer registration menu items definition
+entity.volunteer_registration.collection:
+  title: 'Volunteer registration list'
+  route_name: entity.volunteer_registration.collection
+  description: 'List Volunteer registration entities'
+  parent: system.admin_structure
+  weight: 100
+
+volunteer_registration.admin.structure.settings:
+  title: 'Volunteer registration settings'
+  description: 'Configure Volunteer registration entities'
+  route_name: volunteer_registration.settings
+  parent: system.admin_structure

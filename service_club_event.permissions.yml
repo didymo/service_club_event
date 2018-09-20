@@ -124,3 +124,33 @@ revert all manage shifts revisions:
 delete all manage shifts revisions:
   title: 'Delete all revisions'
   description: 'Role requires permission to <em>view Manage shifts revisions</em> and <em>delete rights</em> for manage shifts entities in question or <em>administer manage shifts entities</em>.'
+add volunteer registration entities:
+  title: 'Create new Volunteer registration entities'
+
+administer volunteer registration entities:
+  title: 'Administer Volunteer registration entities'
+  description: 'Allow to access the administration form to configure Volunteer registration entities.'
+  restrict access: true
+
+delete volunteer registration entities:
+  title: 'Delete Volunteer registration entities'
+
+edit volunteer registration entities:
+  title: 'Edit Volunteer registration entities'
+
+view published volunteer registration entities:
+  title: 'View published Volunteer registration entities'
+
+view unpublished volunteer registration entities:
+  title: 'View unpublished Volunteer registration entities'
+
+view all volunteer registration revisions:
+  title: 'View all Volunteer registration revisions'
+
+revert all volunteer registration revisions:
+  title: 'Revert all Volunteer registration revisions'
+  description: 'Role requires permission <em>view Volunteer registration revisions</em> and <em>edit rights</em> for volunteer registration entities in question or <em>administer volunteer registration entities</em>.'
+
+delete all volunteer registration revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Volunteer registration revisions</em> and <em>delete rights</em> for volunteer registration entities in question or <em>administer volunteer registration entities</em>.'
