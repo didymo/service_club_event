@@ -8,4 +8,13 @@ entity.manage_shifts.add_form:
     _access: 'TRUE'
 
 
+entity.volunteer_registration.add_form:
+  path: '/admin/structure/event_information/{event_information}/volunteer_registration'
+  defaults:
+    _controller: '\Drupal\service_club_event\Controller\RegistrationController::addVolunteerForm'
+    _title: 'Volunteer Registration'
+  requirements:
+    _access: 'TRUE'
+
+
   

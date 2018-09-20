@@ -18,3 +18,8 @@ entity.manage_shifts.add_form:
   title: 'Add shifts'
   appears_on:
     - entity.event_information.shift_list
+entity.volunteer_registration.add_form:
+  route_name: entity.volunteer_registration.add_form
+  title: 'Add Volunteer registration'
+  appears_on:
+    - entity.event_information.canonical
