@@ -10,10 +10,11 @@ dependencies:
     - datetime
     - image
     - service_club_event
+    - simple_gmap
     - text
     - user
 _core:
-  default_config_hash: deRKCK8rKL7JvGjFxAudFPf5c0KGp6aBTNw2dvQG_Us
+  default_config_hash: uX3J31INwICzSS7DlbTl8wX08-30GXAZiYVtBF_Rs0Q
 id: vol_event_view
 label: 'Vol Event View'
 module: views
@@ -445,9 +446,20 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: string
+          type: simple_gmap
           settings:
-            link_to_entity: false
+            include_map: false
+            include_static_map: false
+            apikey: ''
+            iframe_width: '200'
+            iframe_height: '200'
+            static_scale: 1
+            include_link: false
+            link_text: 'View larger map'
+            zoom_level: 14
+            include_text: false
+            map_type: m
+            langcode: en
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -989,9 +1001,20 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: string
+          type: simple_gmap
           settings:
-            link_to_entity: false
+            include_map: false
+            include_static_map: false
+            apikey: ''
+            iframe_width: '200'
+            iframe_height: '200'
+            static_scale: 1
+            include_link: false
+            link_text: 'View larger map'
+            zoom_level: 14
+            include_text: false
+            map_type: m
+            langcode: en
           group_column: value
           group_columns: {  }
           group_rows: true
