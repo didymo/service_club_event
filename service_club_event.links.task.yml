@@ -116,3 +116,30 @@ entity.manage_shifts.delete_form:
   title: Delete
   weight: 10
 
+# Volunteer registration routing definition
+volunteer_registration.settings_tab:
+  route_name: volunteer_registration.settings
+  title: 'Settings'
+  base_route: volunteer_registration.settings
+
+entity.volunteer_registration.canonical:
+  route_name: entity.volunteer_registration.canonical
+  base_route: entity.volunteer_registration.canonical
+  title: 'View'
+
+entity.volunteer_registration.edit_form:
+  route_name: entity.volunteer_registration.edit_form
+  base_route: entity.volunteer_registration.canonical
+  title: 'Edit'
+
+entity.volunteer_registration.version_history:
+  route_name: entity.volunteer_registration.version_history
+  base_route: entity.volunteer_registration.canonical
+  title: 'Revisions'
+
+entity.volunteer_registration.delete_form:
+  route_name:  entity.volunteer_registration.delete_form
+  base_route:  entity.volunteer_registration.canonical
+  title: Delete
+  weight: 10
+
