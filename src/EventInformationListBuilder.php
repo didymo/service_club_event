@@ -36,4 +36,28 @@ class EventInformationListBuilder extends EntityListBuilder {
     return $row + parent::buildRow($entity);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDefaultOperations(EntityInterface $entity) {
+    $operations = [];
+    if ($entity->access('asset-list') && $entity->hasLinkTemplate('asset-list')) {
+      $operations['asset-list'] = [
+        'title' => $this->t('Asset List'),
+        'weight' => 1000,
+        'url' => $this->ensureDestination($entity->toUrl('asset-list')),
+      ];
+    }
+
+    if ($entity->access('shift-list') && $entity->hasLinkTemplate('shift-list')) {
+      $operations['shift-list'] = [
+        'title' => $this->t('Shift List'),
+        'weight' => 1000,
+        'url' => $this->ensureDestination($entity->toUrl('shift-list')),
+      ];
+    }
+
+    return $operations + parent::getDefaultOperations($entity);
+  }
+
 }
