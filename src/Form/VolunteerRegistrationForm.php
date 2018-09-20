@@ -6,6 +6,7 @@ use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\service_club_event\Entity\EventInformation;
 use Drupal\service_club_event\Entity\EventInformationInterface;
+use Drupal\service_club_event\Entity\ManageShifts;
 
 /**
  * Form controller for Volunteer registration edit forms.
@@ -38,29 +39,46 @@ class VolunteerRegistrationForm extends ContentEntityForm {
 
     // Load array with Shift names.
     foreach ($shifts as $shift) {
-        $shift_names += [$shift->id() => $shift->getName()];
+      $shift_names += [$shift->id() => $shift->getName()];
     }
 
     // Add form element radios.
     $form['shifts'] = [
-        '#type' => 'radios',
-        '#title' => 'Available Shifts',
-        '#options' => $shift_names,
-        '#description' => 'token description',
-        '#default_value' => -1,
+      '#type' => 'radios',
+      '#title' => $this->t('Available Shifts'),
+      '#options' => $shift_names,
+      '#description' => $this->t('Select one of the available shifts.'),
+      '#default_value' => -1,
     ];
-
-    $entity = $this->entity;
 
     return $form;
   }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateForm(array &$form, FormStateInterface $form_state) {
-        parent::validateForm($form, $form_state);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
+    /*
+        // Get the event object out of the URL.
+        $event = $this->getRouteMatch()->getParameter('event_information');
+
+        // Guardian if to ensure it's an EventInformation entity.
+        if ($event instanceof EventInformation) {
+          // Get the saved volunteer list.
+          $volunteer_list = $event->getVolunteerList();
+
+          // Get the current user's id.
+          $user_id = $form_state->getValue('user_id');
+
+          // Check the user id hasn't been used yet.
+          foreach ($volunteer_list as $volunteer_id) {
+            if ($volunteer_id['target_id'] === $user_id) {
+              $form_state->setErrorByName('Unique Registration', $this->t('You can only register as a volunteer for the current event once.'));
+            }
+          }
+        }*/
+  }
 
   /**
    * {@inheritdoc}
@@ -95,6 +113,20 @@ class VolunteerRegistrationForm extends ContentEntityForm {
         ]));
     }
     $form_state->setRedirect('entity.volunteer_registration.canonical', ['volunteer_registration' => $entity->id()]);
+
+    // Load the shift.
+    $shift_id = $form_state->getValue('shifts');
+    $shift = ManageShifts::load($shift_id);
+
+    // Get the event object out of the URL.
+    $event = $this->getRouteMatch()->getParameter('event_information');
+
+    // Make connections between event, shift and registration.
+    $event->addVolunteer($entity->id());
+    $event->save();
+    //$shift->assignVolunteer($entity->id());  // registration id
+    $entity->setShift($shift_id);
+    $entity->save();
   }
 
 }
