@@ -376,6 +376,19 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
       ->setReadOnly(TRUE)
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE);
+    
+    /*
+     *
+    // This creates a field allowing the asset to reference an array of assets.
+    $fields['volunteers'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Attending volunteers'))
+      ->setDescription(t('References to volunteers that have registered for this shift.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'volunteer_registration')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
+     */
 
     return $fields;
   }
