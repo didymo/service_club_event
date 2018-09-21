@@ -105,6 +105,7 @@ class VolunteerRegistrationForm extends ContentEntityForm {
     $event = $this->getRouteMatch()->getParameter('event_information');
     $shifts = $event->getShifts();
 
+
     $shift_names = [-1 => 'No Shift'];
 
     // Load array with Shift names.
@@ -138,7 +139,8 @@ class VolunteerRegistrationForm extends ContentEntityForm {
    */
   public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
-
+    $event = $this->getRouteMatch()->getParameter('event_information');
+    $form_state->set('name', $event->id() . '_' . \Drupal::currentUser()->id());
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('new_revision') && $form_state->getValue('new_revision') != FALSE) {
       $entity->setNewRevision();
