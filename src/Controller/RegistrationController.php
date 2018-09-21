@@ -22,8 +22,21 @@ class RegistrationController extends ControllerBase {
    *   The event volunteer registration add form.
    */
   public function addVolunteerForm(EventInformationInterface $event_information) {
-    $volunteer_registration = $this->entityManager()->getStorage('volunteer_registration')->create(['eid' => $event_information->id()]);
-    return $this->entityFormBuilder()->getForm($volunteer_registration);
+      //query to find what role they are
+    if (\Drupal::currentUser()->isAnonymous()) {
+      $event_registration = $this->entityManager()->getStorage('event_registration')->create(['eid' => $event_information->id()]);
+      return $this->entityFormBuilder()->getForm($event_registration);
+    }
+    else {
+        $registration = $event_information->isRegistered(\Drupal::currentUser()->id());
+        if (isset($registration)) {
+          return $this->entityFormBuilder()->getForm($registration);
+      }
+        else {
+          $volunteer_registration = $this->entityManager()->getStorage('volunteer_registration')->create(['eid' => $event_information->id()]);
+          return $this->entityFormBuilder()->getForm($volunteer_registration);
+        }
+    }
   }
 
   /**
