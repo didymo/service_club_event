@@ -582,8 +582,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setSetting('target_type', 'volunteer_registration')
       ->setSetting('handler', 'default')
       ->setTranslatable(TRUE)
-      ->setRequired(FALSE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setRequired(FALSE);
 
     return $fields;
   }
