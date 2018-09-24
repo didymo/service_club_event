@@ -6,6 +6,7 @@ use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\service_club_event\Entity\EventInformation;
 use Drupal\service_club_event\Entity\EventInformationInterface;
+use Drupal\service_club_event\Entity\ManageShifts;
 
 /**
  * Form controller for Volunteer registration edit forms.
@@ -13,77 +14,6 @@ use Drupal\service_club_event\Entity\EventInformationInterface;
  * @ingroup service_club_event
  */
 class VolunteerRegistrationForm extends ContentEntityForm {
-
-    /**
-     * The module handler service.
-     *
-     * @var \Drupal\Core\Extension\ModuleHandlerInterface
-     */
-    //protected $moduleHandler;
-
-    /**
-     * The entity manager.
-     *
-     * @var \Drupal\Core\Entity\EntityManagerInterface
-     */
-    //protected $entityManager;
-
-    /**
-     * The term storage handler.
-     *
-     * @var \Drupal\service_club_event\VolunteerRegistrationStorageInterface
-     */
-    //protected $storageController;
-
-    /**
-     * The term list builder.
-     *
-     * @var \Drupal\Core\Entity\EntityListBuilderInterface
-     */
-    //protected $volunteerRegistrationListBuilder;
-
-    /**
-     * The renderer service.
-     *
-     * @var \Drupal\Core\Render\RendererInterface
-     */
-    //protected $renderer;
-
-    /**
-     * Constructs an VolunteerRegistration object.
-     *
-     * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
-     *   The module handler service.
-     * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-     *   The entity manager service.
-     * @param \Drupal\Core\Render\RendererInterface $renderer
-     *   The renderer service.
-     *//*
-    public function __construct(ModuleHandlerInterface $module_handler, EntityManagerInterface $entity_manager, RendererInterface $renderer = NULL) {
-        $this->moduleHandler = $module_handler;
-        $this->entityManager = $entity_manager;
-        $this->storageController = $entity_manager->getStorage('volunteer_registration');
-        $this->volunteerRegistrationListBuilder = $entity_manager->getListBuilder('volunteer_registration');
-        $this->renderer = $renderer ?: \Drupal::service('renderer');
-    }*/
-
-    /**
-     * {@inheritdoc}
-     *//*
-    public static function create(ContainerInterface $container) {
-        return new static(
-            $container->get('module_handler'),
-            $container->get('entity.manager'),
-            $container->get('renderer')
-        );
-    }*/
-
-    /**
-     * {@inheritdoc}
-     *//*
-    public function getFormId() {
-        return 'volunteer_registration_form';
-    }*/
 
   /**
    * {@inheritdoc}
@@ -110,29 +40,46 @@ class VolunteerRegistrationForm extends ContentEntityForm {
 
     // Load array with Shift names.
     foreach ($shifts as $shift) {
-        $shift_names += [$shift->id() => $shift->getName()];
+      $shift_names += [$shift->id() => $shift->getName()];
     }
 
     // Add form element radios.
     $form['shifts'] = [
-        '#type' => 'radios',
-        '#title' => 'Available Shifts',
-        '#options' => $shift_names,
-        '#description' => 'token description',
-        '#default_value' => -1,
+      '#type' => 'radios',
+      '#title' => $this->t('Available Shifts'),
+      '#options' => $shift_names,
+      '#description' => $this->t('Select one of the available shifts.'),
+      '#default_value' => -1,
     ];
-
-    $entity = $this->entity;
 
     return $form;
   }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateForm(array &$form, FormStateInterface $form_state) {
-        parent::validateForm($form, $form_state);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
+    /*
+        // Get the event object out of the URL.
+        $event = $this->getRouteMatch()->getParameter('event_information');
+
+        // Guardian if to ensure it's an EventInformation entity.
+        if ($event instanceof EventInformation) {
+          // Get the saved volunteer list.
+          $volunteer_list = $event->getVolunteerList();
+
+          // Get the current user's id.
+          $user_id = $form_state->getValue('user_id');
+
+          // Check the user id hasn't been used yet.
+          foreach ($volunteer_list as $volunteer_id) {
+            if ($volunteer_id['target_id'] === $user_id) {
+              $form_state->setErrorByName('Unique Registration', $this->t('You can only register as a volunteer for the current event once.'));
+            }
+          }
+        }*/
+  }
 
   /**
    * {@inheritdoc}
@@ -167,7 +114,29 @@ class VolunteerRegistrationForm extends ContentEntityForm {
           '%label' => $entity->label(),
         ]));
     }
-    $form_state->setRedirect('entity.volunteer_registration.canonical', ['volunteer_registration' => $entity->id()]);
+
+    // Get the event object out of the URL.
+    $event = $this->getRouteMatch()->getParameter('event_information');
+
+    // Modified routing to improve workflow of volunteer registration.
+    $form_state->setRedirect('entity.event_information.canonical', ['event_information' => $event->id()]);
+
+    // Make connections between event, shift and registration.
+    $event->addVolunteer($entity->id());
+    $event->save();
+
+    // Load the shift.
+    $shift_id = $form_state->getValue('shifts');
+    if ($shift_id !== '-1') {
+      $shift = ManageShifts::load($shift_id);
+      $shift->assignVolunteer($entity->id());
+      $shift->save();
+
+      // registration id
+      $entity->setShift($shift_id);
+      $entity->save();
+    }
+
   }
 
 }
