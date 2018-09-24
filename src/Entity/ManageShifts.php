@@ -5,6 +5,7 @@ namespace Drupal\service_club_event\Entity;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
@@ -157,14 +158,14 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
 
   /**
    * {@inheritdoc}
-   *
+   */
   public function getAssignedVolunteers() {
     return $this->get('volunteers')->getValue();
   }
 
   /**
    * {@inheritdoc}
-   *
+   */
   public function assignVolunteer($volunteer_id) {
     $volunteer_list = $this->get('volunteers')->getValue();
     $volunteer_list += [count($volunteer_list) => ['target_id' => $volunteer_id]];
@@ -399,7 +400,7 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
       ->setReadOnly(TRUE)
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE);
-/*
+
     // This creates a field allowing the asset to reference an array of assets.
     $fields['volunteers'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Attending volunteers'))
@@ -408,7 +409,7 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
       ->setSetting('target_type', 'volunteer_registration')
       ->setSetting('handler', 'default')
       ->setTranslatable(TRUE)
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);*/
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
     return $fields;
   }

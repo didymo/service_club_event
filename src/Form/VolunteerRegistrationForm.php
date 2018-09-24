@@ -112,21 +112,29 @@ class VolunteerRegistrationForm extends ContentEntityForm {
           '%label' => $entity->label(),
         ]));
     }
-    $form_state->setRedirect('entity.volunteer_registration.canonical', ['volunteer_registration' => $entity->id()]);
-
-    // Load the shift.
-    $shift_id = $form_state->getValue('shifts');
-    $shift = ManageShifts::load($shift_id);
 
     // Get the event object out of the URL.
     $event = $this->getRouteMatch()->getParameter('event_information');
 
+    // Modified routing to improve workflow of volunteer registration.
+    $form_state->setRedirect('entity.event_information.canonical', ['event_information' => $event->id()]);
+
     // Make connections between event, shift and registration.
     $event->addVolunteer($entity->id());
     $event->save();
-    //$shift->assignVolunteer($entity->id());  // registration id
-    $entity->setShift($shift_id);
-    $entity->save();
+
+    // Load the shift.
+    $shift_id = $form_state->getValue('shifts');
+    if ($shift_id !== '-1') {
+      $shift = ManageShifts::load($shift_id);
+      $shift->assignVolunteer($entity->id());
+      $shift->save();
+
+      // registration id
+      $entity->setShift($shift_id);
+      $entity->save();
+    }
+
   }
 
 }
