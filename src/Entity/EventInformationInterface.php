@@ -24,6 +24,16 @@ interface EventInformationInterface extends ContentEntityInterface, RevisionLogI
     public function addShift($shift_id);
 
     /**
+     * Checks if a user is already registered to the selected event.
+     *
+     * @param string $uid
+     * The id of the user being checked
+     * @return \Drupal\service_club_event\Entity\VolunteerRegistrationInterface
+     *   Returns the users registration object, if they are registered or NULL if they are not.
+     */
+    public function isRegistered($uid);
+
+    /**
      * Gets the Event shifts.
      *
      * @return \Drupal\service_club_event\Entity\ManageShiftsInterface[]

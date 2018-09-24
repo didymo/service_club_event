@@ -300,6 +300,23 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
   /**
    * {@inheritdoc}
    */
+  public function isRegistered($uid) {
+      $registration_ids = $this->get('volunteer_registration')->getValue();
+      $registrations = array();
+      foreach($registration_ids as $rid) {
+          $registrations[] = VolunteerRegistration::load($rid['target_id']);
+      }
+      foreach($registrations as $registration) {
+          if($registration->getOwner() === $uid) {
+              return $registration;
+          }
+      }
+      return NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
@@ -574,7 +591,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
     // List of volunteers for the current event.
-    $fields['volunteer_registration'] =  BaseFieldDefinition::create('entity_reference')
+    $fields['volunteer_registration'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Registered Volunteers'))
       ->setDescription(t('List of volunteer registrations for this event.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
