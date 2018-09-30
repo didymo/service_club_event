@@ -229,6 +229,23 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getVolunteerList() {
+    return $this->get('volunteer_registration')->getValue();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function addVolunteer($volunteer) {
+    $volunteer_list = $this->get('volunteer_registration')->getValue();
+    $volunteer_list += [count($volunteer_list) => ['target_id' => $volunteer]];
+    $this->set('volunteer_registration', $volunteer_list);
+    return $this;
+  }
+
+  /**
   * {@inheritdoc}
   */
   public function getShifts(){
@@ -574,16 +591,16 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setDisplayConfigurable('view', TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
-      // List of volunteers for the current event.
-      $fields['volunteer_registration'] =  BaseFieldDefinition::create('entity_reference')
-          ->setLabel(t('Registered Volunteers'))
-          ->setDescription(t('List of volunteer registrations for this event.'))
-          ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-          ->setRevisionable(TRUE)
-          ->setSetting('target_type', 'volunteer_registration')
-          ->setSetting('handler', 'default')
-          ->setTranslatable(TRUE)
-          ->setRequired(FALSE);
+    // List of volunteers for the current event.
+    $fields['volunteer_registration'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Registered Volunteers'))
+      ->setDescription(t('List of volunteer registrations for this event.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'volunteer_registration')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setRequired(FALSE);
 
     return $fields;
   }
