@@ -1,4 +1,3 @@
-uuid: 5c1c9cf8-9e31-4ece-bbf6-8540cf21c4c0
 langcode: en
 status: true
 dependencies:
@@ -15,7 +14,7 @@ dependencies:
     - text
     - user
 _core:
-  default_config_hash: uX3J31INwICzSS7DlbTl8wX08-30GXAZiYVtBF_Rs0Q
+  default_config_hash: O1J9YdvBeskV-rbHAfWifurc_TmOsWOWGnjCtD1FbgQ
 id: vol_event_view
 label: 'Vol Event View'
 module: views
@@ -1254,4 +1253,3 @@ display:
         - 'languages:language_interface'
         - user.roles
       tags: {  }
-

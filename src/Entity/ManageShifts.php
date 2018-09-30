@@ -5,6 +5,7 @@ namespace Drupal\service_club_event\Entity;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
@@ -23,7 +24,8 @@ use Drupal\user\UserInterface;
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\service_club_event\ManageShiftsListBuilder",
  *     "views_data" = "Drupal\service_club_event\Entity\ManageShiftsViewsData",
- *     "translation" = "Drupal\service_club_event\ManageShiftsTranslationHandler",
+ *     "translation" =
+ *   "Drupal\service_club_event\ManageShiftsTranslationHandler",
  *
  *     "form" = {
  *       "default" = "Drupal\service_club_event\Form\ManageShiftsForm",
@@ -57,11 +59,16 @@ use Drupal\user\UserInterface;
  *     "add-form" = "/admin/structure/manage_shifts/add",
  *     "edit-form" = "/admin/structure/manage_shifts/{manage_shifts}/edit",
  *     "delete-form" = "/admin/structure/manage_shifts/{manage_shifts}/delete",
- *     "version-history" = "/admin/structure/manage_shifts/{manage_shifts}/revisions",
- *     "revision" = "/admin/structure/manage_shifts/{manage_shifts}/revisions/{manage_shifts_revision}/view",
- *     "revision_revert" = "/admin/structure/manage_shifts/{manage_shifts}/revisions/{manage_shifts_revision}/revert",
- *     "revision_delete" = "/admin/structure/manage_shifts/{manage_shifts}/revisions/{manage_shifts_revision}/delete",
- *     "translation_revert" = "/admin/structure/manage_shifts/{manage_shifts}/revisions/{manage_shifts_revision}/revert/{langcode}",
+ *     "version-history" =
+ *   "/admin/structure/manage_shifts/{manage_shifts}/revisions",
+ *     "revision" =
+ *   "/admin/structure/manage_shifts/{manage_shifts}/revisions/{manage_shifts_revision}/view",
+ *     "revision_revert" =
+ *   "/admin/structure/manage_shifts/{manage_shifts}/revisions/{manage_shifts_revision}/revert",
+ *     "revision_delete" =
+ *   "/admin/structure/manage_shifts/{manage_shifts}/revisions/{manage_shifts_revision}/delete",
+ *     "translation_revert" =
+ *   "/admin/structure/manage_shifts/{manage_shifts}/revisions/{manage_shifts_revision}/revert/{langcode}",
  *     "collection" = "/admin/structure/manage_shifts",
  *   },
  *   field_ui_base_route = "manage_shifts.settings"
@@ -152,6 +159,23 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
   /**
    * {@inheritdoc}
    */
+  public function getAssignedVolunteers() {
+    return $this->get('volunteers')->getValue();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function assignVolunteer($volunteer_id) {
+    $volunteer_list = $this->get('volunteers')->getValue();
+    $volunteer_list += [count($volunteer_list) => ['target_id' => $volunteer_id]];
+    $this->set('volunteers', $volunteer_list);
+    $this->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getOwner() {
     return $this->get('user_id')->entity;
   }
@@ -195,19 +219,19 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public static function compare_start_time($a, $b) {
     $a_start = $a->get('shift_start')->getValue();
     $b_start = $b->get('shift_start')->getValue();
 
-    if($a_start == $b_start) {
-        return 0;
+    if ($a_start == $b_start) {
+      return 0;
     }
     return ($a_start > $b_start) ? +1 : -1;
   }
 
-    /**
+  /**
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
@@ -265,7 +289,7 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
       ->setDescription(t('The Date and Time the shift will start'))
       ->setRevisionable(TRUE)
       ->setSettings([
-        'datetime_type' => 'date_time' ,
+        'datetime_type' => 'date_time',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
@@ -289,7 +313,7 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
       ->setDescription(t('The Date and Time the shift will finish'))
       ->setRevisionable(TRUE)
       ->setSettings([
-        'datetime_type' => 'date_time' ,
+        'datetime_type' => 'date_time',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
@@ -376,6 +400,16 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
       ->setReadOnly(TRUE)
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE);
+
+    // This creates a field allowing the asset to reference an array of assets.
+    $fields['volunteers'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Attending volunteers'))
+      ->setDescription(t('References to volunteers that have registered for this shift.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'volunteer_registration')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
     return $fields;
   }

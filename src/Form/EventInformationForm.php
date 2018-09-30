@@ -36,6 +36,29 @@ class EventInformationForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
+/*
+    $event_start = $form_state->getValue('event_date_start');
+    $event_end = $form_state->getValue('event_date_finish');
+
+    // Ensure the event start and end dates are valid with each other.
+    if ($event_start !== $event_end) {
+      // && $event_start < $event_end
+
+      dd('not equal');
+    }
+
+    dd($event_start);
+    dd($event_end);
+
+    $form_state->setErrorByName('Invalid Start/End Dates',
+      $this->t('The start and end dates are invalid please re-enter valid information. An event must end after it\'s start.'));*/
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
 
