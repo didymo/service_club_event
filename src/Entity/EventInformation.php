@@ -308,7 +308,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
           $registrations[] = VolunteerRegistration::load($rid['target_id']);
       }
       foreach($registrations as $registration) {
-          if($registration->getOwner() == $uid) {
+          if($registration->getOwner()->id() == $uid) {
               return $registration;
           }
       }
