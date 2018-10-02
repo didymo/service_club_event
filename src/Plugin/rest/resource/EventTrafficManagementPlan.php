@@ -113,13 +113,13 @@ class EventTrafficManagementPlan extends ResourceBase {
       $errors[] = array("North bound needs to be a latitude between -90 and 90" => "Given: $north_bound");
     }
     if (($east_bound > 180) || ($east_bound < -180)) {
-      $errors[] = array("East bound needs to be a latitude between -180 and 180" => "Given: $east_bound");
+      $errors[] = array("East bound needs to be a longitude between -180 and 180" => "Given: $east_bound");
     }
     if (($south_bound > 90) || ($south_bound < -90)) {
       $errors[] = array("South bound needs to be a latitude between -90 and 90" => "Given: $south_bound");
     }
     if (($west_bound > 180) || ($west_bound < -180)) {
-      $errors[] = array("West bound needs to be a latitude between -180 and 180" => "Given: $west_bound");
+      $errors[] = array("West bound needs to be a longitude between -180 and 180" => "Given: $west_bound");
     }
 
     if (!empty($errors)) {
