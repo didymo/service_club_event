@@ -1,0 +1,20 @@
+id: event_traffic_management_plan
+plugin_id: event_traffic_management_plan
+granularity: resource
+dependencies:
+  module:
+    - basic_auth
+    - hal
+    - jwt
+    - serialization
+    - service_club_event
+configuration:
+  methods:
+    - GET
+    - POST
+  formats:
+    - hal_json
+    - json
+  authentication:
+    - basic_auth
+    - jwt_auth

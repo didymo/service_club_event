@@ -1,0 +1,19 @@
+id: event_questionnaire_submit
+plugin_id: event_questionnaire_submit
+granularity: resource
+dependencies:
+  module:
+    - basic_auth
+    - hal
+    - jwt
+    - serialization
+    - service_club_event
+configuration:
+  methods:
+    - POST
+  formats:
+    - hal_json
+    - json
+  authentication:
+    - basic_auth
+    - jwt_auth

@@ -1,0 +1,19 @@
+id: event_questionnaire_result
+plugin_id: event_questionnaire_result
+granularity: resource
+dependencies:
+  module:
+    - basic_auth
+    - hal
+    - jwt
+    - serialization
+    - service_club_event
+configuration:
+  methods:
+    - GET
+  formats:
+    - hal_json
+    - json
+  authentication:
+    - basic_auth
+    - jwt_auth
