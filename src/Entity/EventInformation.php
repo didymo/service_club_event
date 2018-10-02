@@ -256,7 +256,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
     $shifts = array();
 
     foreach ($references as $shift_id) {
-      $shifts[] = ManageShifts::load($shift_id['target_id']);
+      $shift = ManageShifts::load($shift_id['target_id']);
+      if ($shift !== NULL) {
+          $shifts[] = $shift;
+      }
+      //$shifts[] = $shift;
     }
 
     usort($shifts, array("Drupal\service_club_event\Entity\ManageShifts", "compare_start_time"));
