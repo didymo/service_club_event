@@ -174,7 +174,7 @@ class EventTrafficManagementPlan extends ResourceBase {
     // Load Event.
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
-      return (new ResourceResponse(["Event does not exist!" => -1], 404))->addCacheableDependency($build);
+      return (new ResourceResponse(["Event $event_information does not exist!" => -1], 404))->addCacheableDependency($build);
     }
 
     // Get Traffic Management Plan.
