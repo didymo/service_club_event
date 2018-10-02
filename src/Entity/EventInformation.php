@@ -9,8 +9,11 @@ use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\service_club_tmp\Entity\TrafficManagementPlan;
 use Drupal\user\UserInterface;
 use Drupal\service_club_event\Entity\ManageShifts;
+use Drupal\service_club_tmp\Entity\EventClass;
+use Drupal\service_club_tmp\Entity\Questionnaire;
 
 /**
  * Defines the Event information entity.
@@ -246,26 +249,28 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
   }
 
   /**
-  * {@inheritdoc}
-  */
-  public function getShifts(){
-      $references = $this->get('shifts')->getValue();
-      $shifts = array();
-      foreach($references as $shift_id){
-          $shifts[] = ManageShifts::load($shift_id['target_id']);
-      }
-      usort($shifts, array("Drupal\service_club_event\Entity\ManageShifts", "compare_start_time"));
-      return $shifts;
+   * {@inheritdoc}
+   */
+  public function getShifts() {
+    $references = $this->get('shifts')->getValue();
+    $shifts = array();
+
+    foreach ($references as $shift_id) {
+      $shifts[] = ManageShifts::load($shift_id['target_id']);
+    }
+
+    usort($shifts, array("Drupal\service_club_event\Entity\ManageShifts", "compare_start_time"));
+    return $shifts;
   }
 
   /**
-  * {@inheritdoc}
-  */
-  public function addShift($shift_id){
-      $shifts = $this->get('shifts')->getValue();
-      $shifts += [count($shifts)=>['target_id'=> $shift_id]];
-      $this->set('shifts', $shifts);
-      $this->save();
+   * {@inheritdoc}
+   */
+  public function addShift($shift_id) {
+    $shifts = $this->get('shifts')->getValue();
+    $shifts += [count($shifts) => ['target_id' => $shift_id]];
+    $this->set('shifts', $shifts);
+    $this->save();
   }
 
   /**
@@ -302,17 +307,68 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
    * {@inheritdoc}
    */
   public function isRegistered($uid) {
-      $registration_ids = $this->get('volunteer_registration')->getValue();
-      $registrations = array();
-      foreach($registration_ids as $rid) {
-          $registrations[] = VolunteerRegistration::load($rid['target_id']);
+    $registration_ids = $this->get('volunteer_registration')->getValue();
+    $registrations = array();
+
+    foreach ($registration_ids as $rid) {
+      $registrations[] = VolunteerRegistration::load($rid['target_id']);
+    }
+
+    foreach ($registrations as $registration) {
+      if ($registration->getOwner()->id() === $uid) {
+        return $registration;
       }
-      foreach($registrations as $registration) {
-          if($registration->getOwner()->id() === $uid) {
-              return $registration;
-          }
-      }
-      return NULL;
+    }
+
+    return NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEventClass() {
+    $event_class_reference = $this->get('event_class')->getValue();
+
+    if (isset($event_class_reference[0]['target_id'])) {
+      $event_class = EventClass::load($event_class_reference[0]['target_id']);
+      return $event_class;
+    }
+
+    return NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setEventClass($event_class) {
+    $event_class_reference = $this->get('event_class')->getValue();
+    $event_class_reference[0]['target_id'] = $event_class;
+    $this->set('event_class', $event_class_reference);
+    $this->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTrafficManagementPlan() {
+    $traffic_management_plan_reference = $this->get('traffic_management_plan')->getValue();
+
+    if (isset($traffic_management_plan_reference[0]['target_id'])) {
+      $traffic_management_plan = TrafficManagementPlan::load($traffic_management_plan_reference[0]['target_id']);
+      return $traffic_management_plan;
+    }
+
+    return NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setTrafficManagementPlan($tmp) {
+    $traffic_management_plan_reference = $this->get('traffic_management_plan')->getValue();
+    $traffic_management_plan_reference[0]['target_id'] = $tmp->id();
+    $this->set('traffic_management_plan', $traffic_management_plan_reference);
+    $this->save();
   }
 
   /**
@@ -536,7 +592,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setRequired(TRUE);
 
     // Available Shifts (Array(shift entities))
-    $fields['shifts'] =  BaseFieldDefinition::create('entity_reference')
+    $fields['shifts'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Shifts'))
       ->setDescription(t('Shifts for the event'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
@@ -598,6 +654,33 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'volunteer_registration')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setRequired(FALSE);
+
+    // The Questionnaire entity that was filled out for this event.
+    $fields['questionnaire'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Questionnaire'))
+      ->setDescription(t('The TMP Questionnaire for this event.'))
+      ->setSetting('target_type', 'questionnaire')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setRequired(FALSE);
+
+    // The Event Class entity that the questionnaire evaluated to.
+    $fields['event_class'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Event Class'))
+      ->setDescription(t('The Event Class that the questionnaire evaluated to.'))
+      ->setSetting('target_type', 'event_class')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setRequired(FALSE);
+
+    // The Event Class entity that the questionnaire evaluated to.
+    $fields['traffic_management_plan'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Traffic Management Plan'))
+      ->setDescription(t('The Traffic Management Plan that is attached to this event.'))
+      ->setSetting('target_type', 'traffic_management_plan')
       ->setSetting('handler', 'default')
       ->setTranslatable(TRUE)
       ->setRequired(FALSE);

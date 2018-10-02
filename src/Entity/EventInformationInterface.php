@@ -14,40 +14,75 @@ use Drupal\user\EntityOwnerInterface;
  */
 interface EventInformationInterface extends ContentEntityInterface, RevisionLogInterface, EntityChangedInterface, EntityOwnerInterface {
 
-  // Add get/set methods for your configuration properties here.
-    /**
-     * Adds the Event shifts to the array for the respective event
-     *
-     * @param string $shift_id
-     * The id of the shift to be added to the array
-     */
-    public function addShift($shift_id);
+  /**
+   * Adds the Event shifts to the array for the respective event.
+   *
+   * @param string $shift_id
+   *   The id of the shift to be added to the array.
+   */
+  public function addShift($shift_id);
 
-    /**
-     * Checks if a user is already registered to the selected event.
-     *
-     * @param string $uid
-     * The id of the user being checked
-     * @return \Drupal\service_club_event\Entity\VolunteerRegistrationInterface
-     *   Returns the users registration object, if they are registered or NULL if they are not.
-     */
-    public function isRegistered($uid);
+  /**
+   * Checks if a user is already registered to the selected event.
+   *
+   * @param string $uid
+   *   The id of the user being checked.
+   *
+   * @return \Drupal\service_club_event\Entity\VolunteerRegistrationInterface
+   *   Returns the users registration object, if exists or NULL if does not.
+   */
+  public function isRegistered($uid);
 
-    /**
-     * Gets the Event shifts.
-     *
-     * @return \Drupal\service_club_event\Entity\ManageShiftsInterface[]
-     *   Name of the Event information.
-     */
-   public function getShifts();
+  /**
+   * Gets the Event shifts.
+   *
+   * @return \Drupal\service_club_event\Entity\ManageShiftsInterface[]
+   *   Name of the Event information.
+   */
+  public function getShifts();
 
-    /**
+  /**
    * Gets the Event information name.
    *
    * @return string
    *   Name of the Event information.
    */
   public function getName();
+
+  /**
+   * Gets the Event Class that the Questionnaire evaluated to.
+   *
+   * @return \Drupal\service_club_tmp\Entity\EventClass
+   *   The Event's Event Class, NULL if the Questionnaire hasn't been completed.
+   */
+  public function getEventClass();
+
+  /**
+   * Gets the Event Class that the Questionnaire evaluated to.
+   *
+   * @param string $event_class
+   *   The Event Class id to be attached to the Event.
+   *
+   * @return \Drupal\service_club_tmp\Entity\EventClass
+   *   The Event's Event Class, NULL if the Questionnaire hasn't been completed.
+   */
+  public function setEventClass($event_class);
+
+  /**
+   * Gets the Event's Traffic Management Plan.
+   *
+   * @return \Drupal\service_club_tmp\Entity\TrafficManagementPlan
+   *   The Event's Traffic Management Plan entity, NULL if not yet created.
+   */
+  public function getTrafficManagementPlan();
+
+  /**
+   * Adds the Traffic Management Plan to the Event.
+   *
+   * @param \Drupal\service_club_tmp\Entity\TrafficManagementPlan $tmp
+   *   The Traffic Management Plan to be attached to the Event.
+   */
+  public function setTrafficManagementPlan($tmp);
 
   /**
    * Sets the Event information name.
@@ -93,7 +128,7 @@ interface EventInformationInterface extends ContentEntityInterface, RevisionLogI
    * Sets the published status of a Event information.
    *
    * @param bool $published
-   *   TRUE to set this Event information to published, FALSE to set it to unpublished.
+   *   TRUE to set this Event to published, FALSE to set it to unpublished.
    *
    * @return \Drupal\service_club_event\Entity\EventInformationInterface
    *   The called Event information entity.
