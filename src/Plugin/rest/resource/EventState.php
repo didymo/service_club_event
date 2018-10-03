@@ -110,17 +110,17 @@ class EventState extends ResourceBase {
     // If TMP exists return state 2.
     $traffic_management_plan = $event->getTrafficManagementPlan();
     if (isset($traffic_management_plan)) {
-      return (new ResourceResponse(["state" => "2"], 200))->addCacheableDependency($build);
+      return (new ResourceResponse(["state" => 2], 200))->addCacheableDependency($build);
     }
 
     // If Questionnaire exists return state 1.
     $event_class = $event->getEventClass();
     if (isset($event_class)) {
-      return (new ResourceResponse(["state" => "1"], 200))->addCacheableDependency($build);
+      return (new ResourceResponse(["state" => 1], 200))->addCacheableDependency($build);
     }
 
     // If neither of the above if's triggered return state 0.
-    return (new ResourceResponse(["state" => "0"], 200))->addCacheableDependency($build);
+    return (new ResourceResponse(["state" => 0], 200))->addCacheableDependency($build);
   }
 
 }
