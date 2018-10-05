@@ -39,23 +39,16 @@ class AssetListForm extends FormBase {
       $asset = AssetEntity::load($asset_id['target_id']);
 
       if ($asset instanceof AssetEntity) {
-        // Create a fixed route to asset view.
-        $route = '<a href=' . "/admin/structure/asset_entity/" . $asset->id() . ' hreflang="en" target="_blank">' . $asset->getName() . '</a>';
+        // Create a route to asset view.
+        $route = $route = Link::createFromRoute(
+            $asset->getName(),
+            'entity.asset_entity.canonical',
+            ['asset_entity' => $asset->id()]
+        );
 
         // Add the information to array's for checkboxes.
         $registered_assets_content['assets'] += [$asset->id() => $route];
         $registered_assets_content['checked'] += [$asset->id() => $asset->id()];
-
-        /**
-         * @Todo change the routing from html to php following drupal standards.
-         *
-         */
-        /*
-        $route = Drupal\Core\Link::createFromRoute(
-          $asset->getName(),
-          'entity.asset_entity.edit_form',
-          ['asset_entity' => $asset->id()]
-        );*/
       }
     }
 
