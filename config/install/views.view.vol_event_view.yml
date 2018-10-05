@@ -3,9 +3,6 @@ status: true
 dependencies:
   config:
     - system.menu.main
-    - user.role.administrator
-    - user.role.anonymous
-    - user.role.authenticated
   module:
     - datetime
     - image
@@ -14,7 +11,7 @@ dependencies:
     - text
     - user
 _core:
-  default_config_hash: QQaawQJOPM-GShw6NQan54-42_f2X46tjqaHSvNTQXM
+  default_config_hash: F_6k1vAS5LOKRrza6dHSyqzQJ57qdFe_PJjU6UA9e48
 id: vol_event_view
 label: 'Vol Event View'
 module: views
@@ -31,10 +28,9 @@ display:
     position: 0
     display_options:
       access:
-        type: role
+        type: perm
         options:
-          role:
-            authenticated: authenticated
+          perm: 'access vol user event view'
       cache:
         type: tag
         options: {  }
@@ -553,7 +549,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - user.roles
+        - user.permissions
       tags: {  }
   page_1:
     display_plugin: page
@@ -580,7 +576,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - user.roles
+        - user.permissions
       tags: {  }
   page_2:
     display_plugin: page
@@ -601,11 +597,9 @@ display:
         context: '0'
         menu_name: main
       access:
-        type: role
+        type: perm
         options:
-          role:
-            anonymous: anonymous
-            administrator: administrator
+          perm: 'access anon user event view'
       defaults:
         access: false
     cache_metadata:
@@ -613,6 +607,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - user.roles
+        - user.permissions
       tags: {  }
 

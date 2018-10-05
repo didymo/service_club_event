@@ -154,3 +154,9 @@ revert all volunteer registration revisions:
 delete all volunteer registration revisions:
   title: 'Delete all revisions'
   description: 'Role requires permission to <em>view Volunteer registration revisions</em> and <em>delete rights</em> for volunteer registration entities in question or <em>administer volunteer registration entities</em>.'
+
+access vol user event view:
+  title: 'View the Vol User Event View view'
+
+access anon user event view:
+  title: 'View the Anon User Event View view'

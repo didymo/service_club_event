@@ -15,6 +15,6 @@ use Drupal\user\RoleInterface;
  * @see system_install()
  */
 function service_club_event_install() {
-  user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, ['view published event information entities']);
-  user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, ['view published event information entities']);
+  user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, ['view published event information entities', 'access vol user event view']);
+  user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, ['view published event information entities', 'access anon user event view']);
 }
