@@ -97,6 +97,7 @@ class EventQuestionnaireSubmit extends ResourceBase {
     // Load Event.
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
+      \Drupal::logger("REST:EventQuestionnaireSubmit")->error("Event $event_information does not exist!");
       return new ModifiedResourceResponse(["Event $event_information does not exist!"], 404);
     }
 
@@ -123,6 +124,7 @@ class EventQuestionnaireSubmit extends ResourceBase {
     }
 
     if (!empty($errors)) {
+      \Drupal::logger("REST:EventQuestionnaireSubmit")->error("A invalid questionnaire was submitted for Event $event_information!");
       return new ModifiedResourceResponse($errors, 400);
     }
 
@@ -191,6 +193,7 @@ class EventQuestionnaireSubmit extends ResourceBase {
 
     $event->setEventClass($event_class);
 
+    \Drupal::logger("REST:EventQuestionnaireSubmit")->info("A Questionnaire has been successfully submitted for Event $event_information.");
     return new ModifiedResourceResponse(["Questionnaire successfully submitted." => 1], 200);
   }
 

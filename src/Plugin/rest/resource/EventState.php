@@ -104,22 +104,26 @@ class EventState extends ResourceBase {
     // Load Event.
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
+      \Drupal::logger("REST:EventState")->error("Event $event_information does not exist!");
       return (new ResourceResponse(["Event $event_information does not exist!"], 404))->addCacheableDependency($build);
     }
 
     // If TMP exists return state 2.
     $traffic_management_plan = $event->getTrafficManagementPlan();
     if (isset($traffic_management_plan)) {
+      \Drupal::logger("REST:EventState")->info("Event $event_information returned a state of 2!");
       return (new ResourceResponse(["state" => 2], 200))->addCacheableDependency($build);
     }
 
     // If Questionnaire exists return state 1.
     $event_class = $event->getEventClass();
     if (isset($event_class)) {
+      \Drupal::logger("REST:EventState")->info("Event $event_information returned a state of 1!");
       return (new ResourceResponse(["state" => 1], 200))->addCacheableDependency($build);
     }
 
     // If neither of the above if's triggered return state 0.
+    \Drupal::logger("REST:EventState")->info("Event $event_information returned a state of 0!");
     return (new ResourceResponse(["state" => 0], 200))->addCacheableDependency($build);
   }
 

@@ -174,16 +174,19 @@ class EventTrafficManagementPlan extends ResourceBase {
     // Load Event.
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
+      \Drupal::logger("REST:EventTMP")->error("Event $event_information does not exist!");
       return (new ResourceResponse(["Event $event_information does not exist!" => -1], 404))->addCacheableDependency($build);
     }
 
     // Get Traffic Management Plan.
     $tmp = $event->getTrafficManagementPlan();
     if (!isset($tmp)) {
+      \Drupal::logger("REST:EventTMP")->error("Event $event_information does not have a TMP!");
       return (new ResourceResponse(["Event $event_information does not have a Traffic Management Plan!" => 1], 404))->addCacheableDependency($build);
     }
 
     // If none of the above if's triggered return the Traffic Management Plan.
+    \Drupal::logger("REST:EventTMP")->info("Event $event_information TMP has been queried successfully.");
     return (new ResourceResponse($tmp, 200))->addCacheableDependency($build);
   }
 

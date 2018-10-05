@@ -101,14 +101,17 @@ class EventQuestionnaireResult extends ResourceBase {
     // Load Event.
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
+      \Drupal::logger("REST:EventQuestionnaireResult")->error("Event $event_information does not exist!");
       return (new ResourceResponse(["Event $event_information does not exist!"], 404))->addCacheableDependency($build);
     }
 
     $event_class = $event->getEventClass();
     if (!isset($event_class)) {
+      \Drupal::logger("REST:EventQuestionnaireResult")->error("A questionnaire has not yet been completed for Event $event_information!");
       return (new ResourceResponse(["Event $event_information has not completed the questionnaire!" => 0], 404))->addCacheableDependency($build);
     }
 
+    \Drupal::logger("REST:EventQuestionnaireResult")->info("Event $event_information Questionnaire Result has been queried successfully.");
     return (new ResourceResponse($event_class->getInformation(), 200))->addCacheableDependency($build);
   }
 
