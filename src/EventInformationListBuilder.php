@@ -30,7 +30,7 @@ class EventInformationListBuilder extends EntityListBuilder {
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),
-      'entity.event_information.edit_form',
+      'entity.event_information.canonical',
       ['event_information' => $entity->id()]
     );
     return $row + parent::buildRow($entity);
