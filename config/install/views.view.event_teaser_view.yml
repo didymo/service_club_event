@@ -12,10 +12,10 @@ dependencies:
     - user
 _core:
   default_config_hash: ZGVBGfa6x6MBmNhU-hw8ZEHgEiThaSUwIqb_9TOJu7Y
-id: vol_event_view
-label: 'Vol Event View'
+id: event_teaser_view
+label: 'Event Teaser View'
 module: views
-description: 'The view for volunteers (authorised users) with their limited information'
+description: 'THe view for volunteers (authorised users) with their limited information'
 tag: ''
 base_table: event_information_field_data
 base_field: id
@@ -568,7 +568,7 @@ display:
         weight: 0
         context: '0'
         menu_name: main
-      display_description: ''
+      display_description: 'The teaser of events for volunteer/authorised users.'
       defaults:
         fields: false
       fields:
@@ -710,7 +710,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Date and Time of the Event Start'
+          label: 'Event Start'
           exclude: false
           alter:
             alter_text: false
@@ -755,7 +755,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: medium
+            format_type: html_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -776,7 +776,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Date and Time of the Event Finish'
+          label: 'Event Finish'
           exclude: false
           alter:
             alter_text: false
@@ -821,7 +821,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: medium
+            format_type: html_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1120,7 +1120,7 @@ display:
     position: 2
     display_options:
       display_extenders: {  }
-      display_description: 'The view of events for anon users'
+      display_description: 'The view of event teasers for anon users'
       path: anon-event-view
       menu:
         type: normal
