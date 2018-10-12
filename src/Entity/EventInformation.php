@@ -257,12 +257,19 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
 
     foreach ($references as $shift_id) {
       $shift = ManageShifts::load($shift_id['target_id']);
+
+      // Extra level of security to ensure shift sorting doesn't break.
       if ($shift !== NULL) {
           $shifts[] = $shift;
       }
-      //$shifts[] = $shift;
+      else {
+          $event_id = $this->getOwnerId();
+          $shift_id_target_id = $shift_id['target_id'];
+          \Drupal::logger('EventInformation getShifts')->error("The event with id: $event_id contains a reference to a shift: $shift_id_target_id that no longer exists. This should not have happened.");
+      }
     }
 
+    // Sort the shirts by a comparsion we defined.
     usort($shifts, array("Drupal\service_club_event\Entity\ManageShifts", "compare_start_time"));
     return $shifts;
   }
