@@ -6,7 +6,7 @@ dependencies:
     - image
     - service_club_event
     - text
-id: vol_registration_view
+id: registration_view
 label: 'Registration View'
 module: views
 description: 'Authorised and Anonymous user event registration view.'
