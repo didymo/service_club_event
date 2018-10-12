@@ -15,7 +15,7 @@ _core:
 id: event_teaser_view
 label: 'Event Teaser View'
 module: views
-description: 'THe view for volunteers (authorised users) with their limited information'
+description: 'The view for volunteers (authorised users) with their limited information'
 tag: ''
 base_table: event_information_field_data
 base_field: id
