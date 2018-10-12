@@ -1048,7 +1048,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Public Parking Location'
+          label: 'Public Parking'
           exclude: false
           alter:
             alter_text: false
@@ -1277,7 +1277,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Date and Time of the Event Start'
+          label: 'Event Start'
           exclude: false
           alter:
             alter_text: false
@@ -1322,7 +1322,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: medium
+            format_type: html_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1343,7 +1343,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Date and Time of the Event Finish'
+          label: 'Event Finish'
           exclude: false
           alter:
             alter_text: false
@@ -1388,7 +1388,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: medium
+            format_type: html_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1615,7 +1615,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Public Parking Location'
+          label: 'Public Parking'
           exclude: false
           alter:
             alter_text: false
