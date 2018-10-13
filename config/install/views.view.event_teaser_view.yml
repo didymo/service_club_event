@@ -11,7 +11,7 @@ dependencies:
     - text
     - user
 _core:
-  default_config_hash: ZGVBGfa6x6MBmNhU-hw8ZEHgEiThaSUwIqb_9TOJu7Y
+  default_config_hash: DggptXImF50qk7hcANBm3Hy6SUAKB1G31pNm61HgFms
 id: event_teaser_view
 label: 'Event Teaser View'
 module: views
@@ -558,7 +558,7 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      path: vol-event-view
+      path: auth-event-view
       menu:
         type: normal
         title: 'View Events'
