@@ -8,7 +8,6 @@ use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Drupal\service_club_event\Entity\EventInformation;
-use Drupal\service_club_tmp\Entity\TrafficManagementPlan;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -16,15 +15,15 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * Provides a resource to get view modes by entity and bundle.
  *
  * @RestResource(
- *   id = "event_traffic_management_plan",
- *   label = @Translation("Event traffic management plan"),
+ *   id = "event_traffic_management_plan_bounds",
+ *   label = @Translation("Event traffic management plan bounds"),
  *   uri_paths = {
- *     "canonical" = "/event/{event_information}/tmp",
- *     "https://www.drupal.org/link-relations/create" = "/event/{event_information}/tmp"
+ *     "canonical" = "/event/{event_information}/tmp/bounds",
+ *     "https://www.drupal.org/link-relations/create" = "/event/{event_information}/tmp/bounds"
  *   }
  * )
  */
-class EventTrafficManagementPlan extends ResourceBase {
+class EventTrafficManagementPlanBounds extends ResourceBase {
 
   /**
    * A current user instance.
@@ -34,7 +33,7 @@ class EventTrafficManagementPlan extends ResourceBase {
   protected $currentUser;
 
   /**
-   * Constructs a new EventTrafficManagementPlan object.
+   * Constructs a new EventTrafficManagementPlanBounds object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -102,8 +101,7 @@ class EventTrafficManagementPlan extends ResourceBase {
       return new ModifiedResourceResponse(["Event $event_information does not exist!"], 404);
     }
 
-    // Dissect json string into an array.
-    $name = $json["name"];
+    // Dissect json string into an array for checking.
     $north_bound = $json["leftTop"]["latitude"];
     $east_bound = $json["rightBottom"]["longitude"];
     $south_bound = $json["rightBottom"]["latitude"];
@@ -125,24 +123,21 @@ class EventTrafficManagementPlan extends ResourceBase {
     }
 
     if (!empty($errors)) {
+      \Drupal::logger("REST:EventTMPBounds")->error("Invalid TMP bounds were submitted for Event $event_information!");
       return new ModifiedResourceResponse($errors, 400);
     }
 
-    // Create new TMP.
-    $tmp = TrafficManagementPlan::create([
-      'type' => 'traffic_management_plan',
-      'name' => $name,
-      'north_bound' => $north_bound,
-      'east_bound' => $east_bound,
-      'south_bound' => $south_bound,
-      'west_bound' => $west_bound,
-    ]);
-    $tmp->save();
+    // Get Traffic Management Plan.
+    $tmp = $event->getTrafficManagementPlan();
+    if (!isset($tmp)) {
+      \Drupal::logger("REST:EventTMPBounds")->error("Event $event_information does not have a TMP!");
+      return new ModifiedResourceResponse(["Event $event_information does not have a Traffic Management Plan!" => 1], 404);
+    }
 
-    // Attach TMP to the Event.
-    $event->setTrafficManagementPlan($tmp);
+    $tmp->setBounds($json);
 
-    return new ModifiedResourceResponse(["Traffic Management Plan successfully created." => 2], 200);
+    \Drupal::logger("REST:EventTMPBounds")->info("Event $event_information TMP Bounds have been updated successfully.");
+    return new ModifiedResourceResponse(["Traffic Management Plan Bounds successfully updated." => 2], 200);
   }
 
   /**
@@ -176,20 +171,20 @@ class EventTrafficManagementPlan extends ResourceBase {
     // Load Event.
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
-      \Drupal::logger("REST:EventTMP")->error("Event $event_information does not exist!");
+      \Drupal::logger("REST:EventTMPBounds")->error("Event $event_information does not exist!");
       return (new ResourceResponse(["Event $event_information does not exist!" => -1], 404))->addCacheableDependency($build);
     }
 
     // Get Traffic Management Plan.
     $tmp = $event->getTrafficManagementPlan();
     if (!isset($tmp)) {
-      \Drupal::logger("REST:EventTMP")->error("Event $event_information does not have a TMP!");
+      \Drupal::logger("REST:EventTMPBounds")->error("Event $event_information does not have a TMP!");
       return (new ResourceResponse(["Event $event_information does not have a Traffic Management Plan!" => 1], 404))->addCacheableDependency($build);
     }
 
-    // If none of the above if's triggered return the Traffic Management Plan.
-    \Drupal::logger("REST:EventTMP")->info("Event $event_information TMP has been queried successfully.");
-    return (new ResourceResponse($tmp, 200))->addCacheableDependency($build);
+    // If none of the above if's triggered return the TMP Bounds.
+    \Drupal::logger("REST:EventTMPBounds")->info("Event $event_information TMP Bounds have been queried successfully.");
+    return (new ResourceResponse($tmp->getBounds(), 200))->addCacheableDependency($build);
   }
 
 }
