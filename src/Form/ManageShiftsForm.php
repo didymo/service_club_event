@@ -65,7 +65,6 @@ class ManageShiftsForm extends ContentEntityForm {
 
         // Add reference to the corresponding event.
         $entity->setEventId($event->id());
-        \Drupal::logger('test')->error($event->id());
 
         break;
 
