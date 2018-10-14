@@ -11,7 +11,7 @@ dependencies:
     - text
     - user
 _core:
-  default_config_hash: DggptXImF50qk7hcANBm3Hy6SUAKB1G31pNm61HgFms
+  default_config_hash: GNxLf23IVb56H08v9YHR0svyDE98f8OqYjT9Uc62Ts0
 id: event_teaser_view
 label: 'Event Teaser View'
 module: views
@@ -755,7 +755,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: html_date
+            format_type: service_club_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -821,7 +821,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: html_date
+            format_type: service_club_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1322,7 +1322,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: html_date
+            format_type: service_club_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1388,7 +1388,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: html_date
+            format_type: service_club_date
           group_column: value
           group_columns: {  }
           group_rows: true
