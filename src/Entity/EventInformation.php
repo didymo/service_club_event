@@ -485,11 +485,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
 
     // Event Date (Array(Date-Time))
     $fields['event_date_start'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('Date and Time of the Event Start'))
+      ->setLabel(t('Event Start'))
       ->setDescription(t('The Date and Time the Event will Start'))
       ->setRevisionable(TRUE)
       ->setSettings([
-        'datetime_type' => 'date',
+        'datetime_type' => 'date_time',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
@@ -510,11 +510,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
 
     // Event Date End(Array(Date-Time))
     $fields['event_date_finish'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('Date and Time of the Event Finish'))
+      ->setLabel(t('Event Finish'))
       ->setDescription(t('The Date and Time the Event will finish'))
       ->setRevisionable(TRUE)
       ->setSettings([
-        'datetime_type' => 'date',
+        'datetime_type' => 'date_time',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
