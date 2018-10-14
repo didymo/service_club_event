@@ -61,8 +61,11 @@ class ManageShiftsForm extends ContentEntityForm {
         drupal_set_message($this->t('Created the %label Manage shifts.', [
           '%label' => $entity->label(),
         ]));
-        //$event = EventInformation::load($event_id);
         $event->addShift($entity->id());
+
+        // Add reference to the corresponding event.
+        $entity->setEventId($event->id());
+
         break;
 
       default:

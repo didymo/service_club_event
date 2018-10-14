@@ -230,6 +230,23 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
     }
     return ($a_start > $b_start) ? +1 : -1;
   }
+  /**
+   * {@inheritdoc}
+   */
+  public function getEventId()
+  {
+    return $this->get('event')->target_id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setEventId($event_id)
+  {
+    $this->set('event', $event_id);
+    $this->save();
+    return $this;
+  }
 
   /**
    * {@inheritdoc}
@@ -410,6 +427,15 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
       ->setSetting('handler', 'default')
       ->setTranslatable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
+
+    // This creates a field allowing the asset to reference an array of assets.
+    $fields['event'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Event'))
+      ->setDescription(t('Reference to tthe corresponding event creating a doubly linked entity reference.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'event_information')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE);
 
     return $fields;
   }

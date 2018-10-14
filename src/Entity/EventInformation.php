@@ -257,12 +257,19 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
 
     foreach ($references as $shift_id) {
       $shift = ManageShifts::load($shift_id['target_id']);
+
+      // Extra level of security to ensure shift sorting doesn't break.
       if ($shift !== NULL) {
           $shifts[] = $shift;
       }
-      //$shifts[] = $shift;
+      else {
+          $event_id = $this->getOwnerId();
+          $shift_id_target_id = $shift_id['target_id'];
+          \Drupal::logger('EventInformation getShifts')->error("The event with id: $event_id contains a reference to a shift: $shift_id_target_id that no longer exists. This should not have happened.");
+      }
     }
 
+    // Sort the shirts by a comparsion we defined.
     usort($shifts, array("Drupal\service_club_event\Entity\ManageShifts", "compare_start_time"));
     return $shifts;
   }
@@ -274,6 +281,28 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
     $shifts = $this->get('shifts')->getValue();
     $shifts += [count($shifts) => ['target_id' => $shift_id]];
     $this->set('shifts', $shifts);
+    $this->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function removeShift($shift_id) {
+    $current_shifts = $this->get('shifts')->getValue();
+
+    $new_shifts = [];
+
+    // Add each shift to a new array.
+    foreach ($current_shifts as $shift) {
+      // Skip the shfit if it's id matches the given id.
+      if ($shift['target_id'] !== $shift_id) {
+        // Add the shift to the new array.
+        $new_shifts += [count($new_shifts) => ['target_id' => $shift_id]];
+      }
+    }
+
+    // Save the new shift list.
+    $this->set('shifts', $new_shifts);
     $this->save();
   }
 
@@ -478,11 +507,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
 
     // Event Date (Array(Date-Time))
     $fields['event_date_start'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('Date and Time of the Event Start'))
+      ->setLabel(t('Event Start'))
       ->setDescription(t('The Date and Time the Event will Start'))
       ->setRevisionable(TRUE)
       ->setSettings([
-        'datetime_type' => 'date',
+        'datetime_type' => 'date_time',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
@@ -503,11 +532,11 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
 
     // Event Date End(Array(Date-Time))
     $fields['event_date_finish'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('Date and Time of the Event Finish'))
+      ->setLabel(t('Event Finish'))
       ->setDescription(t('The Date and Time the Event will finish'))
       ->setRevisionable(TRUE)
       ->setSettings([
-        'datetime_type' => 'date',
+        'datetime_type' => 'date_time',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
