@@ -33,3 +33,17 @@ function service_club_event_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_delete().
+ */
+function service_club_event_manage_shifts_delete(Drupal\Core\Entity\EntityInterface $entity) {
+  $event_id = $entity->getEventId();
+  $event = \Drupal\service_club_event\Entity\EventInformation::load($event_id);
+
+  \Drupal::logger('shift id')->error($entity->id());
+  \Drupal::logger('event id')->error($event_id);
+
+  $event->removeShift($entity->id());
+  $event->save();
+}

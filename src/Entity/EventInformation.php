@@ -287,6 +287,28 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
   /**
    * {@inheritdoc}
    */
+  public function removeShift($shift_id) {
+    $current_shifts = $this->get('shifts')->getValue();
+
+    $new_shifts = [];
+
+    // Add each shift to a new array.
+    foreach ($current_shifts as $shift) {
+      // Skip the shfit if it's id matches the given id.
+      if ($shift['target_id'] !== $shift_id) {
+        // Add the shift to the new array.
+        $new_shifts += [count($new_shifts) => ['target_id' => $shift_id]];
+      }
+    }
+
+    // Save the new shift list.
+    $this->set('shifts', $new_shifts);
+    $this->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getEventStartDate() {
     return $this->get('event_date_start')->value;
   }
