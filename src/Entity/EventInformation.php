@@ -559,7 +559,7 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
     $fields['image'] = BaseFieldDefinition::create('image')
       ->setLabel(t('Event Image'))
       ->setDescription(t('Add image/s for the event'))
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setCardinality(4)
       ->setSettings([
         'file_directory' => 'image_folder',
         'alt_field_reindentquired' => FALSE,
