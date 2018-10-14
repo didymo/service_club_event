@@ -11,7 +11,7 @@ dependencies:
     - text
     - user
 _core:
-  default_config_hash: _LL1sx6LW95pSzyqpATFqcudgTJV-wPT_H2OWEplICA
+  default_config_hash: 4Tz94p2HvJomAhky3s5hNkQU-4maehsygFEiuA2xDeI
 id: event_registration_view
 label: 'Event Registration View'
 module: views
@@ -1143,7 +1143,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: ', '
+          separator: ''
           field_api_classes: false
           entity_type: event_information
           entity_field: image
@@ -1963,7 +1963,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: ', '
+          separator: ''
           field_api_classes: false
           entity_type: event_information
           entity_field: image
