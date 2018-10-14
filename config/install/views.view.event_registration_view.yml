@@ -809,75 +809,10 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-        location_1:
-          id: location_1
-          table: event_information_field_data
-          field: location
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Address
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: event_information
-          entity_field: location
-          plugin_id: field
-        location:
-          id: location
-          table: event_information_field_data
-          field: location
+        image_target_id:
+          id: image_target_id
+          table: event_information__image
+          field: image_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -922,21 +857,75 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: simple_gmap
+          click_sort_column: target_id
+          type: image
           settings:
-            include_map: true
-            include_static_map: false
-            apikey: ''
-            iframe_width: '300'
-            iframe_height: '300'
-            static_scale: 1
-            include_link: false
-            link_text: 'View larger map'
-            zoom_level: 14
-            include_text: false
-            map_type: m
-            langcode: en
+            image_style: medium
+            image_link: ''
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ''
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: image
+          plugin_id: field
+        description__value:
+          id: description__value
+          table: event_information_field_data
+          field: description__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: About
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
+          settings: {  }
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -948,7 +937,7 @@ display:
           separator: ', '
           field_api_classes: false
           entity_type: event_information
-          entity_field: location
+          entity_field: description
           plugin_id: field
         event_date_start:
           id: event_date_start
@@ -1082,80 +1071,14 @@ display:
           entity_type: event_information
           entity_field: event_date_finish
           plugin_id: field
-        image_target_id:
-          id: image_target_id
-          table: event_information__image
-          field: image_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: image
-          settings:
-            image_style: medium
-            image_link: ''
-          group_column: ''
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ''
-          field_api_classes: false
-          entity_type: event_information
-          entity_field: image
-          plugin_id: field
-        description__value:
-          id: description__value
+        location_1:
+          id: location_1
           table: event_information_field_data
-          field: description__value
+          field: location
           relationship: none
           group_type: group
           admin_label: ''
-          label: About
+          label: Address
           exclude: false
           alter:
             alter_text: false
@@ -1197,8 +1120,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: text_default
-          settings: {  }
+          type: string
+          settings:
+            link_to_entity: false
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1210,7 +1134,7 @@ display:
           separator: ', '
           field_api_classes: false
           entity_type: event_information
-          entity_field: description
+          entity_field: location
           plugin_id: field
         pubParking:
           id: pubParking
@@ -1341,6 +1265,82 @@ display:
           field_api_classes: false
           entity_type: event_information
           entity_field: volParking
+          plugin_id: field
+        location:
+          id: location
+          table: event_information_field_data
+          field: location
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: simple_gmap
+          settings:
+            include_map: true
+            include_static_map: false
+            apikey: ''
+            iframe_width: '300'
+            iframe_height: '300'
+            static_scale: 1
+            include_link: false
+            link_text: 'View larger map'
+            zoom_level: 14
+            include_text: false
+            map_type: m
+            langcode: en
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: location
           plugin_id: field
         shifts_target_id:
           id: shifts_target_id
@@ -1629,75 +1629,10 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-        location_1:
-          id: location_1
-          table: event_information_field_data
-          field: location
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Address
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: event_information
-          entity_field: location
-          plugin_id: field
-        location:
-          id: location
-          table: event_information_field_data
-          field: location
+        image_target_id:
+          id: image_target_id
+          table: event_information__image
+          field: image_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -1742,21 +1677,75 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: simple_gmap
+          click_sort_column: target_id
+          type: image
           settings:
-            include_map: true
-            include_static_map: false
-            apikey: ''
-            iframe_width: '300'
-            iframe_height: '300'
-            static_scale: 1
-            include_link: false
-            link_text: 'View larger map'
-            zoom_level: 14
-            include_text: false
-            map_type: m
-            langcode: en
+            image_style: medium
+            image_link: ''
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ''
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: image
+          plugin_id: field
+        description__value:
+          id: description__value
+          table: event_information_field_data
+          field: description__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: About
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
+          settings: {  }
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1768,7 +1757,7 @@ display:
           separator: ', '
           field_api_classes: false
           entity_type: event_information
-          entity_field: location
+          entity_field: description
           plugin_id: field
         event_date_start:
           id: event_date_start
@@ -1902,80 +1891,14 @@ display:
           entity_type: event_information
           entity_field: event_date_finish
           plugin_id: field
-        image_target_id:
-          id: image_target_id
-          table: event_information__image
-          field: image_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: image
-          settings:
-            image_style: medium
-            image_link: ''
-          group_column: ''
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ''
-          field_api_classes: false
-          entity_type: event_information
-          entity_field: image
-          plugin_id: field
-        description__value:
-          id: description__value
+        location_1:
+          id: location_1
           table: event_information_field_data
-          field: description__value
+          field: location
           relationship: none
           group_type: group
           admin_label: ''
-          label: About
+          label: Address
           exclude: false
           alter:
             alter_text: false
@@ -2017,8 +1940,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: text_default
-          settings: {  }
+          type: string
+          settings:
+            link_to_entity: false
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -2030,7 +1954,7 @@ display:
           separator: ', '
           field_api_classes: false
           entity_type: event_information
-          entity_field: description
+          entity_field: location
           plugin_id: field
         pubParking:
           id: pubParking
@@ -2096,6 +2020,82 @@ display:
           field_api_classes: false
           entity_type: event_information
           entity_field: pubParking
+          plugin_id: field
+        location:
+          id: location
+          table: event_information_field_data
+          field: location
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: simple_gmap
+          settings:
+            include_map: true
+            include_static_map: false
+            apikey: ''
+            iframe_width: '300'
+            iframe_height: '300'
+            static_scale: 1
+            include_link: false
+            link_text: 'View larger map'
+            zoom_level: 14
+            include_text: false
+            map_type: m
+            langcode: en
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: event_information
+          entity_field: location
           plugin_id: field
       defaults:
         fields: false
