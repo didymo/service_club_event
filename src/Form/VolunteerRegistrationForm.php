@@ -33,14 +33,20 @@ class VolunteerRegistrationForm extends ContentEntityForm {
 
     // Get the current event.
     $event = $this->getRouteMatch()->getParameter('event_information');
+    // @TODO add guardian if to ensure is EventInformation
     $shifts = $event->getShifts();
-
-
+    
+    // Get a list of available shifts.
     $shift_names = [-1 => 'No Shift'];
-
     // Load array with Shift names.
     foreach ($shifts as $shift) {
       $shift_names += [$shift->id() => $shift->getName()];
+    }
+
+    // Setting the Default value.
+    $default_radio = -1;
+    if (!$this->entity->isNew()) {
+      $default_radio = $this->entity->getShift();
     }
 
     // Add form element radios.
@@ -49,7 +55,7 @@ class VolunteerRegistrationForm extends ContentEntityForm {
       '#title' => $this->t('Available Shifts'),
       '#options' => $shift_names,
       '#description' => $this->t('Select one of the available shifts.'),
-      '#default_value' => -1,
+      '#default_value' => $default_radio,
     ];
 
     return $form;
