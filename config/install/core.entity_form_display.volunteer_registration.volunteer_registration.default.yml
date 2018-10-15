@@ -4,29 +4,27 @@ dependencies:
   config:
     - field.field.volunteer_registration.volunteer_registration.field_additional_guests
   module:
+    - inline_entity_form
     - service_club_event
-    - user
 id: volunteer_registration.volunteer_registration.default
 targetEntityType: volunteer_registration
 bundle: volunteer_registration
 mode: default
 content:
   field_additional_guests:
-    weight: 1
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  user_id:
-    label: hidden
-    type: author
+    type: inline_entity_form_complex
     weight: 0
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      form_mode: default
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      collapsible: false
+      collapsed: false
+      allow_new: true
+      allow_existing: false
+      allow_duplicate: false
     third_party_settings: {  }
-hidden:
-  name: true
-  registered_event: true
-  registered_shift: true
+hidden: {  }
