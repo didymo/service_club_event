@@ -212,7 +212,7 @@ class AdditionalGuests extends RevisionableContentEntityBase implements Addition
         'weight' => 0,
       ])
       ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
+        'type' => 'hidden',
         'weight' => 5,
         'settings' => [
           'match_operator' => 'CONTAINS',
@@ -225,8 +225,8 @@ class AdditionalGuests extends RevisionableContentEntityBase implements Addition
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Additional guests entity.'))
+      ->setLabel(t('First Name'))
+      ->setDescription(t('The first name of the AdditionalGuests entity.'))
       ->setRevisionable(TRUE)
       ->setSettings([
         'max_length' => 50,
@@ -246,14 +246,36 @@ class AdditionalGuests extends RevisionableContentEntityBase implements Addition
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
+    $fields['lname'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Last Name'))
+      ->setDescription(t('Please input your last name'))
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'max_length' => 50,
+        'text_processing' => 0,
+      ])
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -3,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => -3,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
       ->setDescription(t('A boolean indicating whether the Additional guests is published.'))
       ->setRevisionable(TRUE)
       ->setDefaultValue(TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
-        'weight' => -3,
+        'type' => 'hidden',
+        'weight' => 10,
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
@@ -270,50 +292,6 @@ class AdditionalGuests extends RevisionableContentEntityBase implements Addition
       ->setReadOnly(TRUE)
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE);
-
-  $fields['fname'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('First Name'))
-      ->setDescription(t('Please input your first name'))
-      ->setRevisionable(TRUE)
-      ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
-      ])
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 0,
-      ])
-      ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 0,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
-
-  $fields['lname'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Last Name'))
-      ->setDescription(t('Please input your last name'))
-      ->setRevisionable(TRUE)
-      ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
-      ])
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 1,
-      ])
-      ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 1,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
 
   $fields['date_of_birth'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('Date of Birth'))

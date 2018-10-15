@@ -13,7 +13,7 @@ mode: default
 content:
   field_additional_guests:
     type: inline_entity_form_complex
-    weight: 0
+    weight: 10
     region: content
     settings:
       match_operator: CONTAINS
