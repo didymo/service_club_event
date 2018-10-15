@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.volunteer_registration.field_additional_guests
+  module:
+    - service_club_event
+id: volunteer_registration.volunteer_registration.field_additional_guests
+field_name: field_additional_guests
+entity_type: volunteer_registration
+bundle: volunteer_registration
+label: 'Additional Guests'
+description: 'If you are bringing additional people with you please provide their relevant information.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:additional_guests'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference
