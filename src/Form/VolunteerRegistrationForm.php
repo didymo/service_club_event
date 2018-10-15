@@ -102,11 +102,19 @@ class VolunteerRegistrationForm extends ContentEntityForm {
 
     $status = parent::save($form, $form_state);
 
+    // Get the event object out of the URL.
+    $event = $this->getRouteMatch()->getParameter('event_information');
+
     switch ($status) {
       case SAVED_NEW:
         drupal_set_message($this->t('Created the %label Volunteer registration.', [
           '%label' => $entity->label(),
         ]));
+
+        // Set the associated event when the registration is created.
+        $entity->setEventId($event->id());
+        $entity->save();
+
         break;
 
       default:
@@ -114,9 +122,6 @@ class VolunteerRegistrationForm extends ContentEntityForm {
           '%label' => $entity->label(),
         ]));
     }
-
-    // Get the event object out of the URL.
-    $event = $this->getRouteMatch()->getParameter('event_information');
 
     // Modified routing to improve workflow of volunteer registration.
     $form_state->setRedirect('entity.event_information.canonical', ['event_information' => $event->id()]);
@@ -132,7 +137,7 @@ class VolunteerRegistrationForm extends ContentEntityForm {
       $shift->assignVolunteer($entity->id());
       $shift->save();
 
-      // registration id
+      // Registration id.
       $entity->setShift($shift_id);
       $entity->save();
     }
