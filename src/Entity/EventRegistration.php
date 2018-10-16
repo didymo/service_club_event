@@ -196,6 +196,21 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
   /**
    * {@inheritdoc}
    */
+  public function getEventId() {
+    return $this->get('registered_event')->target_id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setEventId($event_id) {
+    $this->set('registered_event', ['target_id' => $event_id]);
+    $this->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
@@ -370,6 +385,16 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
         'type' => 'boolean_checkbox',
         'weight' => 50,
       ]);
+
+    // Id of the event the user has registered for.
+    $fields['registered_event'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Registered Event'))
+      ->setDescription(t('The event the user is attending.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'event_information')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
     return $fields;
   }
