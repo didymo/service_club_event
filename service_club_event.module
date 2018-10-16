@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\service_club_event\Entity\EventInformation;
 
 /**
  * Implements hook_help().
@@ -39,11 +40,17 @@ function service_club_event_theme() {
  */
 function service_club_event_manage_shifts_delete(Drupal\Core\Entity\EntityInterface $entity) {
   $event_id = $entity->getEventId();
-  $event = \Drupal\service_club_event\Entity\EventInformation::load($event_id);
+  $event = EventInformation::load($event_id);
 
-  \Drupal::logger('shift id')->error($entity->id());
-  \Drupal::logger('event id')->error($event_id);
+  // Check if the event still exists.
+  if (isset($event)) {
+    if ($event instanceof EventInformation) {
+      \Drupal::logger('shift id')->error($entity->id());
+      \Drupal::logger('event id')->error($event_id);
 
-  $event->removeShift($entity->id());
-  $event->save();
+      $event->removeShift($entity->id());
+      $event->save();
+    }
+  }
+  // Skip if the event doesn't exist as you don't need to update shifts anymore.
 }
