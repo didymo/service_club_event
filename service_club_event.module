@@ -54,11 +54,3 @@ function service_club_event_manage_shifts_delete(Drupal\Core\Entity\EntityInterf
   }
   // Skip if the event doesn't exist as you don't need to update shifts anymore.
 }
-
-/**
- * hook_form_alter
- */
-function service_club_event_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-  //$form['revision_information'] = NULL;
-  dd('test');
-}
