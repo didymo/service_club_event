@@ -106,6 +106,10 @@ class VolunteerRegistrationForm extends ContentEntityForm {
       $entity->setNewRevision(FALSE);
     }
 
+    // Set the associated event when the registration is created.
+    $entity->setEventId($event->id());
+    $entity->save();
+
     $status = parent::save($form, $form_state);
 
     switch ($status) {
@@ -113,10 +117,6 @@ class VolunteerRegistrationForm extends ContentEntityForm {
         drupal_set_message($this->t('Created the %label Volunteer registration.', [
           '%label' => $entity->label(),
         ]));
-
-        // Set the associated event when the registration is created.
-        $entity->setEventId($event->id());
-        $entity->save();
 
         break;
 
