@@ -32,6 +32,14 @@ function service_club_event_theme() {
     'service_club_event' => [
       'render element' => 'children',
     ],
+    'event_information' => [
+      'template' => 'event_information',
+      'render element' => 'content',
+    ],
+    'manage_shifts' => [
+      'template' => 'manage_shifts',
+      'render element' => 'content',
+    ],
   ];
 }
 
