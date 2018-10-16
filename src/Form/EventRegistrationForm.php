@@ -65,7 +65,9 @@ class EventRegistrationForm extends ContentEntityForm {
           '%label' => $entity->label(),
         ]));
     }
-    $form_state->setRedirect('entity.event_registration.canonical', ['event_registration' => $entity->id()]);
+
+    $event = $this->getRouteMatch()->getParameter('event_information');
+    $form_state->setRedirect('view.event_registration_view.page_2', ['event_information' => $event->id()]);
   }
 
 }
