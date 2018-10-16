@@ -8,6 +8,7 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\service_club_event\Entity\EventInformation;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\service_club_event\Entity\VolunteerRegistration;
 
 /**
  * Implements hook_help().
@@ -103,25 +104,41 @@ function service_club_event_volunteer_registration_insert(EntityInterface $entit
 /*
  * Hook for sending emails on event deletion
  */
-function service_club_event_event_information_delete(EntityInterface $entity)
+function service_club_event_event_information_predelete(EntityInterface $entity)
 {
     $mailManager = \Drupal::service('plugin.manager.mail');
 
-    $module = 'service_club_event';
-    $key = 'event_volunteer';
-    $to = \Drupal::currentUser()->getEmail();
-    $params['message'] = "Notice: The Event you volunteered for, ".$key.", has been cancelled.";
-    $params['node_title'] = "Event Cancellation";
+    $event_id = $entity->id();
+    $event = EventInformation::load($event_id);
+    $volunteers = $event->getVolunteerList();
 
-    $langcode = \Drupal::currentUser()->getPreferredLangcode();
-    $send = true;
+    //Iterate through the registered volunteer list for an event
+    foreach($volunteers as $volunteer){
+        $volunteer_reg = VolunteerRegistration::load($volunteer['target_id']);
+        $volunteer_id = $volunteer_reg->getOwnerId();
+        $account = \Drupal\user\Entity\User::load($volunteer_id);
+        $email_recipient = $account->getEmail();
+        //$listToEmail[] = $persontomail;
+        \Drupal::logger('service_club_event email hook')->error($email_recipient);
 
-    $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-    if ($result['result'] !== true) {
-        drupal_set_message(t('There was a problem with emailing your registration'), 'error');
-        \Drupal::logger('service_club_event email hook')->error($key);
-    }
-    else {
-        drupal_set_message(t('An email has been sent to you confirming your registration'));
+        //Send an email to the current volunteer
+        $event_name = $event->getName();
+        $module = 'service_club_event';
+        $key = 'event_volunteer';
+        $to = \Drupal::currentUser()->getEmail();
+        $params['message'] = "The event has been cancelled ".$event_name;
+        $params['node_title'] = "Event Cancelled";
+
+        $langcode = \Drupal::currentUser()->getPreferredLangcode();
+        $send = true;
+
+        $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+        if ($result['result'] !== true) {
+            drupal_set_message(t('An error has occurred regarding emailing volunteers of cancellation, notify your administrator'), 'error');
+            \Drupal::logger('service_club_event email hook')->error($event_name);
+        }
+        else {
+            drupal_set_message(t('An email has been sent to volunteers notifying them of the events cancellation'));
+        }
     }
 }
