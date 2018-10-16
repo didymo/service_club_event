@@ -257,7 +257,7 @@ class VolunteerRegistration extends RevisionableContentEntityBase implements Vol
         'weight' => 0,
       ])
       ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
+        'type' => 'hidden',
         'weight' => 5,
         'settings' => [
           'match_operator' => 'CONTAINS',

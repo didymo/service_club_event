@@ -147,7 +147,10 @@ class AssetListForm extends FormBase {
 
     // Loop through $children_unassigned to find all children that are missing and notify the user in one go.
     foreach ($children_unassigned as $asset_id => $value) {
-      drupal_set_message($this->t('Asset: ' . $asset_id . ' may be required be other assets assigned to the event.'), 'warning');
+      $asset = AssetEntity::load($asset_id);
+      $asset_name = $asset->getName();
+
+      drupal_set_message($this->t("The Asset: $asset_name, Id: $asset_id. may be required by other assets assigned to the event."), 'warning');
     }
 
     // Check if the asset is available for this event.

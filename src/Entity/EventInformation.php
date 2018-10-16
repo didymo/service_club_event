@@ -251,6 +251,23 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
   /**
    * {@inheritdoc}
    */
+  public function getAnonymousList() {
+    return $this->get('anonymous_registration')->getValue();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function addAnonymousRegistration($anonymous_id) {
+    $anonymous_list = $this->get('anonymous_registration')->getValue();
+    $anonymous_list += [count($anonymous_list) => ['target_id' => $anonymous_id]];
+    $this->set('anonymous_registration', $anonymous_list);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getShifts() {
     $references = $this->get('shifts')->getValue();
     $shifts = array();
@@ -687,6 +704,17 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'volunteer_registration')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setRequired(FALSE);
+
+    // List of anonymous registrations.
+    $fields['anonymous_registration'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Anonymous Registrations'))
+      ->setDescription(t('List of anonymous registrations for this event.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'event_registration')
       ->setSetting('handler', 'default')
       ->setTranslatable(TRUE)
       ->setRequired(FALSE);
