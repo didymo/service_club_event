@@ -212,7 +212,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
         'weight' => 0,
       ])
       ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
+        'type' => 'hidden',
         'weight' => 5,
         'settings' => [
           'match_operator' => 'CONTAINS',
@@ -225,55 +225,8 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Event registration entity.'))
-      ->setRevisionable(TRUE)
-      ->setSettings([
-        'max_length' => 50,
-        'text_processing' => 0,
-      ])
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', [
-        'label' => 'above',
-        'type' => 'string',
-        'weight' => -4,
-      ])
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'weight' => -4,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
-
-    $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Event registration is published.'))
-      ->setRevisionable(TRUE)
-      ->setDefaultValue(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
-        'weight' => -3,
-      ]);
-
-    $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(t('Created'))
-      ->setDescription(t('The time that the entity was created.'));
-
-    $fields['changed'] = BaseFieldDefinition::create('changed')
-      ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the entity was last edited.'));
-
-    $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Revision translation affected'))
-      ->setDescription(t('Indicates if the last edit of a translation belongs to current revision.'))
-      ->setReadOnly(TRUE)
-      ->setRevisionable(TRUE)
-      ->setTranslatable(TRUE);
-
-    $fields['fname'] = BaseFieldDefinition::create('string')
       ->setLabel(t('First Name'))
-      ->setDescription(t('Please input your first name'))
+      ->setDescription(t('Please input your first name.'))
       ->setRevisionable(TRUE)
       ->setSettings([
         'max_length' => 50,
@@ -305,15 +258,40 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'string',
-        'weight' => 1,
+        'weight' => 10,
       ])
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
-        'weight' => 1,
+        'weight' => 10,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
+
+    $fields['status'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Publishing status'))
+      ->setDescription(t('A boolean indicating whether the Event registration is published.'))
+      ->setRevisionable(TRUE)
+      ->setDefaultValue(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'hidden',
+        'weight' => -2,
+      ]);
+
+    $fields['created'] = BaseFieldDefinition::create('created')
+      ->setLabel(t('Created'))
+      ->setDescription(t('The time that the entity was created.'));
+
+    $fields['changed'] = BaseFieldDefinition::create('changed')
+      ->setLabel(t('Changed'))
+      ->setDescription(t('The time that the entity was last edited.'));
+
+    $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Revision translation affected'))
+      ->setDescription(t('Indicates if the last edit of a translation belongs to current revision.'))
+      ->setReadOnly(TRUE)
+      ->setRevisionable(TRUE)
+      ->setTranslatable(TRUE);
 
     $fields['pNum'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Phone Number'))
@@ -327,11 +305,11 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'string',
-        'weight' => 3,
+        'weight' => 30,
       ])
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
-        'weight' => 3,
+        'weight' => 30,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -351,11 +329,11 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
         'settings' => [
           'format_type' => 'medium',
         ],
-        'weight' => 4,
+        'weight' => 40,
       ])
       ->setDisplayOptions('form', [
         'type' => 'datetime_default',
-        'weight' => 4,
+        'weight' => 40,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -373,11 +351,11 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'string',
-        'weight' => 1,
+        'weight' => 20,
       ])
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
-        'weight' => 1,
+        'weight' => 20,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -390,7 +368,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDefaultValue(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
-        'weight' => 7,
+        'weight' => 50,
       ]);
 
     return $fields;
