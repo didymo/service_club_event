@@ -108,9 +108,6 @@ class VolunteerRegistrationForm extends ContentEntityForm {
 
     $status = parent::save($form, $form_state);
 
-    // Get the event object out of the URL.
-    $event = $this->getRouteMatch()->getParameter('event_information');
-
     switch ($status) {
       case SAVED_NEW:
         drupal_set_message($this->t('Created the %label Volunteer registration.', [
