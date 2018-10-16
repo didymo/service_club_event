@@ -6,6 +6,8 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\service_club_event\Entity\EventInformation;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_help().
@@ -46,4 +48,54 @@ function service_club_event_manage_shifts_delete(Drupal\Core\Entity\EntityInterf
 
   $event->removeShift($entity->id());
   $event->save();
+}
+
+/**
+ * Implements hook_mail().
+ */
+function service_club_event_mail($key, &$message, $params) {
+    $options = array(
+        'langcode' => $message['langcode'],
+    );
+
+    switch ($key) {
+        case 'event_volunteer':
+            $message['from'] = \Drupal::config('system.site')->get('mail');
+            $message['subject'] = t('Event created: @title', array('@title' => $params['node_title']), $options);
+            $message['body'][] = $params['message'];
+            break;
+    }
+}
+
+/**
+ * A hook for emailing event information
+ */
+function service_club_event_volunteer_registration_insert(EntityInterface $entity) {
+
+    $mailManager = \Drupal::service('plugin.manager.mail');
+
+    $event_id = $entity->getEventId();
+    $event = EventInformation::load($event_id);
+    if (isset($event)) {
+        if ($event instanceof EventInformation) {
+            $event_name = $event->getName();
+            $module = 'service_club_event';
+            $key = 'event_volunteer';
+            $to = \Drupal::currentUser()->getEmail();
+            $params['message'] = "Thank you for volunteering for ".$event_name;
+            $params['node_title'] = "Volunteer Confirmation";
+
+            $langcode = \Drupal::currentUser()->getPreferredLangcode();
+            $send = true;
+
+            $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+            if ($result['result'] !== true) {
+                drupal_set_message(t('There was a problem with emailing your registration'), 'error');
+                \Drupal::logger('service_club_event email hook')->error($event_name);
+            }
+            else {
+                drupal_set_message(t('An email has been sent to you confirming your registration'));
+            }
+        }
+    }
 }
