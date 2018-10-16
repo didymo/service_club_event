@@ -212,7 +212,7 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
         'weight' => 0,
       ])
       ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
+        'type' => 'hidden',
         'weight' => 5,
         'settings' => [
           'match_operator' => 'CONTAINS',
@@ -225,8 +225,8 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Event registration entity.'))
+      ->setLabel(t('First Name'))
+      ->setDescription(t('Please input your first name.'))
       ->setRevisionable(TRUE)
       ->setSettings([
         'max_length' => 50,
@@ -236,11 +236,33 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'string',
-        'weight' => -4,
+        'weight' => 0,
       ])
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
-        'weight' => -4,
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+
+    $fields['lname'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Last Name'))
+      ->setDescription(t('Please input your last name'))
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'max_length' => 50,
+        'text_processing' => 0,
+      ])
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 10,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 10,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -252,8 +274,8 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setRevisionable(TRUE)
       ->setDefaultValue(TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
-        'weight' => -3,
+        'type' => 'hidden',
+        'weight' => -2,
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
@@ -271,67 +293,23 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE);
 
-    $fields['fname'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('First Name'))
-      ->setDescription(t('Please input your first name'))
-      ->setRevisionable(TRUE)
-      ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
-      ])
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 0,
-      ])
-      ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 0,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
-
-    $fields['lname'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Last Name'))
-      ->setDescription(t('Please input your last name'))
-      ->setRevisionable(TRUE)
-      ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
-      ])
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 1,
-      ])
-      ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 1,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
-
     $fields['pNum'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Phone Number'))
       ->setDescription(t('Please input your phone number'))
       ->setRevisionable(TRUE)
       ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
+        'max_length' => 50,
+        'text_processing' => 0,
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 3,
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 30,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 3,
+        'type' => 'string_textfield',
+        'weight' => 30,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -342,20 +320,20 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDescription(t('Select your Date of Birth'))
       ->setRevisionable(TRUE)
       ->setSettings([
-          'datetime_type' => 'date' ,
+        'datetime_type' => 'date',
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'datetime_default',
-          'settings' => [
-              'format_type' => 'medium',
-          ],
-          'weight' => 4,
+        'label' => 'above',
+        'type' => 'datetime_default',
+        'settings' => [
+          'format_type' => 'medium',
+        ],
+        'weight' => 40,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'datetime_default',
-          'weight' => 4,
+        'type' => 'datetime_default',
+        'weight' => 40,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -366,18 +344,18 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setDescription(t('Please enter your contactable email address.'))
       ->setRevisionable(TRUE)
       ->setSettings([
-          'max_length' => 50,
-          'text_processing' => 0,
+        'max_length' => 50,
+        'text_processing' => 0,
       ])
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'string',
-          'weight' => 1,
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 20,
       ])
       ->setDisplayOptions('form', [
-          'type' => 'string_textfield',
-          'weight' => 1,
+        'type' => 'string_textfield',
+        'weight' => 20,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -389,36 +367,11 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
       ->setRevisionable(TRUE)
       ->setDefaultValue(FALSE)
       ->setDisplayOptions('form', [
-          'type' => 'boolean_checkbox',
-          'weight' => 7,
+        'type' => 'boolean_checkbox',
+        'weight' => 50,
       ]);
-/*
-    $fields['add guest'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Addition Guest'))
-      ->setDescription(t('List the additional guests that will be attending with you'))
-      ->setRevisionable(TRUE)
-      ->setSetting('target_type', 'additional_guests')
-      ->setSetting('handler', 'default')
-      ->setTranslatable(TRUE)
-      ->setDisplayOptions('view', [
-        'label' => 'hidden',
-        'type' => 'author',
-        'weight' => 0,
-      ])
-      ->setDisplayOptions('form', [
-        'type' => 'inline_entity_form_complex',
-        'weight' => 5,
-        'settings' => [
-          'match_operator' => 'CONTAINS',
-          'size' => '60',
-          'autocomplete_type' => 'tags',
-          'placeholder' => '',
-        ],
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-*/
-      return $fields;
+
+    return $fields;
   }
 
 }

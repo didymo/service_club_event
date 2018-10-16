@@ -30,19 +30,6 @@ class EventRegistrationForm extends ContentEntityForm {
 
     $entity = $this->entity;
 
-    /**
-     * @Todo implement the checkboxes for shifts from manage_shifts when possible.
-     *
-    $options_test = ['test','hello','hi'];
-
-    $form['checkboxes'] = [
-    '#type' => 'checkboxes',
-    '#options' => $options_test,
-    '#title' => 'Registered Assets',
-    '#weight' => -20,
-    ];
-     */
-
     return $form;
   }
 
@@ -78,7 +65,9 @@ class EventRegistrationForm extends ContentEntityForm {
           '%label' => $entity->label(),
         ]));
     }
-    $form_state->setRedirect('entity.event_registration.canonical', ['event_registration' => $entity->id()]);
+
+    $event = $this->getRouteMatch()->getParameter('event_information');
+    $form_state->setRedirect('view.event_registration_view.page_2', ['event_information' => $event->id()]);
   }
 
 }

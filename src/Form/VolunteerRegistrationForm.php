@@ -33,14 +33,20 @@ class VolunteerRegistrationForm extends ContentEntityForm {
 
     // Get the current event.
     $event = $this->getRouteMatch()->getParameter('event_information');
+    // @TODO add guardian if to ensure is EventInformation
     $shifts = $event->getShifts();
 
-
+    // Get a list of available shifts.
     $shift_names = [-1 => 'No Shift'];
-
     // Load array with Shift names.
     foreach ($shifts as $shift) {
       $shift_names += [$shift->id() => $shift->getName()];
+    }
+
+    // Setting the Default value.
+    $default_radio = -1;
+    if (!$this->entity->isNew()) {
+      $default_radio = $this->entity->getShift();
     }
 
     // Add form element radios.
@@ -49,7 +55,7 @@ class VolunteerRegistrationForm extends ContentEntityForm {
       '#title' => $this->t('Available Shifts'),
       '#options' => $shift_names,
       '#description' => $this->t('Select one of the available shifts.'),
-      '#default_value' => -1,
+      '#default_value' => $default_radio,
     ];
 
     return $form;
@@ -100,25 +106,23 @@ class VolunteerRegistrationForm extends ContentEntityForm {
       $entity->setNewRevision(FALSE);
     }
 
-
       // Set the associated event when the registration is created.
       $entity->setEventId($event->id());
       $entity->save();
 
     $status = parent::save($form, $form_state);
 
-    // Get the event object out of the URL.
-    $event = $this->getRouteMatch()->getParameter('event_information');
+    // Set the associated event when the registration is created.
+    $entity->setEventId($event->id());
+    $entity->save();
+
+    $status = parent::save($form, $form_state);
 
     switch ($status) {
       case SAVED_NEW:
         drupal_set_message($this->t('Created the %label Volunteer registration.', [
           '%label' => $entity->label(),
         ]));
-
-        // Set the associated event when the registration is created.
-        $entity->setEventId($event->id());
-        $entity->save();
 
         break;
 
