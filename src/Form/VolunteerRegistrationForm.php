@@ -35,7 +35,7 @@ class VolunteerRegistrationForm extends ContentEntityForm {
     $event = $this->getRouteMatch()->getParameter('event_information');
     // @TODO add guardian if to ensure is EventInformation
     $shifts = $event->getShifts();
-    
+
     // Get a list of available shifts.
     $shift_names = [-1 => 'No Shift'];
     // Load array with Shift names.
