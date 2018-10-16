@@ -99,3 +99,29 @@ function service_club_event_volunteer_registration_insert(EntityInterface $entit
         }
     }
 }
+
+/*
+ * Hook for sending emails on event deletion
+ */
+function service_club_event_event_information_delete(EntityInterface $entity)
+{
+    $mailManager = \Drupal::service('plugin.manager.mail');
+
+    $module = 'service_club_event';
+    $key = 'event_volunteer';
+    $to = \Drupal::currentUser()->getEmail();
+    $params['message'] = "Notice: The Event you volunteered for, ".$key.", has been cancelled.";
+    $params['node_title'] = "Event Cancellation";
+
+    $langcode = \Drupal::currentUser()->getPreferredLangcode();
+    $send = true;
+
+    $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+    if ($result['result'] !== true) {
+        drupal_set_message(t('There was a problem with emailing your registration'), 'error');
+        \Drupal::logger('service_club_event email hook')->error($key);
+    }
+    else {
+        drupal_set_message(t('An email has been sent to you confirming your registration'));
+    }
+}
