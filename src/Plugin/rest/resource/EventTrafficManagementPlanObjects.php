@@ -305,7 +305,7 @@ class EventTrafficManagementPlanObjects extends ResourceBase {
     // Load Event.
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
-      return new ModifiedResourceResponse(["Event $event_information does not exist!"], 404);
+      return new ModifiedResourceResponse(["Event $event_information does not exist!" => -1], 404);
     }
 
     // Get Traffic Management Plan.
