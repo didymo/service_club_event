@@ -60,6 +60,12 @@ function service_club_event_mail($key, &$message, $params) {
       $message['subject'] = t('Event Registration Confirmed', $options);
       $message['body'][] = $params['message'];
       break;
+
+    case 'volunteer_registration':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Event Registration Confirmed', $options);
+      $message['body'][] = $params['message'];
+      break;
   }
 }
 
@@ -102,7 +108,7 @@ function service_club_event_volunteer_registration_insert(EntityInterface $entit
 
       // Structure the email content.
       $module = 'service_club_event';
-      $key = 'event_volunteer';
+      $key = 'volunteer_registration';
       $to = \Drupal::currentUser()->getEmail();
 
       // @TODO add the volunteer repsonse token here.
