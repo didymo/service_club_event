@@ -73,7 +73,7 @@ class ManageShiftsForm extends ContentEntityForm {
           '%label' => $entity->label(),
         ]));
     }
-    $form_state->setRedirect('entity.event_information.shift_list', ['event_information' => $event->id()]);
+    $form_state->setRedirect('entity.event_information.shift_list', ['event_information' => $entity->getEventId()]);
   }
 
 }
