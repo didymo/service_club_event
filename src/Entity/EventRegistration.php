@@ -173,6 +173,20 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
   /**
    * {@inheritdoc}
    */
+  public function getEmail() {
+      return $this->get('email')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEmailPermission() {
+      return $this->get('emailPermissions')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setOwner(UserInterface $account) {
     $this->set('user_id', $account->id());
     return $this;

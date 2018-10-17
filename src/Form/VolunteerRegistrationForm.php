@@ -106,6 +106,12 @@ class VolunteerRegistrationForm extends ContentEntityForm {
       $entity->setNewRevision(FALSE);
     }
 
+      // Set the associated event when the registration is created.
+      $entity->setEventId($event->id());
+      $entity->save();
+
+    $status = parent::save($form, $form_state);
+
     // Set the associated event when the registration is created.
     $entity->setEventId($event->id());
     $entity->save();
