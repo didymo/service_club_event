@@ -89,32 +89,50 @@ function service_club_event_volunteer_registration_insert(EntityInterface $entit
   // Load the mail manager.
   $mailManager = \Drupal::service('plugin.manager.mail');
 
+  // Load the event.
   $event_id = $entity->getEventId();
   $event = EventInformation::load($event_id);
+
+  // Ensure the event given was loaded successfully.
   if (isset($event)) {
+    // Ensure it's an event.
     if ($event instanceof EventInformation) {
+      // Load the event deatils.
       $event_name = $event->getName();
+
+      // Structure the email content.
       $module = 'service_club_event';
       $key = 'event_volunteer';
       $to = \Drupal::currentUser()->getEmail();
-      $params['message'] = "Thank you for volunteering for " . $event_name;
-      $params['node_title'] = "Volunteer Confirmation";
 
+      // @TODO add the volunteer repsonse token here.
+      $params['message'] = "Thank you for volunteering for $event_name.";
+
+      $params['node_title'] = "Volunteer Confirmation";
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
       $send = true;
 
+      // Compile the message.
       $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+
+      // Check if the email sent.
       if ($result['result'] !== true) {
-        drupal_set_message(t('There was a problem with emailing your registration'), 'error');
-        \Drupal::logger('service_club_event email hook')->error('There was an error sending an email to user ' . $to . ' for event ' . $event_name);
+        // Display the message.
+        drupal_set_message("There was a problem with emailing your registration", 'error');
+
+        // Log the message for auditing.
+        \Drupal::logger('service_club_event email volunteer registration')->error("There was an error sending an email to the user: $to for the event: $event_name");
       } else {
-        drupal_set_message(t('An email has been sent to you confirming your registration'));
+        // Display success.
+        drupal_set_message('An email has been sent to you confirming your registration');
       }
     }
   }
 }
 
 /**
+ * Converts the html_date format into a more readable date format.
+ *
  * @param string $event_date
  * @return false|string
  */
@@ -135,8 +153,13 @@ function service_club_event_event_information_predelete(EntityInterface $entity)
 {
   $mailManager = \Drupal::service('plugin.manager.mail');
 
+  // Load necessary event deatils.
   $event_id = $entity->id();
   $event = EventInformation::load($event_id);
+  $event_name = $event->getName();
+  // modify date is defined above.
+  $event_time = modify_date($event->getEventStartDate());
+  
   $volunteers = $event->getVolunteerList();
   $anon_volunteers = $event->getAnonymousList();
 
@@ -148,8 +171,6 @@ function service_club_event_event_information_predelete(EntityInterface $entity)
     $email_recipient = $account->getEmail();
 
     // Send an email to the current volunteer.
-    $event_name = $event->getName();
-    $event_time = modify_date($event->getEventStartDate());
 
     $module = 'service_club_event';
     $key = 'event_volunteer';
@@ -178,8 +199,6 @@ function service_club_event_event_information_predelete(EntityInterface $entity)
     $email_permission = $anon_volunteer_reg->getEmailPermission();
     if ($email_permission == TRUE) {
       // Send an email to the current volunteer.
-      $event_name = $event->getName();
-      $event_time = $event->getEventStartDate();
       $module = 'service_club_event';
       $key = 'event_volunteer';
       $params['message'] = "Unfortunately, the event " . $event_name . " to be held on the " . $event_time . " has had to be cancelled.\n Thank you for the support.";
