@@ -38,6 +38,23 @@ class ManageShiftsForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
+
+    // Get both dates from the form.
+    $shift_start = $form_state->getValue('shift_start');
+    $shift_end = $form_state->getValue('shift_finish');
+
+    // Ensure the event start and end dates are valid with each other.
+    if ($shift_end <= $shift_start) {
+      $form_state->setErrorByName('Invalid Shift Start/End Dates', $this->t('The start and end dates are invalid please re-enter valid information. An event must end after it\'s start.'));
+    }
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
     $event = $this->getRouteMatch()->getParameter('event_information');

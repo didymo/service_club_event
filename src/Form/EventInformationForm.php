@@ -41,11 +41,11 @@ class EventInformationForm extends ContentEntityForm {
     parent::validateForm($form, $form_state);
 
     // Get both dates from the form.
-    $shift_start = $form_state->getValue('event_date_start');
-    $shift_end = $form_state->getValue('event_date_finish');
+    $event_start = $form_state->getValue('event_date_start');
+    $event_end = $form_state->getValue('event_date_finish');
 
     // Ensure the event start and end dates are valid with each other.
-    if ($shift_end <= $shift_start) {
+    if ($event_end <= $event_start) {
       $form_state->setErrorByName('Invalid Event Start/End Dates', $this->t('The start and end dates are invalid please re-enter valid information. An event must end after it\'s start.'));
     }
   }
