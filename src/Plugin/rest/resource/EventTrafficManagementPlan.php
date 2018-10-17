@@ -99,7 +99,7 @@ class EventTrafficManagementPlan extends ResourceBase {
     // Load Event.
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
-      return new ModifiedResourceResponse(["Event $event_information does not exist!"], 404);
+      return new ModifiedResourceResponse(["Event $event_information does not exist!" => -1], 404);
     }
 
     // Dissect json string into an array.
@@ -176,7 +176,7 @@ class EventTrafficManagementPlan extends ResourceBase {
     // Load Event.
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
-      \Drupal::logger("REST:EventTMP")->error("Event $event_information does not exist!");
+      \Drupal::logger("REST:EventTMP")->error("Event $event_information does not exist!" => -1);
       return (new ResourceResponse(["Event $event_information does not exist!" => -1], 404))->addCacheableDependency($build);
     }
 
