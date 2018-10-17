@@ -39,7 +39,7 @@ class ManageShiftsForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
+    $entity = parent::validateForm($form, $form_state);
 
     // Get both dates from the form.
     $shift_start = $form_state->getValue('shift_start');
@@ -48,6 +48,17 @@ class ManageShiftsForm extends ContentEntityForm {
     // Ensure the event start and end dates are valid with each other.
     if ($shift_end <= $shift_start) {
       $form_state->setErrorByName('Invalid Shift Start/End Dates', $this->t('The start and end dates are invalid please re-enter valid information. An event must end after it\'s start.'));
+    }
+
+    // Get the shift numbers.
+    $shift_numbers = $entity->getShiftNumbers();
+
+    // Ensure the given number of people is a number.
+    if (!is_numeric($shift_numbers)) {
+      $form_state->setErrorByName('Invalid Recommended People value', $this->t('The given value for recommended number of people is not a number.'));
+    }
+    if ((int)$shift_numbers <= 0) {
+      $form_state->setErrorByName('Invalid Recommended People value', $this->t('Must select a number greater than 0.'));
     }
 
   }

@@ -230,6 +230,7 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
     }
     return ($a_start > $b_start) ? +1 : -1;
   }
+
   /**
    * {@inheritdoc}
    */
@@ -246,6 +247,14 @@ class ManageShifts extends RevisionableContentEntityBase implements ManageShifts
     $this->set('event', $event_id);
     $this->save();
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getShiftNumbers()
+  {
+    return $this->get('recommended_number_people')->value;
   }
 
   /**
