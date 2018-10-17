@@ -47,6 +47,12 @@ class VolunteerRegistrationForm extends ContentEntityForm {
     $default_radio = -1;
     if (!$this->entity->isNew()) {
       $default_radio = $this->entity->getShift();
+
+      // If a user registers with no shift previously the shift isn't saved as such.
+      if (empty($default_radio)) {
+        // Set the default radio button if it was previously -1.
+        $default_radio = -1;
+      }
     }
 
     // Add form element radios.
@@ -133,7 +139,7 @@ class VolunteerRegistrationForm extends ContentEntityForm {
     }
 
     // Modified routing to improve workflow of volunteer registration.
-    $form_state->setRedirect('entity.event_information.canonical', ['event_information' => $event->id()]);
+    $form_state->setRedirect('view.event_registration_view.page_1', ['event_information' => $event->id()]);
 
     // Make connections between event, shift and registration.
     $event->addVolunteer($entity->id());
