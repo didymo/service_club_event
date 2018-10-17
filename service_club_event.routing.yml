@@ -15,6 +15,3 @@ entity.volunteer_registration.add_form:
     _title_callback: '\Drupal\service_club_event\Controller\RegistrationController::registrationTitle'
   requirements:
     _access: 'TRUE'
-
-
-  
