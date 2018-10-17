@@ -12,7 +12,7 @@ entity.volunteer_registration.add_form:
   path: '/admin/structure/event_information/{event_information}/volunteer_registration'
   defaults:
     _controller: '\Drupal\service_club_event\Controller\RegistrationController::addVolunteerForm'
-    _title_callback: '\Drupal\service_club_event\Controller\RegistrationController::registrationTitle   '
+    _title_callback: '\Drupal\service_club_event\Controller\RegistrationController::registrationTitle'
   requirements:
     _access: 'TRUE'
 
