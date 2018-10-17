@@ -136,7 +136,7 @@ function service_club_event_event_information_predelete(EntityInterface $entity)
 
         //Send an email to the current volunteer
         $event_name = $event->getName();
-        $event_time = $event->setEventStartDate();
+        $event_time = $event->getEventStartDate();
         $module = 'service_club_event';
         $key = 'event_volunteer';
         $params['message'] = "Unfortunately, the event ".$event_name." to be held on the ".$event_time." has had to be cancelled.\n Thank you for the support.";
@@ -148,7 +148,7 @@ function service_club_event_event_information_predelete(EntityInterface $entity)
         $result = $mailManager->mail($module, $key, $email_recipient, $langcode, $params, NULL, $send);
         if ($result['result'] !== true) {
             drupal_set_message(t('An error has occurred regarding emailing registered volunteers of cancellation, notify your administrator'), 'error');
-            \Drupal::logger('service_club_event email hook')->error('Error sending a cancellation email to registered volunteer'.$email_recipient." for event ".$event_name);
+            \Drupal::logger('service_club_event email hook')->error('Error sending a cancellation email to registered volunteer'.$email_recipient." for event ".$event_name." at ".$event_time);
         }
         else {
             drupal_set_message(t('An email has been sent to volunteers notifying them of the events cancellation'));
@@ -163,7 +163,7 @@ function service_club_event_event_information_predelete(EntityInterface $entity)
         if($email_permission == TRUE){
             //Send an email to the current volunteer
             $event_name = $event->getName();
-            $event_time = $event->setEventStartDate();
+            $event_time = $event->getEventStartDate();
             $module = 'service_club_event';
             $key = 'event_volunteer';
             $params['message'] = "Unfortunately, the event ".$event_name." to be held on the ".$event_time." has had to be cancelled.\n Thank you for the support.";
@@ -175,7 +175,7 @@ function service_club_event_event_information_predelete(EntityInterface $entity)
             $result = $mailManager->mail($module, $key, $email_recipient, $langcode, $params, NULL, $send);
             if ($result['result'] !== true) {
                 drupal_set_message(t('An error has occurred regarding emailing anonymous volunteers of cancellation, notify your administrator'), 'error');
-                \Drupal::logger('service_club_event email hook')->error('Error sending a cancellation email to anonymous volunteer'.$email_recipient." for event ".$event_name);
+                \Drupal::logger('service_club_event email hook')->error('Error sending a cancellation email to anonymous volunteer'.$email_recipient." for event ".$event_name." at ".$event_time);
             }
             else {
                 drupal_set_message(t('An email has been sent to volunteers notifying them of the events cancellation'));
