@@ -98,7 +98,7 @@ class EventQuestionnaireSubmit extends ResourceBase {
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
       \Drupal::logger("REST:EventQuestionnaireSubmit")->error("Event $event_information does not exist!");
-      return new ModifiedResourceResponse(["Event $event_information does not exist!"], 404);
+      return new ModifiedResourceResponse(["Event $event_information does not exist!" => -1], 404);
     }
 
     // Load the list of questions from the system.
