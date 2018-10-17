@@ -123,7 +123,7 @@ class VolunteerRegistrationForm extends ContentEntityForm {
     $entity->save();
 
     $status = parent::save($form, $form_state);
-
+/*
     switch ($status) {
       case SAVED_NEW:
         drupal_set_message($this->t('Created the %label Volunteer registration.', [
@@ -136,7 +136,7 @@ class VolunteerRegistrationForm extends ContentEntityForm {
         drupal_set_message($this->t('Saved the %label Volunteer registration.', [
           '%label' => $entity->label(),
         ]));
-    }
+    }*/
 
     // Modified routing to improve workflow of volunteer registration.
     $form_state->setRedirect('view.event_registration_view.page_1', ['event_information' => $event->id()]);
