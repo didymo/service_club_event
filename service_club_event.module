@@ -46,6 +46,23 @@ function service_club_event_theme() {
 }
 
 /**
+ * Implements hook_mail().
+ */
+function service_club_event_mail($key, &$message, $params) {
+  $options = array(
+      'langcode' => $message['langcode'],
+  );
+
+  switch ($key) {
+    case 'event_volunteer':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Event Registration Confirmed', $options);
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
+/**
  * Implements hook_delete().
  */
 function service_club_event_manage_shifts_delete(Drupal\Core\Entity\EntityInterface $entity) {
@@ -62,23 +79,6 @@ function service_club_event_manage_shifts_delete(Drupal\Core\Entity\EntityInterf
     }
   }
   // Skip if the event doesn't exist as you don't need to update shifts anymore.
-}
-
-/**
- * Implements hook_mail().
- */
-function service_club_event_mail($key, &$message, $params) {
-  $options = array(
-      'langcode' => $message['langcode'],
-  );
-
-  switch ($key) {
-    case 'event_volunteer':
-      $message['from'] = \Drupal::config('system.site')->get('mail');
-      $message['subject'] = t('Event Registration Confirmed', $options);
-      $message['body'][] = $params['message'];
-      break;
-  }
 }
 
 /**
