@@ -40,6 +40,26 @@ class RegistrationController extends ControllerBase {
   }
 
   /**
+   * Title callback.
+   *
+   * @param EventInformationInterface $event_information
+   *  The Event.
+   * 
+   * @return string
+   *  The title of the form page.
+   */
+  public function registrationTitle(EventInformationInterface $event_information) {
+    if (\Drupal::currentUser()->isAnonymous()) {
+      // Return Anonymous registration if using the system as anonymous.
+      return $this->t('Anonymous Registration');
+    }
+    else {
+      // Return Volunteer Registration if logged in as a registered user.
+      return $this->t('Volunteer Registration');
+    }
+  }
+
+  /**
    * Route title callback.
    *
    * @param Drupal\service_club_event\Entity\EventInformationInterface $event_information
