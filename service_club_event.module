@@ -9,6 +9,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\service_club_event\Entity\EventInformation;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\service_club_event\Entity\VolunteerRegistration;
+use Drupal\Component\Datetime;
 
 /**
  * Implements hook_help().
@@ -113,6 +114,20 @@ function service_club_event_volunteer_registration_insert(EntityInterface $entit
   }
 }
 
+/**
+ * @param string $event_date
+ * @return false|string
+ */
+function modify_date(string $event_date) {
+  // Change from stored html_date format to universal date format.
+  $uni_date = date_create_from_format('Y-m-d\TH:i:s', $event_date);
+
+  // Convert the universal date into the nice readable format.
+  $new_date = date_format($uni_date, "d/M/Y");
+
+  return $new_date;
+}
+
 /*
  * Hook for sending emails on event deletion
  */
@@ -134,7 +149,8 @@ function service_club_event_event_information_predelete(EntityInterface $entity)
 
     // Send an email to the current volunteer.
     $event_name = $event->getName();
-    $event_time = $event->getEventStartDate();
+    $event_time = modify_date($event->getEventStartDate());
+
     $module = 'service_club_event';
     $key = 'event_volunteer';
     $params['message'] = "Unfortunately, the event " . $event_name . " to be held on the " . $event_time . " has had to be cancelled.\n Thank you for the support.";
@@ -145,8 +161,11 @@ function service_club_event_event_information_predelete(EntityInterface $entity)
 
     $result = $mailManager->mail($module, $key, $email_recipient, $langcode, $params, NULL, $send);
     if ($result['result'] !== true) {
-      drupal_set_message(t('An error has occurred regarding emailing registered volunteers of cancellation, notify your administrator'), 'error');
-      \Drupal::logger('service_club_event email hook')->error('Error sending a cancellation email to registered volunteer' . $email_recipient . " for event " . $event_name . " at " . $event_time);
+      // Display the message to the current user.
+      drupal_set_message("An error has occurred regarding emailing registered volunteers of cancellation, notify your administrator", 'error');
+
+      // Log the message to Recent Log Messages.
+      \Drupal::logger('service_club_event email hook')->error("Error sending a cancellation email to registered volunteer $email_recipient for event $event_name at $event_time");
     } else {
       drupal_set_message(t('An email has been sent to volunteers notifying them of the events cancellation'));
     }
