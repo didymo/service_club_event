@@ -59,6 +59,7 @@ main.event_admin_view:
   title: 'Admin Event View'
   route_name: entity.event_information.collection
   menu_name: main
+
 # Volunteer registration menu items definition
 entity.volunteer_registration.collection:
   title: 'Volunteer registration list'
