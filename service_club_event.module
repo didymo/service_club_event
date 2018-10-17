@@ -6,9 +6,11 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\service_club_event\Entity\EventInformation;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\service_club_event\Entity\EventInformation;
 use Drupal\service_club_event\Entity\VolunteerRegistration;
+use Drupal\service_club_event\Entity\EventRegistration;
+use Drupal\Component\Datetime;
 
 /**
  * Implements hook_help().
@@ -46,18 +48,40 @@ function service_club_event_theme() {
 }
 
 /**
+ * Implements hook_mail().
+ */
+function service_club_event_mail($key, &$message, $params) {
+  $options = array(
+      'langcode' => $message['langcode'],
+  );
+
+  switch ($key) {
+    case 'event_cancellation':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Event Registration Cancelled', $options);
+      $message['body'][] = $params['message'];
+      break;
+
+    case 'volunteer_registration':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Event Registration Confirmed', $options);
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
+/**
  * Implements hook_delete().
  */
 function service_club_event_manage_shifts_delete(Drupal\Core\Entity\EntityInterface $entity) {
+  // Load the event object.
   $event_id = $entity->getEventId();
   $event = EventInformation::load($event_id);
 
   // Check if the event still exists.
   if (isset($event)) {
     if ($event instanceof EventInformation) {
-      \Drupal::logger('shift id')->error($entity->id());
-      \Drupal::logger('event id')->error($event_id);
-
+      // Remove the shift reference from event.
       $event->removeShift($entity->id());
       $event->save();
     }
@@ -66,120 +90,151 @@ function service_club_event_manage_shifts_delete(Drupal\Core\Entity\EntityInterf
 }
 
 /**
- * Implements hook_mail().
- */
-function service_club_event_mail($key, &$message, $params) {
-    $options = array(
-        'langcode' => $message['langcode'],
-    );
-
-    switch ($key) {
-        case 'event_volunteer':
-            $message['from'] = \Drupal::config('system.site')->get('mail');
-            $message['subject'] = t('Event Registration Confirmed', $options);
-            $message['body'][] = $params['message'];
-            break;
-    }
-}
-
-/**
  * A hook for emailing event information to the current registered user when they register
  */
 function service_club_event_volunteer_registration_insert(EntityInterface $entity) {
+  // Load the mail manager.
+  $mailManager = \Drupal::service('plugin.manager.mail');
 
-    $mailManager = \Drupal::service('plugin.manager.mail');
+  // Load the event.
+  $event_id = $entity->getEventId();
+  $event = EventInformation::load($event_id);
 
-    $event_id = $entity->getEventId();
-    $event = EventInformation::load($event_id);
-    if (isset($event)) {
-        if ($event instanceof EventInformation) {
-            $event_name = $event->getName();
-            $module = 'service_club_event';
-            $key = 'event_volunteer';
-            $to = \Drupal::currentUser()->getEmail();
-            $params['message'] = "Thank you for volunteering for ".$event_name;
-            $params['node_title'] = "Volunteer Confirmation";
+  // Ensure the event given was loaded successfully.
+  if (isset($event)) {
+    // Ensure it's an event.
+    if ($event instanceof EventInformation) {
+      // Load the event deatils.
+      $event_name = $event->getName();
 
-            $langcode = \Drupal::currentUser()->getPreferredLangcode();
-            $send = true;
+      // Structure the email content.
+      $module = 'service_club_event';
+      $key = 'volunteer_registration';
+      $to = \Drupal::currentUser()->getEmail();
 
-            $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-            if ($result['result'] !== true) {
-                drupal_set_message(t('There was a problem with emailing your registration'), 'error');
-                \Drupal::logger('service_club_event email hook')->error('There was an error sending an email to user '.$to.' for event '.$event_name);
-            }
-            else {
-                drupal_set_message(t('An email has been sent to you confirming your registration'));
-            }
-        }
+      // @TODO add the volunteer repsonse token here.
+      $params['message'] = "Thank you for volunteering for $event_name.";
+
+      $params['node_title'] = "Volunteer Confirmation";
+      $langcode = \Drupal::currentUser()->getPreferredLangcode();
+      $send = true;
+
+      // Compile the message.
+      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+
+      // Check if the email sent.
+      if ($result['result'] !== true) {
+        // Display the message.
+        drupal_set_message("There was a problem with emailing your registration", 'error');
+
+        // Log the message for auditing.
+        \Drupal::logger('service_club_event email volunteer registration')->error("There was an error sending an email to the user: $to for the event: $event_name");
+      } else {
+        // Display success.
+        drupal_set_message('An email has been sent to you confirming your registration');
+      }
     }
+  }
+}
+
+/**
+ * Converts the html_date format into a more readable date format.
+ *
+ * @param string $event_date
+ * @return false|string
+ */
+function modify_date(string $event_date) {
+  // Change from stored html_date format to universal date format.
+  $uni_date = date_create_from_format('Y-m-d\TH:i:s', $event_date);
+
+  // Convert the universal date into the nice readable format.
+  $new_date = date_format($uni_date, "d/M/Y");
+
+  return $new_date;
 }
 
 /*
  * Hook for sending emails on event deletion
  */
-function service_club_event_event_information_predelete(EntityInterface $entity)
-{
-    $mailManager = \Drupal::service('plugin.manager.mail');
+function service_club_event_event_information_predelete(EntityInterface $entity) {
+  // Load the mail manager.
+  $mailManager = \Drupal::service('plugin.manager.mail');
 
-    $event_id = $entity->id();
-    $event = EventInformation::load($event_id);
-    $volunteers = $event->getVolunteerList();
-    $anon_volunteers = $event->getAnonymousList();
+  // Load necessary event deatils.
+  $event_id = $entity->id();
+  $event = EventInformation::load($event_id);
+  $event_name = $event->getName();
+  // modify date is defined above.
+  $event_time = modify_date($event->getEventStartDate());
 
-    //Iterate through the registered volunteer list for an event
-    foreach($volunteers as $volunteer){
-        $volunteer_reg = VolunteerRegistration::load($volunteer['target_id']);
-        $volunteer_id = $volunteer_reg->getOwnerId();
-        $account = \Drupal\user\Entity\User::load($volunteer_id);
-        $email_recipient = $account->getEmail();
+  // Get both volunteer and anonymous registration lists.
+  $volunteers = $event->getVolunteerList();
+  $anon_volunteers = $event->getAnonymousList();
 
-        //Send an email to the current volunteer
-        $event_name = $event->getName();
-        $event_time = $event->getEventStartDate();
-        $module = 'service_club_event';
-        $key = 'event_volunteer';
-        $params['message'] = "Unfortunately, the event ".$event_name." to be held on the ".$event_time." has had to be cancelled.\n Thank you for the support.";
-        $params['node_title'] = "Event Cancelled";
+  // Iterate through the registered volunteer list for an event.
+  foreach ($volunteers as $volunteer) {
+    // Load the volunteer registration.
+    $volunteer_reg = VolunteerRegistration::load($volunteer['target_id']);
+    
+    // Get the user id and load their email.
+    $user_id = $volunteer_reg->getOwnerId();
+    $account = \Drupal\user\Entity\User::load($user_id);
+    $email_recipient = $account->getEmail();
 
-        $langcode = \Drupal::currentUser()->getPreferredLangcode();
-        $send = true;
+    // Send an email to the current volunteer.
+    $module = 'service_club_event';
+    $key = 'event_cancellation';
+    $params['message'] = "Unfortunately, the event $event_name to be held on the $event_time has had to be cancelled.\n Thank you for the support.";
+    $params['node_title'] = "Event Cancelled";
+    $langcode = \Drupal::currentUser()->getPreferredLangcode();
+    $send = true;
 
-        $result = $mailManager->mail($module, $key, $email_recipient, $langcode, $params, NULL, $send);
-        if ($result['result'] !== true) {
-            drupal_set_message(t('An error has occurred regarding emailing registered volunteers of cancellation, notify your administrator'), 'error');
-            \Drupal::logger('service_club_event email hook')->error('Error sending a cancellation email to registered volunteer'.$email_recipient." for event ".$event_name." at ".$event_time);
-        }
-        else {
-            drupal_set_message(t('An email has been sent to volunteers notifying them of the events cancellation'));
-        }
+    // Compile the message.
+    $result = $mailManager->mail($module, $key, $email_recipient, $langcode, $params, NULL, $send);
+
+    // Check if the email sent.
+    if ($result['result'] !== true) {
+      // Display the message to the current user.
+      drupal_set_message("An error has occurred regarding emailing registered volunteers of cancellation, notify your administrator", 'error');
+
+      // Log the message to Recent Log Messages.
+      \Drupal::logger('service_club_event email hook')->error("Error sending a cancellation email to registered volunteer $email_recipient for event $event_name at $event_time");
+    } else {
+      // Display success.
+      drupal_set_message("An email has been sent to volunteer notifying them of the events' cancellation");
     }
+  }
 
-    foreach($anon_volunteers as $anon_volunteer){
-        $anon_volunteer_reg = \Drupal\service_club_event\Entity\EventRegistration::load($anon_volunteer['target_id']);
-        $email_recipient = $anon_volunteer_reg->getEmail();
+  // Loop through the anonymous registrations.
+  foreach ($anon_volunteers as $anon_volunteer) {
+    // Load the anonymous registration object and get their email.
+    $anon_volunteer_reg = EventRegistration::load($anon_volunteer['target_id']);
+    $email_recipient = $anon_volunteer_reg->getEmail();
 
-        $email_permission = $anon_volunteer_reg->getEmailPermission();
-        if($email_permission == TRUE){
-            //Send an email to the current volunteer
-            $event_name = $event->getName();
-            $event_time = $event->getEventStartDate();
-            $module = 'service_club_event';
-            $key = 'event_volunteer';
-            $params['message'] = "Unfortunately, the event ".$event_name." to be held on the ".$event_time." has had to be cancelled.\n Thank you for the support.";
-            $params['node_title'] = "Event Cancelled";
+    // Check if they wish to receive emails.
+    $email_permission = $anon_volunteer_reg->getEmailPermission();
+    if ($email_permission == TRUE) {
+      // Send an email to the given email address.
+      $module = 'service_club_event';
+      $key = 'event_cancellation';
+      $params['message'] = "Unfortunately, the event $event_name to be held on the $event_time has had to be cancelled.\n Thank you for the support.";
+      $params['node_title'] = "Event Cancelled";
+      $langcode = \Drupal::currentUser()->getPreferredLangcode();
+      $send = true;
 
-            $langcode = \Drupal::currentUser()->getPreferredLangcode();
-            $send = true;
+      // Compile the message.
+      $result = $mailManager->mail($module, $key, $email_recipient, $langcode, $params, NULL, $send);
 
-            $result = $mailManager->mail($module, $key, $email_recipient, $langcode, $params, NULL, $send);
-            if ($result['result'] !== true) {
-                drupal_set_message(t('An error has occurred regarding emailing anonymous volunteers of cancellation, notify your administrator'), 'error');
-                \Drupal::logger('service_club_event email hook')->error('Error sending a cancellation email to anonymous volunteer'.$email_recipient." for event ".$event_name." at ".$event_time);
-            }
-            else {
-                drupal_set_message(t('An email has been sent to volunteers notifying them of the events cancellation'));
-            }
-        }
+      // Check if the email was successfully sent out.
+      if ($result['result'] !== true) {
+        // Display the error.
+        drupal_set_message(t('An error has occurred regarding emailing anonymous volunteers of cancellation, notify your administrator'), 'error');
+        // Log the error for auditing.
+        \Drupal::logger('service_club_event email hook')->error("Error sending a cancellation email to the anonymous user with email address: $email_recipient for the event: $event_name on $event_time");
+      } else {
+        // Display success.
+        drupal_set_message(t('An email has been sent to volunteers notifying them of the events cancellation'));
+      }
     }
+  }
 }

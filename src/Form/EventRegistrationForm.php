@@ -58,7 +58,7 @@ class EventRegistrationForm extends ContentEntityForm {
     $entity->save();
 
     $status = parent::save($form, $form_state);
-
+/*
     switch ($status) {
       case SAVED_NEW:
         drupal_set_message($this->t('Created the %label Event registration.', [
@@ -70,7 +70,7 @@ class EventRegistrationForm extends ContentEntityForm {
         drupal_set_message($this->t('Saved the %label Event registration.', [
           '%label' => $entity->label(),
         ]));
-    }
+    }*/
 
     $form_state->setRedirect('view.event_registration_view.page_2', ['event_information' => $event->id()]);
 

@@ -3,25 +3,28 @@ entity.event_information.add_form:
   title: 'Add Event information'
   appears_on:
     - entity.event_information.collection
+
 entity.event_registration.add_form:
   route_name: entity.event_registration.add_form
   title: 'Add Event registration'
   appears_on:
     - entity.event_registration.collection
+
 entity.additional_guests.add_form:
   route_name: entity.additional_guests.add_form
   title: 'Add Additional guests'
   appears_on:
     - entity.additional_guests.collection
+
 entity.manage_shifts.add_form:
   route_name: entity.manage_shifts.add_form
   title: 'Add shifts'
   appears_on:
     - entity.event_information.shift_list
+
 entity.volunteer_registration.add_form:
   route_name: entity.volunteer_registration.add_form
-  title: 'Add Volunteer registration'
+  title: 'Register for Event'
   appears_on:
-    - entity.event_information.canonical
     - view.event_registration_view.page_1
     - view.event_registration_view.page_2
