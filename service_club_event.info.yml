@@ -10,3 +10,4 @@ dependencies:
     - inline_entity_form
     - simple_gmap
     - filter_checkboxes
+    - views_conditional
