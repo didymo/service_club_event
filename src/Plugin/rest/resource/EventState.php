@@ -105,7 +105,7 @@ class EventState extends ResourceBase {
     $event = EventInformation::load($event_information);
     if (!isset($event)) {
       \Drupal::logger("REST:EventState")->error("Event $event_information does not exist!");
-      return (new ResourceResponse(["Event $event_information does not exist!"], 404))->addCacheableDependency($build);
+      return (new ResourceResponse(["Event $event_information does not exist!" => -1], 404))->addCacheableDependency($build);
     }
 
     // If TMP exists return state 2.
