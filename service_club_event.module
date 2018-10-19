@@ -166,12 +166,12 @@ function service_club_event_event_registration_insert(EntityInterface $entity) {
       // Structure the email content.
       $module = 'service_club_event';
       $key = 'anonymous_registration';
-      $to = \Drupal::currentUser()->getEmail();
+      $to = $entity->getEmail();
 
       // @TODO add the volunteer repsonse token here.
-      $params['message'] = "Thank you for volunteering for $event_name.\n\nThe volunteer parking is located at $volunteer_parking";
+      $params['message'] = "Thank you for registering for $event_name.\n\nThe public parking is located at $public_parking";
 
-      $params['node_title'] = "Volunteer Confirmation";
+      $params['node_title'] = "Anonymous Confirmation";
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
       $send = true;
 
@@ -184,7 +184,7 @@ function service_club_event_event_registration_insert(EntityInterface $entity) {
         drupal_set_message("There was a problem with emailing your registration", 'error');
 
         // Log the message for auditing.
-        \Drupal::logger('service_club_event email volunteer registration')->error("There was an error sending an email to the user: $to for the event: $event_name");
+        \Drupal::logger('service_club_event email anoooonymous registration')->error("There was an error sending an email to: $to for the event: $event_name");
       } else {
         // Display success.
         drupal_set_message('An email has been sent to you confirming your registration');
