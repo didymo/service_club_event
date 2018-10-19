@@ -356,6 +356,36 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
   /**
    * {@inheritdoc}
    */
+  public function getVolParking() {
+    return $this->get('volParking')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setVolParking($parking) {
+    $this->set('volParking', $parking);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPubParking() {
+    return $this->get('pubParking')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setPubParking($parking) {
+    $this->set('pubParking', $parking);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isRegistered($uid) {
     $registration_ids = $this->get('volunteer_registration')->getValue();
     $registrations = array();
