@@ -136,6 +136,21 @@ class EventRegistration extends RevisionableContentEntityBase implements EventRe
   /**
    * {@inheritdoc}
    */
+  public function getLastName() {
+    return $this->get('lname')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setLastName($name) {
+    $this->set('lname', $name);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getCreatedTime() {
     return $this->get('created')->value;
   }

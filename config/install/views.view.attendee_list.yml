@@ -4,7 +4,7 @@ dependencies:
   module:
   - service_club_event
 _core:
-  default_config_hash: S3Ps1hfY4ifnrPlEmcdMniHvFvSUERkUCpQhOaBDDCI
+  default_config_hash: CKGhT2IzKU7hGoKppZKlZhrHsF1RTvzHnUTJ8yDlPJs
 id: attendee_list
 label: 'Attendee List'
 module: views
@@ -68,9 +68,7 @@ display:
         type: fields
         options:
           default_field_elements: true
-          inline:
-            name: name
-            lname: lname
+          inline: {  }
           separator: ' '
           hide_empty: false
       fields:
@@ -411,8 +409,107 @@ display:
           entity_type: volunteer_registration
           entity_field: user_id
           plugin_id: field
+        id_1:
+          id: id_1
+          table: additional_guests_field_data
+          field: id
+          relationship: field_additional_guests
+          group_type: count_distinct
+          admin_label: ''
+          label: 'Number of Additional Guests'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          set_precision: false
+          precision: 0
+          decimal: .
+          separator: ', '
+          format_plural: 0
+          format_plural_string: !!binary MQNAY291bnQ=
+          prefix: ''
+          suffix: ''
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          field_api_classes: false
+          entity_type: additional_guests
+          entity_field: id
+          plugin_id: field
       defaults:
         fields: false
+        group_by: false
+        relationships: false
+        sorts: false
+      group_by: true
+      relationships:
+        volunteer_registration_target_id:
+          id: volunteer_registration_target_id
+          table: event_information__volunteer_registration
+          field: volunteer_registration_target_id
+          relationship: none
+          group_type: group
+          admin_label: 'Volunteer registration'
+          required: false
+          entity_type: event_information
+          entity_field: volunteer_registration
+          plugin_id: standard
+        field_additional_guests:
+          id: field_additional_guests
+          table: volunteer_registration__field_additional_guests
+          field: field_additional_guests
+          relationship: volunteer_registration_target_id
+          group_type: group
+          admin_label: 'field_additional_guests: Additional guests'
+          required: false
+          plugin_id: standard
+      sorts: {  }
     cache_metadata:
       max-age: -1
       contexts:
