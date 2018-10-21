@@ -2,9 +2,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.event_registration.field_additional_guests
+  - field.storage.event_registration.field_additional_guests
   module:
-    - service_club_event
+  - service_club_event
+_core:
+  default_config_hash: k7KLV9EBl1M_vnLQEGtBvQf4CWfI15ZZTBwZD1kptIg
 id: event_registration.event_registration.field_additional_guests
 field_name: field_additional_guests
 entity_type: event_registration
@@ -23,4 +25,3 @@ settings:
       field: _none
     auto_create: true
 field_type: entity_reference
-
