@@ -97,7 +97,6 @@ class EventInformation extends RevisionableContentEntityBase implements EventInf
    */
   public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
     parent::preCreate($storage_controller, $values);
-    //dd('Dominic is great');
     $values += [
       'user_id' => \Drupal::currentUser()->id(),
     ];
